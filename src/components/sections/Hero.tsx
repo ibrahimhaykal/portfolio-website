@@ -45,7 +45,7 @@ export default function Hero() {
                 Welcome to my portfolio website
               </p>
               <h1 className="text-4xl md:text-6xl font-bold text-gray-800">
-                Hi, I'm <span className="text-sky-500">Ibrahim Haykal</span>
+                Hi, I&apos;m <span className="text-sky-500">Ibrahim Haykal</span>
               </h1>
               <p className="text-xl text-gray-600">
                 <Typewriter
