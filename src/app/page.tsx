@@ -34,7 +34,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="text-sky-500 hover:underline"
             >
-              Your Name
+              Ibrahim Haykal Alatas
             </a>
             . All rights reserved.
           </p>
