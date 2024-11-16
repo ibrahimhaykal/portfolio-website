@@ -1,15 +1,16 @@
 "use client";
 import { Code, ExternalLink, Github } from "lucide-react";
-import { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import Image from "next/image";
 
 export default function Projects() {
   useEffect(() => {
     AOS.init({
       duration: 1000,
       once: false, // Set to false agar animasi berulang
-      easing: 'ease-out',
+      easing: "ease-out",
       mirror: true, // Menambahkan mirror agar animasi berjalan saat scroll up
     });
   }, []);
@@ -45,9 +46,9 @@ export default function Projects() {
   return (
     <section id="projects" className="py-20 px-4 bg-gray-50">
       <div className="max-w-6xl mx-auto">
-       {/* Enhanced Animated Header */}
-       <div className="text-center mb-16">
-          <div 
+        {/* Enhanced Animated Header */}
+        <div className="text-center mb-16">
+          <div
             data-aos="fade-down"
             data-aos-duration="800"
             className="relative inline-block"
@@ -66,14 +67,14 @@ export default function Projects() {
                 className="relative"
               >
                 Projects
-                <span 
+                <span
                   className="absolute -bottom-2 left-0 w-full h-0.5 bg-sky-500/20"
                   data-aos="slide-right"
                   data-aos-delay="800"
                 />
               </span>
             </h2>
-            <p 
+            <p
               className="text-gray-600 mt-4 max-w-lg mx-auto"
               data-aos="fade-up"
               data-aos-delay="400"
@@ -81,12 +82,12 @@ export default function Projects() {
               Explore some of the key projects I've worked on.
             </p>
             {/* Decorative corners */}
-            <div 
+            <div
               className="absolute -top-6 -left-6 w-12 h-12 border-t-2 border-l-2 border-sky-500/20"
               data-aos="fade-down-right"
               data-aos-delay="1200"
             />
-            <div 
+            <div
               className="absolute -bottom-6 -right-6 w-12 h-12 border-b-2 border-r-2 border-sky-500/20"
               data-aos="fade-up-left"
               data-aos-delay="1200"
@@ -100,31 +101,37 @@ export default function Projects() {
               key={index}
               data-aos="fade-up"
               data-aos-delay={index * 100}
-              data-aos-anchor-placement="top-bottom" // Menambahkan anchor placement untuk kontrol yang lebih baik
+              data-aos-anchor-placement="top-bottom"
               className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
             >
               {/* Project Image */}
               <div className="relative group h-48">
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  layout="fill"
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Optional, untuk responsivitas
                 />
                 <div className="absolute inset-0 bg-sky-500/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                  <a
-                    href={project.demoUrl}
-                    className="p-2 bg-white rounded-full hover:scale-110 transition-transform duration-300"
-                    title="Live Demo"
-                  >
-                    <ExternalLink className="w-5 h-5 text-sky-500" />
-                  </a>
-                  <a
-                    href={project.githubUrl}
-                    className="p-2 bg-white rounded-full hover:scale-110 transition-transform duration-300"
-                    title="View Code"
-                  >
-                    <Github className="w-5 h-5 text-sky-500" />
-                  </a>
+                  {project.demoUrl && (
+                    <a
+                      href={project.demoUrl}
+                      className="p-2 bg-white rounded-full hover:scale-110 transition-transform duration-300"
+                      title="Live Demo"
+                    >
+                      <ExternalLink className="w-5 h-5 text-sky-500" />
+                    </a>
+                  )}
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      className="p-2 bg-white rounded-full hover:scale-110 transition-transform duration-300"
+                      title="View Code"
+                    >
+                      <Github className="w-5 h-5 text-sky-500" />
+                    </a>
+                  )}
                 </div>
               </div>
 

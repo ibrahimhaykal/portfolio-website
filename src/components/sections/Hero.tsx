@@ -4,6 +4,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Github, Linkedin, Mail, Download } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
+import Image from "next/image";
+
 
 export default function Hero() {
   useEffect(() => {
@@ -27,10 +29,11 @@ export default function Hero() {
           >
             <div className="absolute -inset-4 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full blur-md opacity-30 pointer-events-none"></div>
             <div className="relative w-64 h-64 md:w-96 md:h-96 bg-sky-500 rounded-full mx-auto overflow-hidden transition-transform duration-300 transform group-hover:scale-105 z-10">
-              <img
+              <Image
                 src="/profile/profile-pic.png"
                 alt="Profile"
-                className="w-full h-full object-cover"
+                layout="fill" // Gambar akan sepenuhnya memenuhi kontainer
+                className="object-cover"
               />
             </div>
           </div>
