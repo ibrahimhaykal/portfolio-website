@@ -45,7 +45,7 @@ export default function ContactForm() {
               data-aos="fade-up"
               data-aos-delay="400"
             >
-              Let's connect and discuss your next project
+              Let&apos;s connect and discuss your next project
             </p>
             {/* Decorative corners */}
             <div

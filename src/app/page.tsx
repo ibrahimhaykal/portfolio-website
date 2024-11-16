@@ -4,19 +4,9 @@ import About from "../components/sections/About";
 import Projects from "../components/sections/Projects";
 import Experience from "../components/sections/Experience";
 import Contact from "../components/sections/Contact";
-
-
-import Head from "next/head";
-
 export default function Home() {
   return (
     <main>
-      <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
       <Navbar />
       <Hero />
       <About />

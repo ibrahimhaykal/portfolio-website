@@ -79,7 +79,7 @@ export default function Projects() {
               data-aos="fade-up"
               data-aos-delay="400"
             >
-              Explore some of the key projects I've worked on.
+              Explore some of the key projects I&apos;ve worked on.
             </p>
             {/* Decorative corners */}
             <div
