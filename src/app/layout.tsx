@@ -1,3 +1,4 @@
+// src/app/layout.tsx
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
@@ -5,7 +6,7 @@ import "../styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Ibrahim Haykal's PortFolio Website",
+  title: "Ibrahim Haykal's Portfolio Website",
   description: "Personal Portfolio Website",
 };
 

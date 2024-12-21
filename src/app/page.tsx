@@ -1,35 +1,13 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/sections/Hero";
-import About from "../components/sections/About";
-import Projects from "../components/sections/Projects";
-import Experience from "../components/sections/Experience";
-import Contact from "../components/sections/Contact";
+
 export default function Home() {
   return (
-    <main>
+    <main className="min-h-screen">
       <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <Experience />
-      <Contact />
-      <footer className="bg-sky-800 text-gray-300 py-10 px-4">
-        <div className="max-w-6xl mx-auto text-center space-y-6">
-          {/* Portfolio Link */}
-          <p className="text-sm">
-            © {new Date().getFullYear()}{" "}
-            <a
-              href="https://yourportfolio.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sky-500 hover:underline"
-            >
-              Ibrahim Haykal Alatas
-            </a>
-            . All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <div className="pt-16"> {/* Add padding-top to account for fixed navbar */}
+        <Hero />
+      </div>
     </main>
   );
 }
