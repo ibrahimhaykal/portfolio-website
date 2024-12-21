@@ -1,19 +1,22 @@
 "use client";
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Briefcase, GraduationCap } from "lucide-react";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import { motion } from "framer-motion";
 
 export default function Experience() {
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: false,
-      easing: 'ease-out',
-      mirror: true,
-    });
-  }, []);
+  const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  };
+
+  const staggerChildren = {
+    animate: {
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
 
   const experiences = [
     {
@@ -37,147 +40,222 @@ export default function Experience() {
     },
   ];
 
+  const headerVariants = {
+    initial: { opacity: 0, y: -20 },
+    animate: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.8,
+        when: "beforeChildren",
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const underlineVariants = {
+    initial: { width: 0 },
+    animate: { 
+      width: "100%",
+      transition: { duration: 0.8, delay: 0.5 }
+    }
+  };
+
+  const containerVariants = {
+    initial: { opacity: 0 },
+    animate: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    initial: { opacity: 0, x: -20 },
+    animate: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+
   return (
-    <section id="experience" className="py-20 px-4 bg-white">
+    <section id="experience" className="py-20 px-4 bg-white overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Enhanced Animated Header */}
-        <div className="text-center mb-16">
-          <div 
-            data-aos="fade-down"
-            data-aos-duration="800"
-            className="relative inline-block"
-          >
+        <motion.div 
+          className="text-center mb-16"
+          variants={headerVariants}
+          initial="initial"
+          animate="animate"
+        >
+          <div className="relative inline-block">
             <h2 className="flex items-center justify-center text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-              <span
-                data-aos="zoom-in"
-                data-aos-delay="400"
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 10,
+                  delay: 0.2
+                }}
                 className="bg-sky-100 rounded-full p-2 mr-3"
               >
                 <Briefcase className="text-sky-500" size={28} />
-              </span>
-              <span
-                data-aos="fade-in"
-                data-aos-delay="600"
-                className="relative"
-              >
+              </motion.span>
+              <span className="relative">
                 Experience Journey
-                <span 
-                  className="absolute -bottom-2 left-0 w-full h-0.5 bg-sky-500/20"
-                  data-aos="slide-right"
-                  data-aos-delay="800"
+                <motion.span 
+                  className="absolute -bottom-2 left-0 h-0.5 bg-sky-500/20"
+                  variants={underlineVariants}
                 />
               </span>
             </h2>
-            <p 
+            <motion.p 
               className="text-gray-600 mt-4 max-w-lg mx-auto"
-              data-aos="fade-up"
-              data-aos-delay="400"
+              variants={fadeInUp}
             >
               My professional journey and educational background
-            </p>
-            {/* Decorative corners */}
-            <div 
+            </motion.p>
+            
+            {/* Decorative corners with spring animation */}
+            <motion.div 
               className="absolute -top-6 -left-6 w-12 h-12 border-t-2 border-l-2 border-sky-500/20"
-              data-aos="fade-down-right"
-              data-aos-delay="1200"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 150,
+                damping: 20,
+                delay: 0.5
+              }}
             />
-            <div 
+            <motion.div 
               className="absolute -bottom-6 -right-6 w-12 h-12 border-b-2 border-r-2 border-sky-500/20"
-              data-aos="fade-up-left"
-              data-aos-delay="1200"
+              initial={{ scale: 0, rotate: 180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 150,
+                damping: 20,
+                delay: 0.5
+              }}
             />
           </div>
-        </div>
+        </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Work Experience */}
           <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            variants={containerVariants}
+            initial="initial"
+            animate="animate"
             className="relative"
           >
-            <h3 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2"
-                data-aos="fade-in"
-                data-aos-delay="400">
+            <motion.h3 
+              className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2"
+              variants={itemVariants}
+            >
               <span className="bg-sky-100 rounded-full p-1.5">
                 <Briefcase className="text-sky-500" size={20} />
               </span>
               Work Experience
-            </h3>
-            <div className="space-y-8" data-aos="fade-up"data-aos-delay="100">
+            </motion.h3>
+            <motion.div 
+              className="space-y-8"
+              variants={staggerChildren}
+            >
               {experiences.map((exp, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 + (index * 0.2) }}
+                  variants={fadeInUp}
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: { duration: 0.2 }
+                  }}
                   className="relative pl-6 border-l-2 border-sky-200 hover:border-sky-500 transition-all duration-300 p-4 rounded-lg hover:shadow-md bg-white"
                 >
-                  <div className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500 transition-all duration-300" />
+                  <motion.div 
+                    className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.3 }}
+                  />
                   <div className="space-y-2">
                     <h4 className="text-lg font-medium text-gray-800">{exp.title}</h4>
                     <div className="text-sky-500 font-medium">{exp.company}</div>
                     <div className="text-gray-600 text-sm">{exp.period}</div>
-                    <ul className="list-disc list-inside text-gray-600 space-y-2">
+                    <motion.ul 
+                      className="list-disc list-inside text-gray-600 space-y-2"
+                      variants={staggerChildren}
+                    >
                       {exp.description.map((item, i) => (
                         <motion.li 
                           key={i}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 0.7 + (i * 0.1) }}
+                          variants={itemVariants}
                         >
                           {item}
                         </motion.li>
                       ))}
-                    </ul>
+                    </motion.ul>
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Education */}
           <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            variants={containerVariants}
+            initial="initial"
+            animate="animate"
             className="relative"
           >
-            <h3 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2"
-                data-aos="fade-in"
-                data-aos-delay="400">
+            <motion.h3 
+              className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2"
+              variants={itemVariants}
+            >
               <span className="bg-sky-100 rounded-full p-1.5">
                 <GraduationCap className="text-sky-500" size={20} />
               </span>
               Education
-            </h3>
-            <div className="space-y-8"data-aos="fade-up"data-aos-delay="100">
+            </motion.h3>
+            <motion.div 
+              className="space-y-8"
+              variants={staggerChildren}
+            >
               {education.map((edu, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.7 + (index * 0.2) }}
+                  variants={fadeInUp}
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: { duration: 0.2 }
+                  }}
                   className="relative pl-6 border-l-2 border-sky-200 hover:border-sky-500 transition-all duration-300 p-4 rounded-lg hover:shadow-md bg-white"
                 >
-                  <div className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500 transition-all duration-300" />
+                  <motion.div 
+                    className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.3 }}
+                  />
                   <div className="space-y-2">
                     <h4 className="text-lg font-medium text-gray-800">{edu.degree}</h4>
                     <div className="text-sky-500 font-medium">{edu.school}</div>
                     <div className="text-gray-600 text-sm">{edu.period}</div>
                     <motion.p 
                       className="text-gray-600"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: 0.9 }}
+                      variants={fadeInUp}
                     >
                       {edu.description}
                     </motion.p>
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

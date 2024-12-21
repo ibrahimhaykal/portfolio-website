@@ -1,11 +1,15 @@
 "use client";
+
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
+  // Handle scroll untuk efek navbar
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -15,25 +19,13 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const sections = document.querySelectorAll("section");
-    const options = {
-      root: null, // Viewport adalah area yang dilihat
-      threshold: 0.5, // 50% elemen terlihat
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id); // Set ID elemen yang terlihat
-        }
-      });
-    }, options);
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect(); // Hapus observer saat komponen unmount
-  }, []);
+  const navItems = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Projects", href: "/projects" },
+    { name: "Experience", href: "/experience" },
+    { name: "Contact", href: "/contact" },
+  ];
 
   return (
     <nav
@@ -45,31 +37,31 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Desktop Navigation */}
           <div className="hidden md:flex flex-1 justify-center items-center space-x-8">
-            {["home", "about", "projects", "experience", "contact"].map(
-              (item) => (
-                <a
-                  key={item}
-                  href={`#${item}`}
-                  className={`capitalize ${
-                    activeSection === item
-                      ? "text-sky-500 font-semibold"
-                      : "text-gray-600 hover:text-sky-500"
-                  } transition-colors duration-300`}
-                >
-                  {item}
-                </a>
-              )
-            )}
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`capitalize transition-colors duration-300 ${
+                  pathname === item.href
+                    ? "text-sky-500 font-medium"
+                    : "text-gray-600 hover:text-sky-500"
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
 
-          {/* Logo in the Center */}
+          {/* Logo */}
           <div className="flex items-center justify-center flex-shrink-0">
-            <span
-              className="text-2xl font-bold text-sky-500 bg-gradient-to-r from-sky-500 via-blue-500 to-purple-500 text-transparent bg-clip-text"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            >
-              MyPortfolio
-            </span>
+            <Link href="/">
+              <span
+                className="text-2xl font-bold text-sky-500 bg-gradient-to-r from-sky-500 via-blue-500 to-purple-500 text-transparent bg-clip-text"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                MyPortfolio
+              </span>
+            </Link>
           </div>
 
           {/* Mobile Menu Icon */}
@@ -100,23 +92,21 @@ export default function Navbar() {
         {/* Mobile Menu */}
         {menuOpen && (
           <div className="md:hidden">
-            <div className="flex flex-col space-y-4 mt-4 items-center">
-              {["home", "about", "projects", "experience", "contact"].map(
-                (item) => (
-                  <a
-                    key={item}
-                    href={`#${item}`}
-                    onClick={() => setMenuOpen(false)}
-                    className={`capitalize ${
-                      activeSection === item
-                        ? "text-sky-500 font-semibold"
-                        : "text-gray-600 hover:text-sky-500"
-                    } transition-colors duration-300`}
-                  >
-                    {item}
-                  </a>
-                )
-              )}
+            <div className="flex flex-col space-y-4 mt-4 items-center pb-4">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`capitalize transition-colors duration-300 ${
+                    pathname === item.href
+                      ? "text-sky-500 font-medium"
+                      : "text-gray-600 hover:text-sky-500"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
           </div>
         )}
