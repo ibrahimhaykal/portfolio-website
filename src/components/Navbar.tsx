@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Moon, Sun } from "lucide-react";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const pathname = usePathname();
 
   // Handle scroll untuk efek navbar
@@ -19,6 +21,38 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Check system preference for dark mode on initial load
+  useEffect(() => {
+    // Check if dark mode is saved in localStorage
+    const savedMode = localStorage.getItem("darkMode");
+    
+    if (savedMode !== null) {
+      const isDark = savedMode === "true";
+      setDarkMode(isDark);
+      applyDarkMode(isDark);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setDarkMode(true);
+      applyDarkMode(true);
+    }
+  }, []);
+
+  // Function to apply dark mode to the entire site
+  const applyDarkMode = (isDark: boolean): void => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
+
+  // Toggle dark mode
+  const toggleDarkMode = (): void => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    applyDarkMode(newDarkMode);
+    localStorage.setItem("darkMode", newDarkMode.toString());
+  };
+
   const navItems = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
@@ -30,33 +64,18 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/80 backdrop-blur-md shadow-md" : "bg-white"
+        scrolled 
+          ? "backdrop-blur-md shadow-md dark:bg-gray-900/80 bg-white/80" 
+          : "dark:bg-gray-900 bg-white"
       }`}
     >
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex flex-1 justify-center items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`capitalize transition-colors duration-300 ${
-                  pathname === item.href
-                    ? "text-sky-500 font-medium"
-                    : "text-gray-600 hover:text-sky-500"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-
           {/* Logo */}
-          <div className="flex items-center justify-center flex-shrink-0">
+          <div className="flex-shrink-0">
             <Link href="/">
               <span
-                className="text-2xl font-bold text-sky-500 bg-gradient-to-r from-sky-500 via-blue-500 to-purple-500 text-transparent bg-clip-text"
+                className="text-xl font-bold bg-gradient-to-r from-sky-500 via-blue-500 to-purple-500 dark:from-sky-400 dark:via-blue-400 dark:to-purple-400 text-transparent bg-clip-text"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 MyPortfolio
@@ -64,44 +83,83 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile Menu Icon */}
-          <div
-            className="md:hidden flex items-center cursor-pointer flex-shrink-0"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <div className="space-y-1.5">
-              <span
-                className={`block w-6 h-0.5 bg-gray-600 transition-transform ${
-                  menuOpen ? "transform rotate-45 translate-y-1.5" : ""
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`text-sm font-medium transition-colors duration-300 ${
+                  pathname === item.href
+                    ? "text-sky-500 dark:text-sky-400"
+                    : "text-gray-600 hover:text-sky-500 dark:text-gray-300 dark:hover:text-sky-400"
                 }`}
-              ></span>
-              <span
-                className={`block w-6 h-0.5 bg-gray-600 transition-opacity ${
-                  menuOpen ? "opacity-0" : "opacity-100"
-                }`}
-              ></span>
-              <span
-                className={`block w-6 h-0.5 bg-gray-600 transition-transform ${
-                  menuOpen ? "transform -rotate-45 -translate-y-1.5" : ""
-                }`}
-              ></span>
-            </div>
+              >
+                {item.name}
+              </Link>
+            ))}
+            
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700"
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          <div className="flex items-center md:hidden">
+            {/* Dark Mode Toggle - Mobile */}
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 mr-2 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-yellow-300"
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            
+            {/* Mobile Menu Button */}
+            <button
+              className="flex items-center"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+            >
+              <div className="space-y-1.5">
+                <span
+                  className={`block w-6 h-0.5 transition-transform bg-gray-600 dark:bg-gray-300 ${
+                    menuOpen ? "transform rotate-45 translate-y-1.5" : ""
+                  }`}
+                ></span>
+                <span
+                  className={`block w-6 h-0.5 transition-opacity bg-gray-600 dark:bg-gray-300 ${
+                    menuOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                ></span>
+                <span
+                  className={`block w-6 h-0.5 transition-transform bg-gray-600 dark:bg-gray-300 ${
+                    menuOpen ? "transform -rotate-45 -translate-y-1.5" : ""
+                  }`}
+                ></span>
+              </div>
+            </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Dropdown */}
         {menuOpen && (
-          <div className="md:hidden">
-            <div className="flex flex-col space-y-4 mt-4 items-center pb-4">
+          <div className="md:hidden border-t border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col space-y-4 py-4">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`capitalize transition-colors duration-300 ${
+                  className={`px-2 py-1 text-center transition-colors duration-300 ${
                     pathname === item.href
-                      ? "text-sky-500 font-medium"
-                      : "text-gray-600 hover:text-sky-500"
+                      ? "text-sky-500 font-medium dark:text-sky-400" 
+                      : "text-gray-600 hover:text-sky-500 dark:text-gray-300 dark:hover:text-sky-400"
                   }`}
                 >
                   {item.name}

@@ -101,7 +101,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="pt-32 pb-16 px-4 overflow-hidden">
+    <section id="home" className="pt-32 pb-16 px-4 overflow-hidden dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Image Section */}
@@ -154,7 +154,7 @@ export default function Hero() {
                 Welcome to my portfolio website
               </motion.p>
               <motion.h1
-                className="text-4xl md:text-6xl font-bold text-gray-800"
+                className="text-4xl md:text-6xl font-bold text-gray-800 dark:text-gray-100 transition-colors duration-300"
                 variants={itemVariants}
               >
                 Hi, I&apos;m{" "}
@@ -173,7 +173,7 @@ export default function Hero() {
                 </motion.span>
               </motion.h1>
               <motion.p
-                className="text-xl text-gray-600"
+                className="text-xl text-gray-600 dark:text-gray-300 transition-colors duration-300"
                 variants={itemVariants}
               >
                 <Typewriter
@@ -212,28 +212,29 @@ export default function Hero() {
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
-                className="border border-sky-500 text-sky-500 px-6 py-3 rounded-lg flex items-center space-x-2"
+                className="border border-sky-500 text-sky-500 px-6 py-3 rounded-lg flex items-center space-x-2 dark:hover:bg-sky-900/20 transition-colors duration-300"
                 onClick={handleDownloadCV}
               >
                 <Download size={20} />
                 <span>Download CV</span>
               </motion.button>
             </motion.div>
-
             {/* Social Links */}
             <motion.div
               className="flex justify-center md:justify-start space-x-4 pt-4"
               variants={containerVariants}
             >
               {[
-                { icon: Github, link: "https://github.com/ibrahimhaykal" },
-                { icon: Linkedin, link: "https://www.linkedin.com/in/ibrahimhaykalalatas/" },
-                { icon: Mail, link: "#" },
+                { icon: Github, link: "https://github.com/ibrahimhaykal", target: "_blank", rel: "noopener noreferrer" },
+                { icon: Linkedin, link: "https://www.linkedin.com/in/ibrahimhaykalalatas/", target: "_blank", rel: "noopener noreferrer" },
+                { icon: Mail, link: "#", target: "_blank", rel: "noopener noreferrer" },
               ].map((item, index) => (
                 <motion.a
                   key={index}
                   href={item.link}
-                  className="text-gray-600 hover:text-sky-500 transition-colors duration-300"
+                  target={item.target}
+                  rel={item.rel}
+                  className="text-gray-600 hover:text-sky-500 dark:text-gray-400 dark:hover:text-sky-400 transition-colors duration-300"
                   variants={socialIconVariants}
                   whileHover="hover"
                 >

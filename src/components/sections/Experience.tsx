@@ -18,25 +18,27 @@ export default function Experience() {
     }
   };
 
+  // For the experiences section
   const experiences = [
     {
       title: "Web Developer",
       company: "Nirmala Technology",
       period: "2024 - Present",
       description: [
-        "Developing and maintaining company websites and web applications",
-        "Implementing responsive design and ensuring cross-browser compatibility",
-        "Collaborating with all teams on projects",
+        "Building and maintaining modern company websites",
+        "Creating responsive designs that work on all devices",
+        "Working closely with teams to deliver great results",
       ],
     },
   ];
 
+  // For the education section
   const education = [
     {
       degree: "Information System",
       school: "Polytechnic STMI Jakarta",
       period: "2022 - 2026 (Expected)",
-      description: "Specialized in web development and information systems management",
+      description: "Focusing on web development and digital systems management",
     },
   ];
 
@@ -81,70 +83,70 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" className="py-20 px-4 bg-white overflow-hidden">
+    <section id="experience" className="py-20 px-4 bg-white dark:bg-gray-900 overflow-hidden transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
-        {/* Enhanced Animated Header */}
-        <motion.div 
-          className="text-center mb-16"
-          variants={headerVariants}
-          initial="initial"
-          animate="animate"
-        >
-          <div className="relative inline-block">
-            <h2 className="flex items-center justify-center text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 10,
-                  delay: 0.2
-                }}
-                className="bg-sky-100 rounded-full p-2 mr-3"
-              >
-                <Briefcase className="text-sky-500" size={28} />
-              </motion.span>
-              <span className="relative">
-                Experience Journey
-                <motion.span 
-                  className="absolute -bottom-2 left-0 h-0.5 bg-sky-500/20"
-                  variants={underlineVariants}
-                />
-              </span>
-            </h2>
-            <motion.p 
-              className="text-gray-600 mt-4 max-w-lg mx-auto"
-              variants={fadeInUp}
+      {/* Enhanced Animated Header */}
+      <motion.div 
+        className="text-center mb-12 sm:mb-16"
+        variants={headerVariants}
+        initial="initial"
+        animate="animate"
+      >
+        <div className="relative inline-block px-6 sm:px-0">
+          <h2 className="flex items-center justify-center text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-3 transition-colors duration-300">
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 200,
+                damping: 10,
+                delay: 0.2
+              }}
+              className="bg-sky-100 dark:bg-sky-900/30 rounded-full p-1 sm:p-2 mr-2 sm:mr-3 flex-shrink-0 transition-colors duration-300"
             >
-              My professional journey and educational background
-            </motion.p>
-            
-            {/* Decorative corners with spring animation */}
-            <motion.div 
-              className="absolute -top-6 -left-6 w-12 h-12 border-t-2 border-l-2 border-sky-500/20"
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 150,
-                damping: 20,
-                delay: 0.5
-              }}
-            />
-            <motion.div 
-              className="absolute -bottom-6 -right-6 w-12 h-12 border-b-2 border-r-2 border-sky-500/20"
-              initial={{ scale: 0, rotate: 180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 150,
-                damping: 20,
-                delay: 0.5
-              }}
-            />
-          </div>
-        </motion.div>
+              <Briefcase className="text-sky-500 dark:text-sky-400 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 transition-colors duration-300" />
+            </motion.span>
+            <span className="relative">
+              Experience Journey
+              <motion.span 
+                className="absolute -bottom-2 left-0 h-0.5 bg-sky-500/20 dark:bg-sky-400/20 transition-colors duration-300"
+                variants={underlineVariants}
+              />
+            </span>
+          </h2>
+          <motion.p 
+            className="text-gray-600 dark:text-gray-300 mt-3 sm:mt-4 max-w-xs sm:max-w-sm md:max-w-lg mx-auto text-sm sm:text-base transition-colors duration-300"
+            variants={fadeInUp}
+          >
+            My professional path and learning journey
+          </motion.p>
+          
+          {/* Decorative corners with spring animation */}
+          <motion.div 
+            className="absolute -top-3 sm:-top-4 md:-top-6 -left-3 sm:-left-4 md:-left-6 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 border-t-2 border-l-2 border-sky-500/20 dark:border-sky-400/20 transition-colors duration-300"
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 150,
+              damping: 20,
+              delay: 0.5
+            }}
+          />
+          <motion.div 
+            className="absolute -bottom-3 sm:-bottom-4 md:-bottom-6 -right-3 sm:-right-4 md:-right-6 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 border-b-2 border-r-2 border-sky-500/20 dark:border-sky-400/20 transition-colors duration-300"
+            initial={{ scale: 0, rotate: 180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 150,
+              damping: 20,
+              delay: 0.5
+            }}
+          />
+        </div>
+      </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Work Experience */}
@@ -155,11 +157,11 @@ export default function Experience() {
             className="relative"
           >
             <motion.h3 
-              className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2"
+              className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2 transition-colors duration-300"
               variants={itemVariants}
             >
-              <span className="bg-sky-100 rounded-full p-1.5">
-                <Briefcase className="text-sky-500" size={20} />
+              <span className="bg-sky-100 dark:bg-sky-900/30 rounded-full p-1.5 transition-colors duration-300">
+                <Briefcase className="text-sky-500 dark:text-sky-400 transition-colors duration-300" size={20} />
               </span>
               Work Experience
             </motion.h3>
@@ -175,20 +177,20 @@ export default function Experience() {
                     scale: 1.02,
                     transition: { duration: 0.2 }
                   }}
-                  className="relative pl-6 border-l-2 border-sky-200 hover:border-sky-500 transition-all duration-300 p-4 rounded-lg hover:shadow-md bg-white"
+                  className="relative pl-6 border-l-2 border-sky-200 dark:border-sky-800 hover:border-sky-500 dark:hover:border-sky-400 transition-all duration-300 p-4 rounded-lg hover:shadow-md bg-white dark:bg-gray-800"
                 >
                   <motion.div 
-                    className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500"
+                    className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500 dark:bg-sky-400 transition-colors duration-300"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.3 }}
                   />
                   <div className="space-y-2">
-                    <h4 className="text-lg font-medium text-gray-800">{exp.title}</h4>
-                    <div className="text-sky-500 font-medium">{exp.company}</div>
-                    <div className="text-gray-600 text-sm">{exp.period}</div>
+                    <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 transition-colors duration-300">{exp.title}</h4>
+                    <div className="text-sky-500 dark:text-sky-400 font-medium transition-colors duration-300">{exp.company}</div>
+                    <div className="text-gray-600 dark:text-gray-400 text-sm transition-colors duration-300">{exp.period}</div>
                     <motion.ul 
-                      className="list-disc list-inside text-gray-600 space-y-2"
+                      className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 transition-colors duration-300"
                       variants={staggerChildren}
                     >
                       {exp.description.map((item, i) => (
@@ -214,11 +216,11 @@ export default function Experience() {
             className="relative"
           >
             <motion.h3 
-              className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2"
+              className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2 transition-colors duration-300"
               variants={itemVariants}
             >
-              <span className="bg-sky-100 rounded-full p-1.5">
-                <GraduationCap className="text-sky-500" size={20} />
+              <span className="bg-sky-100 dark:bg-sky-900/30 rounded-full p-1.5 transition-colors duration-300">
+                <GraduationCap className="text-sky-500 dark:text-sky-400 transition-colors duration-300" size={20} />
               </span>
               Education
             </motion.h3>
@@ -234,20 +236,20 @@ export default function Experience() {
                     scale: 1.02,
                     transition: { duration: 0.2 }
                   }}
-                  className="relative pl-6 border-l-2 border-sky-200 hover:border-sky-500 transition-all duration-300 p-4 rounded-lg hover:shadow-md bg-white"
+                  className="relative pl-6 border-l-2 border-sky-200 dark:border-sky-800 hover:border-sky-500 dark:hover:border-sky-400 transition-all duration-300 p-4 rounded-lg hover:shadow-md bg-white dark:bg-gray-800"
                 >
                   <motion.div 
-                    className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500"
+                    className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500 dark:bg-sky-400 transition-colors duration-300"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.3 }}
                   />
                   <div className="space-y-2">
-                    <h4 className="text-lg font-medium text-gray-800">{edu.degree}</h4>
-                    <div className="text-sky-500 font-medium">{edu.school}</div>
-                    <div className="text-gray-600 text-sm">{edu.period}</div>
+                    <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 transition-colors duration-300">{edu.degree}</h4>
+                    <div className="text-sky-500 dark:text-sky-400 font-medium transition-colors duration-300">{edu.school}</div>
+                    <div className="text-gray-600 dark:text-gray-400 text-sm transition-colors duration-300">{edu.period}</div>
                     <motion.p 
-                      className="text-gray-600"
+                      className="text-gray-600 dark:text-gray-300 transition-colors duration-300"
                       variants={fadeInUp}
                     >
                       {edu.description}
