@@ -36,13 +36,13 @@ export default function Contact() {
         }
       }
     } catch (error) {
-      console.error('EmailJS error:', error); // Logging error untuk debugging
+      console.error('EmailJS error:', error);
       setSubmitStatus({
         type: 'error',
         message: 'Sorry, something went wrong. Please try again later.',
       });
     } finally {
-      setIsSubmitting(false); // Re-enable the button
+      setIsSubmitting(false);
     }
   };
 
@@ -64,7 +64,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-50 flex items-center justify-center">
+    <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
       <div className="max-w-lg w-full px-4">
         <motion.div 
           className="text-center mb-16"
@@ -75,11 +75,11 @@ export default function Contact() {
           <div className="relative inline-block">
             <motion.h2 
               variants={fadeIn}
-              className="flex items-center justify-center text-3xl md:text-4xl font-bold text-gray-800 mb-3"
+              className="flex items-center justify-center text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-3"
             >
               <motion.span
                 whileHover={{ scale: 1.1 }}
-                className="bg-sky-100 rounded-full p-2 mr-3"
+                className="bg-sky-100 dark:bg-sky-900 rounded-full p-2 mr-3"
               >
                 <Mail className="text-sky-500" size={28} />
               </motion.span>
@@ -93,7 +93,7 @@ export default function Contact() {
             </motion.h2>
             <motion.p
               variants={fadeIn}
-              className="text-gray-600 mt-4 max-w-lg mx-auto"
+              className="text-gray-600 dark:text-gray-300 mt-4 max-w-lg mx-auto"
             >
               Let&apos;s connect and discuss your next project
             </motion.p>
@@ -119,8 +119,8 @@ export default function Contact() {
             animate={{ opacity: 1, y: 0 }}
             className={`mb-4 p-4 rounded-lg ${
               submitStatus.type === 'success' 
-                ? 'bg-green-100 text-green-700' 
-                : 'bg-red-100 text-red-700'
+                ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' 
+                : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
             }`}
           >
             {submitStatus.message}
@@ -133,7 +133,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="space-y-6 bg-white p-8 rounded-lg shadow-lg"
+          className="space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
           onSubmit={handleSubmit}
         >
           {[
@@ -150,7 +150,7 @@ export default function Contact() {
             >
               <label
                 htmlFor={field.id}
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
                 {field.label}
               </label>
@@ -161,7 +161,7 @@ export default function Contact() {
                   rows={4}
                   placeholder={field.placeholder}
                   required
-                  className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 transition-all duration-300 hover:border-sky-400"
+                  className="mt-2 block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:ring-sky-500 dark:focus:ring-sky-400 focus:border-sky-500 transition-all duration-300 hover:border-sky-400"
                 />
               ) : (
                 <input
@@ -170,7 +170,7 @@ export default function Contact() {
                   name={field.id}
                   placeholder={field.placeholder}
                   required
-                  className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 transition-all duration-300 hover:border-sky-400"
+                  className="mt-2 block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:ring-sky-500 dark:focus:ring-sky-400 focus:border-sky-500 transition-all duration-300 hover:border-sky-400"
                 />
               )}
             </motion.div>
@@ -187,7 +187,7 @@ export default function Contact() {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center bg-sky-500 text-white font-medium px-6 py-3 rounded-lg hover:bg-sky-600 transition duration-300 disabled:opacity-70"
+              className="w-full flex items-center justify-center bg-sky-500 hover:bg-sky-600 text-white font-medium px-6 py-3 rounded-lg transition duration-300 disabled:opacity-70"
             >
               <Send className="mr-2" size={18} />
               {isSubmitting ? 'Sending...' : 'Send Message'}

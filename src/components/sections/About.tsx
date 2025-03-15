@@ -48,9 +48,9 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="py-20 px-4 bg-gray-50">
+    <section id="about" className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-6xl mx-auto">
-        {/* Header Section */}
+      {/* Header Section */}
         <motion.div 
           className="text-center mb-16"
           initial="hidden"
@@ -58,49 +58,48 @@ export default function About() {
           viewport={{ once: true }}
           variants={fadeIn}
         >
-          <div className="relative inline-block">
+          <div className="relative inline-block px-6 sm:px-0">
             <motion.h2 
-              className="flex items-center justify-center text-3xl md:text-4xl font-bold text-gray-800 mb-3"
+              className="flex items-center justify-center text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-3"
               variants={fadeIn}
             >
               <motion.span
-                className="bg-sky-100 rounded-full p-2 mr-3"
+                className="bg-sky-100 dark:bg-sky-900 rounded-full p-1 sm:p-2 mr-2 sm:mr-3 flex-shrink-0"
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
-                <User className="text-sky-500" size={28} />
+                <User className="text-sky-500 dark:text-sky-400 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
               </motion.span>
               <span className="relative">
                 About Me
                 <motion.span
-                  className="absolute -bottom-2 left-0 h-0.5 bg-sky-500/20"
+                  className="absolute -bottom-2 left-0 h-0.5 bg-sky-500/20 dark:bg-sky-400/20"
                   variants={slideIn}
                 />
               </span>
             </motion.h2>
             <motion.p
-              className="text-gray-600 mt-4 max-w-lg mx-auto"
+              className="text-gray-600 dark:text-gray-400 mt-4 max-w-xs sm:max-w-sm md:max-w-lg mx-auto text-sm sm:text-base"
               variants={fadeIn}
             >
               Discover my journey and expertise as a developer.
             </motion.p>
             
-            {/* Decorative corners */}
+            {/* Decorative corners - made responsive */}
             <motion.div
-              className="absolute -top-6 -left-6 w-12 h-12 border-t-2 border-l-2 border-sky-500/20"
+              className="absolute -top-3 sm:-top-4 md:-top-6 -left-3 sm:-left-4 md:-left-6 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 border-t-2 border-l-2 border-sky-500/20 dark:border-sky-400/20"
               initial={{ opacity: 0, scale: 0 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             />
             <motion.div
-              className="absolute -bottom-6 -right-6 w-12 h-12 border-b-2 border-r-2 border-sky-500/20"
+              className="absolute -bottom-3 sm:-bottom-4 md:-bottom-6 -right-3 sm:-right-4 md:-right-6 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 border-b-2 border-r-2 border-sky-500/20 dark:border-sky-400/20"
               initial={{ opacity: 0, scale: 0 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             />
           </div>
         </motion.div>
-
         {/* Content Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Text Section */}
@@ -112,22 +111,16 @@ export default function About() {
             variants={staggerContainer}
           >
             <motion.p 
-              className="text-gray-600 leading-relaxed"
+              className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base"
               variants={fadeIn}
             >
-              I am a final-year student with a strong passion for learning and adapting to the
-              ever-evolving world of technology. I thrive in collaborative environments and take
-              pride in being a team player who can contribute effectively to shared goals.
+              As a final-year student, I&apos;m <span className="text-sky-600 dark:text-sky-400 font-medium">deeply passionate</span> about tech and love exploring cutting-edge innovations. I thrive in collaborative environments and take genuine pride in being the kind of teammate others can rely on.
             </motion.p>
             <motion.p 
-              className="text-gray-600 leading-relaxed"
+              className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base"
               variants={fadeIn}
             >
-              With hands-on experience as a web developer, I have honed my skills in creating
-              modern, responsive websites. However, I am constantly seeking opportunities to grow
-              and enhance my abilities to deliver even better solutions. My commitment to personal
-              and professional development drives me to stay updated with the latest technologies
-              and industry best practices.
+              My journey as a web developer has taught me how to build <span className="text-sky-600 dark:text-sky-400 font-medium">beautiful, responsive websites</span>. But I&apos;m never satisfied — I&apos;m always eager to learn more and create better solutions. I&apos;m committed to constant growth and staying current with the latest technologies and industry standards.
             </motion.p>
           </motion.div>
 
@@ -142,29 +135,29 @@ export default function About() {
             {/* Stat 1: Projects */}
             <motion.div
               ref={refProjects}
-              className="p-6 bg-sky-50 rounded-lg text-center transform hover:scale-105 transition-transform duration-300 shadow-sm"
+              className="p-6 bg-sky-50 dark:bg-sky-900/20 rounded-lg text-center transform hover:scale-105 transition-transform duration-300 shadow-sm dark:shadow-sky-900/10"
               variants={skillItem}
               whileHover={{ scale: 1.05 }}
             >
-              <Code className="w-10 h-10 text-sky-500 mx-auto mb-4" />
-              <h3 className="text-3xl font-bold text-gray-800">
+              <Code className="w-10 h-10 text-sky-500 dark:text-sky-400 mx-auto mb-4" />
+              <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
                 {inViewProjects ? <CountUp start={0} end={50} duration={2.5} /> : 0}+
               </h3>
-              <p className="text-gray-600 text-sm mt-2">Projects</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">Projects</p>
             </motion.div>
 
             {/* Stat 2: Years of Experience */}
             <motion.div
               ref={refExperience}
-              className="p-6 bg-sky-50 rounded-lg text-center transform hover:scale-105 transition-transform duration-300 shadow-sm"
+              className="p-6 bg-sky-50 dark:bg-sky-900/20 rounded-lg text-center transform hover:scale-105 transition-transform duration-300 shadow-sm dark:shadow-sky-900/10"
               variants={skillItem}
               whileHover={{ scale: 1.05 }}
             >
-              <Coffee className="w-10 h-10 text-sky-500 mx-auto mb-4" />
-              <h3 className="text-3xl font-bold text-gray-800">
+              <Coffee className="w-10 h-10 text-sky-500 dark:text-sky-400 mx-auto mb-4" />
+              <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
                 {inViewExperience ? <CountUp start={0} end={1} duration={2.5} /> : 0}+
               </h3>
-              <p className="text-gray-600 text-sm mt-2">Years Experience</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">Years Experience</p>
             </motion.div>
           </motion.div>
         </div>
@@ -178,7 +171,7 @@ export default function About() {
           variants={staggerContainer}
         >
           <motion.h3 
-            className="text-xl font-semibold text-gray-800 mb-6 text-center"
+            className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center"
             variants={fadeIn}
           >
             Skills & Technologies
@@ -192,15 +185,15 @@ export default function About() {
               className="space-y-4 text-center"
               variants={fadeIn}
             >
-              <h4 className="text-sky-500 font-medium flex items-center justify-center gap-2">
-                <FaFigma size={20} className="text-sky-500" /> Design Tools
+              <h4 className="text-sky-500 dark:text-sky-400 font-medium flex items-center justify-center gap-2">
+                <FaFigma size={20} className="text-sky-500 dark:text-sky-400" /> Design Tools
               </h4>
               <motion.div 
                 className="flex flex-wrap justify-center gap-2"
                 variants={staggerContainer}
               >
                 <motion.span 
-                  className="flex items-center bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-sm gap-1"
+                  className="flex items-center bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-300 px-3 py-1 rounded-full text-sm gap-1"
                   variants={skillItem}
                   whileHover={{ scale: 1.1 }}
                 >
@@ -214,8 +207,8 @@ export default function About() {
               className="space-y-4 text-center"
               variants={fadeIn}
             >
-              <h4 className="text-sky-500 font-medium flex items-center justify-center gap-2">
-                <FaHtml5 size={20} className="text-sky-500" /> Frontend Development
+              <h4 className="text-sky-500 dark:text-sky-400 font-medium flex items-center justify-center gap-2">
+                <FaHtml5 size={20} className="text-sky-500 dark:text-sky-400" /> Frontend Development
               </h4>
               <motion.div 
                 className="flex flex-wrap justify-center gap-2"
@@ -230,7 +223,7 @@ export default function About() {
                 ].map((skill, index) => (
                   <motion.span
                     key={index}
-                    className="flex items-center bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-sm gap-1"
+                    className="flex items-center bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-300 px-3 py-1 rounded-full text-sm gap-1"
                     variants={skillItem}
                     whileHover={{ scale: 1.1 }}
                   >
@@ -245,8 +238,8 @@ export default function About() {
               className="space-y-4 text-center"
               variants={fadeIn}
             >
-              <h4 className="text-sky-500 font-medium flex items-center justify-center gap-2">
-                <FaNodeJs size={20} className="text-sky-500" /> Backend Development
+              <h4 className="text-sky-500 dark:text-sky-400 font-medium flex items-center justify-center gap-2">
+                <FaNodeJs size={20} className="text-sky-500 dark:text-sky-400" /> Backend Development
               </h4>
               <motion.div 
                 className="flex flex-wrap justify-center gap-2"
@@ -263,7 +256,7 @@ export default function About() {
                 ].map((skill, index) => (
                   <motion.span
                     key={index}
-                    className="flex items-center bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-sm gap-1"
+                    className="flex items-center bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-300 px-3 py-1 rounded-full text-sm gap-1"
                     variants={skillItem}
                     whileHover={{ scale: 1.1 }}
                   >
