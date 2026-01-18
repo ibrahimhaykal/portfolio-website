@@ -55,7 +55,7 @@ export default function Hero() {
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-          className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto mb-8"
+          className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto mb-6"
         >
           {/* Soft Glow Behind */}
           <div className="absolute inset-0 bg-sky-500/30 blur-2xl rounded-full opacity-50 dark:opacity-40" />
@@ -69,7 +69,7 @@ export default function Hero() {
                 fill
                 className="object-cover"
                 priority
-                sizes="(max-width: 768px) 128px, 160px" // Helping browser select right size
+                sizes="(max-width: 768px) 128px, 160px"
               />
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="text-gray-500 dark:text-gray-500 mb-10 max-w-lg mx-auto leading-relaxed"
+          className="text-gray-500 dark:text-gray-500 mb-6 max-w-lg mx-auto leading-relaxed"
         >
           Final-year student engineering automated systems at <strong className="text-gray-900 dark:text-white font-medium">Astra Otoparts Group</strong>—from ERP synchronizations to zero-downtime database migrations.
         </motion.p>
@@ -127,7 +127,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
+          className="flex flex-wrap justify-center gap-4 mb-2"
         >
           <button
             onClick={() => scrollToSection('projects')}
@@ -148,7 +148,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="flex justify-center gap-5 mb-16"
+          className="flex justify-center gap-5 mb-6"
         >
           {socials.map((social, i) => (
             <a
@@ -167,7 +167,7 @@ export default function Hero() {
           ))}
         </motion.div>
 
-        {/* Scroll Indicator - UPDATED with aria-label */}
+        {/* Scroll Indicator - UPDATED: Added Text "Let's Get Started" */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -176,9 +176,12 @@ export default function Hero() {
         >
           <button
             onClick={() => scrollToSection('about')}
-            aria-label="Scroll down to About section" // Added aria-label
-            className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300"
+            aria-label="Scroll down to About section"
+            className="flex flex-col items-center gap-2 p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300 group"
           >
+            {/* Teks di atas */}
+            <span className="text-sm font-medium">Let&apos;s Get Started</span>
+            {/* Panah di bawah */}
             <ArrowDown size={20} className="animate-bounce" />
           </button>
         </motion.div>
