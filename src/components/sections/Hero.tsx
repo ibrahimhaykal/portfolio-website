@@ -28,19 +28,19 @@ export default function Hero() {
     { 
       icon: Github, 
       link: "https://github.com/ibrahimhaykal",
-      // GitHub: Hitam (Light) / Putih (Dark)
+      label: "Visit GitHub Profile",
       color: "group-hover:text-[#181717] dark:group-hover:text-white" 
     },
     { 
       icon: Linkedin, 
       link: "https://www.linkedin.com/in/ibrahimhaykalalatas/",
-      // LinkedIn: Biru Original (#0A66C2)
+      label: "Visit LinkedIn Profile",
       color: "group-hover:text-[#0A66C2]" 
     },
     { 
       icon: Mail, 
       link: "mailto:ibrahimhaykal@gmail.com",
-      // Gmail: Merah Original (#EA4335)
+      label: "Send Email",
       color: "group-hover:text-[#EA4335]" 
     },
   ];
@@ -158,6 +158,7 @@ export default function Hero() {
               href={social.link}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={social.label}
               className="group p-3 rounded-full bg-transparent hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors duration-300"
             >
               <social.icon 
@@ -178,6 +179,7 @@ export default function Hero() {
         >
           <button
             onClick={() => scrollToSection('about')}
+            aria-label="Scroll down to About section"
             className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300"
           >
             <ArrowDown size={20} className="animate-bounce" />
