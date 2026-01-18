@@ -1,265 +1,203 @@
 "use client";
-import React from 'react';
-import { Briefcase, GraduationCap } from "lucide-react";
+
 import { motion } from "framer-motion";
+import { Briefcase, Calendar, MapPin, GraduationCap } from "lucide-react";
+import {
+  FaLaravel, FaPhp, FaNodeJs, FaReact, FaJs, FaPython,
+  FaFigma, FaGitAlt, FaDocker, FaDatabase
+} from "react-icons/fa";
+import {
+  SiPostgresql, SiOracle, SiMysql, SiNextdotjs,
+  SiTypescript, SiTailwindcss, SiKotlin
+} from "react-icons/si";
 
 export default function Experience() {
-  const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
-  };
+  const techIcons: Record<string, JSX.Element> = {
+      Laravel: <FaLaravel />,
+      PHP: <FaPhp />,
+      "Node.js": <FaNodeJs />,
+      React: <FaReact />,
+      JavaScript: <FaJs />,
+      Python: <FaPython />,
+      Figma: <FaFigma />,
+      Git: <FaGitAlt />,
+      Docker: <FaDocker />,
+      Database: <FaDatabase />,
 
-  const staggerChildren = {
-    animate: {
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
+      PostgreSQL: <SiPostgresql />,
+      Oracle: <SiOracle />,
+      MySQL: <SiMysql />,
+      "Next.js": <SiNextdotjs />,
+      TypeScript: <SiTypescript />,
+      "Tailwind CSS": <SiTailwindcss />,
+      Kotlin: <SiKotlin />,
+    };
 
-  // For the experiences section
   const experiences = [
     {
-      title: "Web Developer",
-      company: "Nirmala Technology",
-      period: "2024 - Present",
-      description: [
-        "Building and maintaining modern company websites",
-        "Creating responsive designs that work on all devices",
-        "Working closely with teams to deliver great results",
+      role: "Full Stack Developer",
+      company: "PT Gemala Kempa Daya (Astra Otoparts Group)",
+      period: "Feb 2025 - Present",
+      location: "North Jakarta, Indonesia",
+      achievements: [
+        "Engineered real-time inventory control system with FIFO logic managing 48 blocks and 300+ material types",
+        "Automated supply scheduling with Infor ERP integration, handling 400+ weekly transactions",
+        "Executed zero-downtime Oracle to PostgreSQL migration using dual-write synchronization",
+        "Developed high-performance reporting tool for Inventory Aging and Stock Movement",
+        "Built secure cost management system with RBAC and automated input validation"
       ],
+      tech: ["Laravel", "Oracle", "PostgreSQL", "Infor ERP", "JavaScript"]
     },
-  ];
-
-  // For the education section
-  const education = [
     {
-      degree: "Information System",
-      school: "Polytechnic STMI Jakarta",
-      period: "2022 - 2026 (Expected)",
-      description: "Focusing on web development and digital systems management",
+      role: "Web Developer",
+      company: "Nirmala Technology",
+      period: "Aug 2024 - Jan 2025",
+      location: "Jakarta, Indonesia",
+      achievements: [
+        "Designed bilingual company profile website using Figma, Laravel 11, and Tailwind CSS",
+        "Developed language toggle feature for English and Indonesian accessibility",
+        "Sliced UI components for Q-Tin Dashboard using Tailwind, DaisyUI, and Flowbite",
+        "Collaborated with team to deliver responsive and user-friendly interfaces"
+      ],
+      tech: ["Laravel", "Tailwind CSS", "Figma", "DaisyUI"]
     },
+    {
+      role: "Scholarship Participant",
+      company: "Digital Talent Scholarship",
+      period: "Jul 2023 - Oct 2023",
+      location: "Remote",
+      achievements: [
+        "Completed web development training program focused on industry-relevant skills",
+        "Built scholarship website using Bootstrap with full CRUD functionality",
+        "Implemented features using PHP and SQL for database management",
+        "Obtained BNSP certification for Junior Web Development"
+      ],
+      tech: ["PHP", "Bootstrap", "MySQL", "SQL"]
+    }
   ];
-
-  const headerVariants = {
-    initial: { opacity: 0, y: -20 },
-    animate: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.8,
-        when: "beforeChildren",
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const underlineVariants = {
-    initial: { width: 0 },
-    animate: { 
-      width: "100%",
-      transition: { duration: 0.8, delay: 0.5 }
-    }
-  };
-
-  const containerVariants = {
-    initial: { opacity: 0 },
-    animate: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    initial: { opacity: 0, x: -20 },
-    animate: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.5 }
-    }
-  };
 
   return (
-    <section id="experience" className="py-20 px-4 bg-white dark:bg-gray-900 overflow-hidden transition-colors duration-300">
-      <div className="max-w-6xl mx-auto">
-      {/* Enhanced Animated Header */}
-      <motion.div 
-        className="text-center mb-12 sm:mb-16"
-        variants={headerVariants}
-        initial="initial"
-        animate="animate"
-      >
-        <div className="relative inline-block px-6 sm:px-0">
-          <h2 className="flex items-center justify-center text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-3 transition-colors duration-300">
-            <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 200,
-                damping: 10,
-                delay: 0.2
-              }}
-              className="bg-sky-100 dark:bg-sky-900/30 rounded-full p-1 sm:p-2 mr-2 sm:mr-3 flex-shrink-0 transition-colors duration-300"
-            >
-              <Briefcase className="text-sky-500 dark:text-sky-400 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 transition-colors duration-300" />
-            </motion.span>
-            <span className="relative">
-              Experience Journey
-              <motion.span 
-                className="absolute -bottom-2 left-0 h-0.5 bg-sky-500/20 dark:bg-sky-400/20 transition-colors duration-300"
-                variants={underlineVariants}
-              />
-            </span>
+    // UPDATED: bg-transparent to show global grid
+    <section id="experience" className="py-20 bg-transparent">
+      <div className="max-w-4xl mx-auto px-6">
+        
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            Experience.
           </h2>
-          <motion.p 
-            className="text-gray-600 dark:text-gray-300 mt-3 sm:mt-4 max-w-xs sm:max-w-sm md:max-w-lg mx-auto text-sm sm:text-base transition-colors duration-300"
-            variants={fadeInUp}
-          >
-            My professional path and learning journey
-          </motion.p>
-          
-          {/* Decorative corners with spring animation */}
-          <motion.div 
-            className="absolute -top-3 sm:-top-4 md:-top-6 -left-3 sm:-left-4 md:-left-6 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 border-t-2 border-l-2 border-sky-500/20 dark:border-sky-400/20 transition-colors duration-300"
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ 
-              type: "spring",
-              stiffness: 150,
-              damping: 20,
-              delay: 0.5
-            }}
-          />
-          <motion.div 
-            className="absolute -bottom-3 sm:-bottom-4 md:-bottom-6 -right-3 sm:-right-4 md:-right-6 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 border-b-2 border-r-2 border-sky-500/20 dark:border-sky-400/20 transition-colors duration-300"
-            initial={{ scale: 0, rotate: 180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ 
-              type: "spring",
-              stiffness: 150,
-              damping: 20,
-              delay: 0.5
-            }}
-          />
-        </div>
-      </motion.div>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            Building impactful solutions in production environments.
+          </p>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Work Experience */}
-          <motion.div 
-            variants={containerVariants}
-            initial="initial"
-            animate="animate"
-            className="relative"
-          >
-            <motion.h3 
-              className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2 transition-colors duration-300"
-              variants={itemVariants}
+        {/* Timeline */}
+        <div className="space-y-6">
+          {experiences.map((exp, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              // UPDATED: Glassmorphism Card Style
+              className="relative bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md rounded-2xl p-8 border border-gray-200/50 dark:border-white/5 hover:border-sky-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/5"
             >
-              <span className="bg-sky-100 dark:bg-sky-900/30 rounded-full p-1.5 transition-colors duration-300">
-                <Briefcase className="text-sky-500 dark:text-sky-400 transition-colors duration-300" size={20} />
-              </span>
-              Work Experience
-            </motion.h3>
-            <motion.div 
-              className="space-y-8"
-              variants={staggerChildren}
-            >
-              {experiences.map((exp, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeInUp}
-                  whileHover={{ 
-                    scale: 1.02,
-                    transition: { duration: 0.2 }
-                  }}
-                  className="relative pl-6 border-l-2 border-sky-200 dark:border-sky-800 hover:border-sky-500 dark:hover:border-sky-400 transition-all duration-300 p-4 rounded-lg hover:shadow-md bg-white dark:bg-gray-800"
-                >
-                  <motion.div 
-                    className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500 dark:bg-sky-400 transition-colors duration-300"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.3 }}
-                  />
-                  <div className="space-y-2">
-                    <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 transition-colors duration-300">{exp.title}</h4>
-                    <div className="text-sky-500 dark:text-sky-400 font-medium transition-colors duration-300">{exp.company}</div>
-                    <div className="text-gray-600 dark:text-gray-400 text-sm transition-colors duration-300">{exp.period}</div>
-                    <motion.ul 
-                      className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 transition-colors duration-300"
-                      variants={staggerChildren}
-                    >
-                      {exp.description.map((item, i) => (
-                        <motion.li 
-                          key={i}
-                          variants={itemVariants}
-                        >
-                          {item}
-                        </motion.li>
-                      ))}
-                    </motion.ul>
+              {/* Company Badge */}
+              <div className="flex items-start justify-between mb-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-sky-100/80 dark:bg-sky-500/10 rounded-xl backdrop-blur-sm border border-sky-200/50 dark:border-sky-500/20">
+                    <Briefcase className="text-sky-600 dark:text-sky-400" size={24} />
                   </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                      {exp.role}
+                    </h3>
+                    <div className="text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      {exp.company}
+                    </div>
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-500">
+                      <div className="flex items-center gap-1.5">
+                        <Calendar size={14} />
+                        <span>{exp.period}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <MapPin size={14} />
+                        <span>{exp.location}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          {/* Education */}
-          <motion.div 
-            variants={containerVariants}
-            initial="initial"
-            animate="animate"
-            className="relative"
-          >
-            <motion.h3 
-              className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2 transition-colors duration-300"
-              variants={itemVariants}
-            >
-              <span className="bg-sky-100 dark:bg-sky-900/30 rounded-full p-1.5 transition-colors duration-300">
-                <GraduationCap className="text-sky-500 dark:text-sky-400 transition-colors duration-300" size={20} />
-              </span>
-              Education
-            </motion.h3>
-            <motion.div 
-              className="space-y-8"
-              variants={staggerChildren}
-            >
-              {education.map((edu, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeInUp}
-                  whileHover={{ 
-                    scale: 1.02,
-                    transition: { duration: 0.2 }
-                  }}
-                  className="relative pl-6 border-l-2 border-sky-200 dark:border-sky-800 hover:border-sky-500 dark:hover:border-sky-400 transition-all duration-300 p-4 rounded-lg hover:shadow-md bg-white dark:bg-gray-800"
-                >
-                  <motion.div 
-                    className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-sky-500 dark:bg-sky-400 transition-colors duration-300"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.3 }}
-                  />
-                  <div className="space-y-2">
-                    <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 transition-colors duration-300">{edu.degree}</h4>
-                    <div className="text-sky-500 dark:text-sky-400 font-medium transition-colors duration-300">{edu.school}</div>
-                    <div className="text-gray-600 dark:text-gray-400 text-sm transition-colors duration-300">{edu.period}</div>
-                    <motion.p 
-                      className="text-gray-600 dark:text-gray-300 transition-colors duration-300"
-                      variants={fadeInUp}
-                    >
-                      {edu.description}
-                    </motion.p>
+              {/* Achievements */}
+              <div className="mb-6 space-y-3 pl-2">
+                {exp.achievements.map((achievement, i) => (
+                  <div key={i} className="flex items-start gap-3 group">
+                    <div className="w-1.5 h-1.5 bg-sky-500/50 dark:bg-sky-400/50 rounded-full mt-2 flex-shrink-0 group-hover:scale-125 transition-transform" />
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{achievement}</p>
                   </div>
-                </motion.div>
-              ))}
+                ))}
+              </div>
+
+              {/* Tech Stack */}
+              <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-200/50 dark:border-white/5">
+                  {exp.tech.map((tech, i) => {
+                    const Icon = techIcons[tech];
+
+                    return (
+                      <span
+                        key={i}
+                        className="flex items-center gap-1.5 px-3 py-1 text-xs font-medium
+                                   bg-white/50 dark:bg-white/5
+                                   text-gray-600 dark:text-gray-400
+                                   rounded-full border border-gray-200/50 dark:border-white/5"
+                      >
+                        {Icon && <span className="text-sm opacity-70">{Icon}</span>}
+                        <span>{tech}</span>
+                      </span>
+                    );
+                  })}
+              </div>
             </motion.div>
-          </motion.div>
+          ))}
         </div>
+
+        {/* Education - UPDATED: Glassmorphism */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md rounded-2xl p-8 border border-gray-200/50 dark:border-white/5 hover:border-purple-500/30 transition-all duration-300"
+        >
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+             Education
+          </h3>
+          <div className="flex items-start gap-4">
+            <div className="p-3 bg-purple-100/80 dark:bg-purple-500/10 rounded-xl backdrop-blur-sm border border-purple-200/50 dark:border-purple-500/20">
+              <GraduationCap className="text-purple-600 dark:text-purple-400" size={24} />
+            </div>
+            <div>
+              <div className="text-lg font-bold text-gray-900 dark:text-white">
+                Bachelor of Applied Computer Science
+              </div>
+              <div className="text-gray-700 dark:text-gray-300 font-medium mb-1">
+                Information Systems
+              </div>
+              <div className="text-gray-600 dark:text-gray-400 mb-2 text-sm">
+                Polytechnic of Industrial Management Jakarta (STMI) 
+              </div>
+              <div className="text-xs font-medium text-gray-500 dark:text-gray-500 uppercase tracking-wide">
+                Sep 2022 - Oct 2026 (Expected) • Jakarta, Indonesia
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
