@@ -23,24 +23,24 @@ export default function Hero() {
     delaySpeed: 2000,
   });
 
-  // Data Socials
+  // Data Socials - Added labels for SEO/Accessibility
   const socials = [
     { 
       icon: Github, 
       link: "https://github.com/ibrahimhaykal",
-      label: "Visit GitHub Profile",
+      label: "Visit GitHub Profile", 
       color: "group-hover:text-[#181717] dark:group-hover:text-white" 
     },
     { 
       icon: Linkedin, 
       link: "https://www.linkedin.com/in/ibrahimhaykalalatas/",
-      label: "Visit LinkedIn Profile",
+      label: "Visit LinkedIn Profile", 
       color: "group-hover:text-[#0A66C2]" 
     },
     { 
       icon: Mail, 
       link: "mailto:ibrahimhaykal@gmail.com",
-      label: "Send Email",
+      label: "Send Email", 
       color: "group-hover:text-[#EA4335]" 
     },
   ];
@@ -69,6 +69,7 @@ export default function Hero() {
                 fill
                 className="object-cover"
                 priority
+                sizes="(max-width: 768px) 128px, 160px" // Helping browser select right size
               />
             </div>
           </div>
@@ -80,19 +81,17 @@ export default function Hero() {
             transition={{ delay: 0.5, type: "spring" }}
             className="absolute bottom-1 right-1 w-8 h-8 bg-white dark:bg-zinc-900 rounded-full flex items-center justify-center shadow-lg border border-gray-100 dark:border-zinc-800"
           >
-            <span className="text-lg">👨🏼‍💻</span>
+            <span className="text-lg" role="img" aria-label="Coder Emoji">👨🏼‍💻</span>
           </motion.div>
         </motion.div>
 
-        {/* Main Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+        {/* Main Title - FIXED LCP: Removed initial opacity animation */}
+        {/* We keep the className but remove motion props that delay rendering */}
+        <h1
           className="text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight"
         >
           Ibrahim Haykal Alatas
-        </motion.h1>
+        </h1>
 
         {/* Subtitle with typewriter */}
         <motion.div
@@ -107,9 +106,8 @@ export default function Hero() {
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-blue-600 dark:from-sky-400 dark:to-blue-500 font-medium">
                 {text.replace(" ✌️", "")}
               </span>
-
               {/* Emoji normal (tanpa gradient) */}
-              {text.includes("✌️") && <span>✌️</span>}
+              {text.includes("✌️") && <span role="img" aria-label="Peace Sign">✌️</span>}
             </span>
             <Cursor cursorStyle="|" cursorColor="#0EA5E9" />
           </p>
@@ -145,7 +143,7 @@ export default function Hero() {
           </button>
         </motion.div>
 
-        {/* Social Links - UPDATED: Brand Colors */}
+        {/* Social Links - UPDATED with aria-label */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -158,19 +156,18 @@ export default function Hero() {
               href={social.link}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={social.label}
+              aria-label={social.label} // Added aria-label
               className="group p-3 rounded-full bg-transparent hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors duration-300"
             >
               <social.icon 
                 size={22} 
-                // Default: Gray, Hover: Warna Asli (diambil dari data `socials` di atas)
                 className={`text-gray-500 dark:text-gray-400 transition-colors duration-300 ${social.color}`} 
               />
             </a>
           ))}
         </motion.div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Indicator - UPDATED with aria-label */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -179,7 +176,7 @@ export default function Hero() {
         >
           <button
             onClick={() => scrollToSection('about')}
-            aria-label="Scroll down to About section"
+            aria-label="Scroll down to About section" // Added aria-label
             className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300"
           >
             <ArrowDown size={20} className="animate-bounce" />
