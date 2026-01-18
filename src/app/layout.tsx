@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "../styles/globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const jetbrainsMono = JetBrains_Mono({ 
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  variable: "--font-jetbrains",
+});
 
 export const metadata: Metadata = {
   title: "Ibrahim Haykal Alatas | Full Stack Developer",
@@ -33,7 +37,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Data JSON-LD untuk AI
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -55,10 +58,21 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} bg-white dark:bg-black antialiased`}>
+      <body 
+        className={`
+          ${jetbrainsMono.className} 
+          antialiased
+          bg-white 
+          /* Base: Hitam Pekat */
+          dark:bg-black
+          dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(6,182,212,0.50),rgba(255,255,255,0))]
+          selection:bg-cyan-500/30
+          selection:text-cyan-100
+        `}
+      >
         {children}
         
-        {/* JSON-LD Script ditaruh disini */}
+        {/* JSON-LD Script */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
