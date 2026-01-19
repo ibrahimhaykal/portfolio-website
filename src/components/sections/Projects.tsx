@@ -161,9 +161,10 @@ export default function Projects() {
         {/* Header */}
         <motion.div 
           className="mb-12"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }} // Gerakan diperkecil
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }} // Ringan
         >
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Projects.
@@ -176,9 +177,10 @@ export default function Projects() {
         {/* Filter Buttons */}
         <motion.div 
           className="flex flex-wrap gap-2 mb-10"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
         >
           {categories.map((cat) => (
             <button
@@ -196,41 +198,41 @@ export default function Projects() {
           ))}
         </motion.div>
 
-        {/* Projects Grid */}
+        {/* Projects Grid - Layout animation kept simple */}
         <motion.div layout className="grid grid-cols-1 gap-6">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
               <motion.div
-                layout
+                layout // Penting untuk animasi filtering, tapi config default sudah cukup
                 key={project.title}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
+                // HAPUS SCALE ANIMATION BIAR RINGAN
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }} // No Spring
                 className="group relative bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md rounded-2xl overflow-hidden border border-gray-200/50 dark:border-white/5 hover:border-sky-500/30 transition-all duration-500 hover:shadow-xl hover:shadow-sky-500/5"
               >
                 <div className="flex flex-col lg:flex-row h-full">
                   
-                  {/* Image Section - HYBRID MODE */}
+                  {/* Image Section */}
                   <div className="relative lg:w-80 h-64 lg:h-auto bg-gray-100 dark:bg-black/20 overflow-hidden flex-shrink-0 flex items-center justify-center">
                     
                     {/* Placeholder Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-br from-gray-200/50 to-gray-300/50 dark:from-white/5 dark:to-white/10" />
                     
-                    {/* Next.js Image Component - SMART ORIENTATION */}
+                    {/* Next.js Image Component */}
                     <div className="relative w-full h-full transform group-hover:scale-105 transition-transform duration-700 ease-out">
-                       <Image 
+                        <Image 
                           src={project.image} 
                           alt={project.title}
                           fill
-                          // LOGIC: Kalo portrait -> contain, Kalo landscape -> cover
                           className={project.orientation === "portrait" ? "object-contain p-2" : "object-cover"}
-                       />
+                        />
                     </div>
 
-                    {/* Overlay Gradient (Cuma buat Landscape) */}
+                    {/* Overlay Gradient (Landscape only) */}
                     {project.orientation !== "portrait" && (
-                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 lg:hidden" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 lg:hidden" />
                     )}
                     
                     {/* Featured Badge */}
@@ -256,9 +258,9 @@ export default function Projects() {
                   <div className="flex-1 p-6 flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-start gap-4 mb-2">
-                         <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-sky-500 transition-colors duration-300">
-                           {project.title}
-                         </h3>
+                          <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-sky-500 transition-colors duration-300">
+                            {project.title}
+                          </h3>
                       </div>
                       
                       <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
@@ -323,6 +325,7 @@ export default function Projects() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
         >
           <a 
             href="https://github.com/ibrahimhaykal" 

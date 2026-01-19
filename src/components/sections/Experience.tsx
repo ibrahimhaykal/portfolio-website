@@ -77,15 +77,15 @@ export default function Experience() {
   ];
 
   return (
-    // UPDATED: bg-transparent to show global grid
     <section id="experience" className="py-20 bg-transparent">
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }} // Gerakan y diperkecil agar ringan
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }} // Pakai easeOut, bukan spring
           className="mb-12"
         >
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -101,11 +101,10 @@ export default function Experience() {
           {experiences.map((exp, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }} // y: 15 cukup untuk efek visual tanpa lag
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              // UPDATED: Glassmorphism Card Style
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }} // Spring dihapus
               className="relative bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md rounded-2xl p-8 border border-gray-200/50 dark:border-white/5 hover:border-sky-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/5"
             >
               {/* Company Badge */}
@@ -168,15 +167,16 @@ export default function Experience() {
           ))}
         </div>
 
-        {/* Education - UPDATED: Glassmorphism */}
+        {/* Education */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }} // Ringan & Smooth
           className="mt-12 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md rounded-2xl p-8 border border-gray-200/50 dark:border-white/5 hover:border-purple-500/30 transition-all duration-300"
         >
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-             Education
+              Education
           </h3>
           <div className="flex items-start gap-4">
             <div className="p-3 bg-purple-100/80 dark:bg-purple-500/10 rounded-xl backdrop-blur-sm border border-purple-200/50 dark:border-purple-500/20">

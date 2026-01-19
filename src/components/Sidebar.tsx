@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image"; // Import Image
+import Image from "next/image"; 
 import { Moon, Sun, Home, User, Code, Briefcase, Mail, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -94,8 +94,10 @@ export default function Sidebar() {
                     priority
                  />
               </div>
-              <div className="absolute bottom-0 right-0 w-5 h-5 bg-white dark:bg-zinc-900 border-2 border-white dark:border-zinc-900 rounded-full flex items-center justify-center">
-                <span className="text-xs">👋🏼</span>
+              
+              {/* FIXED EMOJI DESKTOP: Added z-50 and filter-none for iOS */}
+              <div className="absolute -bottom-1 -right-1 z-50 w-6 h-6 bg-white dark:bg-zinc-900 border-2 border-white dark:border-zinc-900 rounded-full flex items-center justify-center shadow-sm">
+                <span className="text-xs leading-none filter-none">👋🏼</span>
               </div>
             </motion.div>
 
@@ -168,14 +170,23 @@ export default function Sidebar() {
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-black/5 dark:border-white/10 z-50">
         <div className="flex items-center justify-between px-5 py-3">
           <div className="flex items-center gap-3">
-            <div className="relative w-9 h-9 rounded-full overflow-hidden border border-black/10 dark:border-white/10">
-               <Image 
-                 src="/profile/profile-img.png"
-                 alt="Profile"
-                 fill
-                 className="object-cover"
-               />
+            
+            {/* FIXED EMOJI MOBILE: Wrapped in relative div to support badge */}
+            <div className="relative">
+              <div className="relative w-9 h-9 rounded-full overflow-hidden border border-black/10 dark:border-white/10">
+                 <Image 
+                   src="/profile/profile-img.png"
+                   alt="Profile"
+                   fill
+                   className="object-cover"
+                 />
+              </div>
+              {/* Added Emoji Badge for Mobile */}
+              <div className="absolute -bottom-1 -right-1 z-50 w-4 h-4 bg-white dark:bg-zinc-900 border border-white dark:border-zinc-900 rounded-full flex items-center justify-center">
+                <span className="text-[8px] leading-none filter-none">👋🏼</span>
+              </div>
             </div>
+
             <div>
               <h2 className="text-gray-900 dark:text-white font-medium text-sm">Ibrahim Haykal</h2>
               <p className="text-gray-500 dark:text-gray-500 text-[10px] tracking-wide uppercase">Full Stack Developer</p>
@@ -198,6 +209,7 @@ export default function Sidebar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }} // Smoother fade
               className="lg:hidden fixed inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-sm z-40 mt-[60px]"
               onClick={() => setMobileOpen(false)}
             />
@@ -205,7 +217,8 @@ export default function Sidebar() {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              // FIXED ANIMATION: Changed from Spring to EaseOut for smoother mobile performance
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} 
               className="lg:hidden fixed right-0 top-[60px] bottom-0 w-64 bg-white dark:bg-zinc-950 border-l border-black/5 dark:border-white/10 z-50 shadow-2xl"
             >
               <nav className="p-4 h-full flex flex-col">
