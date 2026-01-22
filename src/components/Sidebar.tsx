@@ -87,7 +87,7 @@ export default function Sidebar() {
               {/* Profile Image with Thin Ring */}
               <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white dark:border-zinc-800 shadow-sm">
                  <Image 
-                    src="/profile/profile-img.png" 
+                    src="/profile/profile-sidebar.png" 
                     alt="Profile"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
