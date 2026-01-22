@@ -140,7 +140,7 @@ export default function LoadingScreen({ onComplete, photoUrl }: LoadingScreenPro
               animate={{ opacity: [0.9, 1, 0.9] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              Hello 👋
+              Hello 👋🏼
             </motion.h1>
             <p className={`text-lg font-light tracking-wide ${
               darkMode ? "text-gray-400" : "text-gray-500"

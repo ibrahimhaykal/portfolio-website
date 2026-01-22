@@ -20,7 +20,7 @@ export default function Home() {
         {loading && (
           <LoadingScreen
             onComplete={() => setLoading(false)}
-            photoUrl="/profile/profile-img.png"
+            photoUrl="/profile/profile-ip-emoji.png"
           />
         )}
       </AnimatePresence>
