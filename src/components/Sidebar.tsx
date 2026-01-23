@@ -175,7 +175,7 @@ export default function Sidebar() {
             <div className="relative">
               <div className="relative w-9 h-9 rounded-full overflow-hidden border border-black/10 dark:border-white/10">
                  <Image 
-                   src="/profile/profile-img.png"
+                   src="/profile/profile-sidebar.png"
                    alt="Profile"
                    fill
                    className="object-cover"
