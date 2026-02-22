@@ -13,7 +13,7 @@ import {
 
 export default function About() {
   const stats = [
-    { icon: Code, value: "50+", label: "Projects" },
+    { icon: Code, value: "5+", label: "Projects" },
     { icon: Briefcase, value: "1+", label: "Years Exp" },
     { icon: GraduationCap, value: "B.Sc", label: "Degree" },
     { icon: Award, value: "5+", label: "Certifications" },
