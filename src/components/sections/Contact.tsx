@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Mail, MapPin, Github, Linkedin } from "lucide-react";
-
+import emailjs from "@emailjs/browser"; 
 export default function Contact() {
   const [formData, setFormData] = useState({
     user_name: '',
@@ -14,14 +14,27 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('sending');
-    
-    // Simulate sending
-    setTimeout(() => {
-      setStatus('success');
-      setFormData({ user_name: '', user_email: '', message: '' });
-      setTimeout(() => setStatus('idle'), 3000);
-    }, 1500);
+    setStatus("sending");
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          user_name: formData.user_name,
+          user_email: formData.user_email,
+          message: formData.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+      setStatus("success");
+      setFormData({ user_name: "", user_email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 3000);
+    } catch (error) {
+      console.error("Email sending error:", error);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
+    }
   };
 
   return (
