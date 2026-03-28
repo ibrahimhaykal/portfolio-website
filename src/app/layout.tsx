@@ -9,12 +9,16 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ibrahim Haykal Alatas | Full Stack Developer",
-  description: "Final-Year Information System Student & Full Stack Developer at Astra Otoparts Group. Specializing in automated systems, database architecture, and scalable solutions.",
-  keywords: "Ibrahim Haykal, Full Stack Developer, Laravel, Next.js, PostgreSQL, Oracle, System Architecture",
+  title: "Ibrahim Haykal Alatas | System Engineer",
+  description: "System Engineer & Full Stack Developer at Astra Otoparts Group. Specializing in automated internal systems, database architecture, ERP integrations, and scalable solutions.",
+  keywords: "Ibrahim Haykal, System Engineer, Full Stack Developer, Laravel, Next.js, PostgreSQL, Oracle, System Architecture, ERP",
   authors: [{ name: "Ibrahim Haykal Alatas" }],
+  icons: {
+    icon: '/profile/profile-sidebar.png',
+    apple: '/profile/profile-sidebar.png',
+  },
   openGraph: {
-    title: "Ibrahim Haykal Alatas | Full Stack Developer",
+    title: "Ibrahim Haykal Alatas | System Engineer",
     description: "Building automated systems and scalable solutions at Astra Otoparts Group",
     type: "website",
     url: "https://ibrahim-haykal.vercel.app", 
@@ -48,12 +52,12 @@ export default function RootLayout({
       "https://www.linkedin.com/in/ibrahimhaykalalatas/",
       "mailto:ibrahimhaykal@gmail.com"
     ],
-    "jobTitle": "Full Stack Developer",
+    "jobTitle": "System Engineer | Full Stack Developer",
     "worksFor": {
       "@type": "Organization",
       "name": "Astra Otoparts Group"
     },
-    "description": "Final-year Information System student and Full Stack Developer specializing in ERP synchronizations and database migrations."
+    "description": "Information System student and System Engineer specializing in enterprise architectures, ERP synchronizations, and zero-downtime database migrations."
   };
 
   return (
