@@ -277,7 +277,7 @@ export default function Hero() {
               variants={ctaItem}
               whileHover={{ scale: 1.05, transition: { duration: 0.18, delay: 0 } }}
               whileTap={{ scale: 0.95, transition: { duration: 0.1, delay: 0 } }}
-              href="cv/ibrahim-haykal-alatas-resume.pdf"
+              href="cv/Ibrahim_Haykal_Alatas_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 rounded-full font-medium hover:bg-sky-100 dark:hover:bg-sky-500/20 border border-sky-200 dark:border-sky-500/30 transition-colors duration-300 flex items-center gap-2"
