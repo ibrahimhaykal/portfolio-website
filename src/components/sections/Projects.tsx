@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink, Github, Globe, Smartphone, BrainCircuit, Star, Layout, X, ChevronRight } from "lucide-react";
+import { ExternalLink, Github, Globe, Smartphone, BrainCircuit, Star, Layout, X, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaLaravel, FaPhp, FaNodeJs, FaReact, FaJs, FaPython,
@@ -13,11 +13,14 @@ import {
   SiDaisyui, SiBootstrap
 } from "react-icons/si";
 import Image from "next/image";
+import SectionHeading from "../ui/SectionHeading";
+import { onSpotlightMove } from "../ui/spotlight";
 
 type Project = {
   title: string;
   description: string;
-  image: string;
+  /** Optional — cards fall back to a generated monogram panel when no shot exists yet. */
+  image?: string;
   tech: string[];
   category: string;
   orientation?: "landscape" | "portrait";
@@ -27,14 +30,6 @@ type Project = {
 };
 
 // ─── Variants (outside component — stable reference) ──────────────────────────
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1, y: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
-  },
-};
 
 const filterContainer = {
   hidden: {},
@@ -51,14 +46,14 @@ const filterItem = {
 
 const gridContainer = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.06 } },
+  visible: { transition: { staggerChildren: 0.055 } },
 };
 
 const cardVariant = {
-  hidden: { opacity: 0, y: 20, scale: 0.97 },
+  hidden: { opacity: 0, y: 22, scale: 0.97 },
   visible: {
     opacity: 1, y: 0, scale: 1,
-    transition: { duration: 0.42, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
   },
   exit: {
     opacity: 0, scale: 0.95, y: -6,
@@ -76,13 +71,32 @@ const modalPanel = {
   hidden: { opacity: 0, y: 32, scale: 0.97 },
   visible: {
     opacity: 1, y: 0, scale: 1,
-    transition: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
   },
   exit: {
     opacity: 0, y: 20, scale: 0.97,
     transition: { duration: 0.2, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
+
+const ctaVariant = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1, y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+// Monogram fallback saat screenshot belum ada
+function monogram(title: string) {
+  return title
+    .replace(/[^A-Za-z0-9 ]/g, " ")
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0].toUpperCase())
+    .join("");
+}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -102,22 +116,28 @@ export default function Projects() {
 
   const projects: Project[] = [
     {
+      title: "VALAK CRM — Actuarial Consulting",
+      description: "Enterprise CRM for an actuarial consulting firm on Laravel 12 and React 19. Role-based dashboards for admin, sales, marketing, data, actuary, and finance; calculation submission with progress tracking; a revision-note chatroom for report review; and AI-powered summary insights via Kimi AI.",
+      tech: ["Laravel", "React", "TypeScript", "PostgreSQL", "Tailwind CSS"],
+      category: "Web App", featured: true,
+    },
+    {
       title: "Real-Time Warehouse Inventory",
-      description: "Enterprise-grade inventory dashboard for Astra Otoparts Group. Features live visualization of 48 physical rack blocks, barcode scanning, and complex FIFO logic — bypassing read-only legacy ERP constraints while handling 400+ weekly transactions.",
+      description: "FIFO floor-storage monitoring for Astra Otoparts Group covering 48 material blocks and 400+ weekly transactions, with QR gate in/out, digital block visualization, and supply scheduling — cutting material search cycle time by 76.10% (103.00 → 24.62 minutes), validated by time study.",
       image: "/projects/warehouse.png",
       tech: ["Laravel", "PostgreSQL", "Oracle", "JavaScript"],
       category: "Web App", featured: true,
     },
     {
       title: "Smart Andon Ticketing System",
-      description: "Stateful digital ticketing system that maps and automates physical manufacturing workflows. Monitors operational bottlenecks, measures Mean Time To Repair (MTTR), and enforces secure issue resolution through OTP and QR code validations.",
+      description: "Stateful digital ticketing that maps physical manufacturing workflows. QR validation, lifecycle tracking, technician activity monitoring, and Mean Time To Repair (MTTR) visibility for production issue handling.",
       image: "/projects/andon.png",
       tech: ["Laravel", "PostgreSQL", "Oracle", "JavaScript"],
       category: "Web App", featured: true,
     },
     {
       title: "Mitsubishi Dealership Landing",
-      description: "Freelance corporate profile and lead-generation landing page for a Mitsubishi dealership. Features interactive vehicle showcases using Swiper.js and direct WhatsApp routing to accelerate sales conversions.",
+      description: "Freelance corporate profile and lead-generation landing page for a Mitsubishi dealership. Interactive vehicle showcases using Swiper.js and direct WhatsApp routing to accelerate sales conversions.",
       image: "/projects/mitsubishi.png",
       tech: ["Bootstrap", "JavaScript", "WhatsApp API"],
       demoUrl: "https://mitsubishidjakarta.com/",
@@ -125,21 +145,21 @@ export default function Projects() {
     },
     {
       title: "SME Digital Platform",
-      description: "National 2nd Place hackathon platform engineered for MSMEs. Integrated a dynamic WhatsApp chatbot to streamline user engagement, digital marketing, and automated customer workflows.",
+      description: "National 2nd place hackathon platform for MSMEs (Jun 2025). Integrated a WhatsApp chatbot to streamline user engagement, digital marketing, and automated customer workflows.",
       image: "/projects/sme.png",
       tech: ["Laravel", "Tailwind CSS", "WhatsApp API"],
       category: "Web App", featured: true,
     },
     {
       title: "SIPS Android Archiving",
-      description: "Full-stack archiving system developed based on a comparative study at BBSPJIKFK (Ministry of Industry). Architected with comprehensive UML and powered by a robust RESTful API.",
+      description: "Full-stack archiving system built from a comparative study at BBSPJIKFK (Ministry of Industry). Architected with comprehensive UML and powered by a RESTful API.",
       image: "/projects/sips.png",
       tech: ["Kotlin", "Laravel", "MySQL", "REST API"],
       category: "Mobile App", featured: true, orientation: "portrait",
     },
     {
       title: "AI Defect Detection (Fender Apron)",
-      description: "End-to-end visual inspection pipeline for automotive parts. Annotated custom datasets via Roboflow and deployed a live real-time inference web app using Streamlit and WebRTC for automated Quality Control.",
+      description: "End-to-end visual inspection pipeline for automotive parts (Dec 2024). Custom dataset annotation via Roboflow, YOLOv8 training, and a live real-time inference app on Streamlit and WebRTC for automated quality control.",
       image: "/projects/fender-apron.png",
       tech: ["Python", "YOLOv8", "Roboflow", "Streamlit", "WebRTC"],
       demoUrl: "https://fender-apron-detection-systems.streamlit.app/",
@@ -148,7 +168,7 @@ export default function Projects() {
     },
     {
       title: "Wedding Organizer Platform",
-      description: "Web platform managing venue operations, dynamic package pricing, and customer inquiries. Streamlines vendor-client communication and booking logistics.",
+      description: "Web platform managing venue operations, dynamic package pricing, and customer inquiries. Streamlines vendor–client communication and booking logistics.",
       image: "/projects/wedding.png",
       tech: ["Laravel", "MySQL", "Bootstrap", "WhatsApp API"],
       demoUrl: "https://www.refnawedding.com/",
@@ -156,14 +176,14 @@ export default function Projects() {
     },
     {
       title: "Q-Tin Dashboard UI",
-      description: "Responsive UI components for a smart dashboard using DaisyUI and Flowbite. Engineered as part of a corporate profile platform ensuring cross-device consistency.",
+      description: "Responsive UI components for a smart dashboard using DaisyUI and Flowbite, built as part of a bilingual corporate profile platform with cross-device consistency.",
       image: "/projects/qtin.png",
       tech: ["Laravel", "Tailwind CSS", "DaisyUI", "Flowbite", "Figma"],
       category: "Web App", featured: true,
     },
     {
       title: "Education Chat Bot",
-      description: "AI-powered learning assistant with deep learning NLP for intelligent, context-aware responses to student queries.",
+      description: "AI-powered learning assistant using deep learning NLP for intelligent, context-aware responses to student queries.",
       image: "/projects/edubot.png",
       tech: ["Python", "TensorFlow", "NLTK", "Streamlit"],
       githubUrl: "https://github.com/ibrahimhaykal/chatbot-edu-bot",
@@ -171,7 +191,7 @@ export default function Projects() {
     },
     {
       title: "E-Brochure — Indomobil",
-      description: "Digital automotive catalog with interactive showcases, dynamic color selections, and WhatsApp integrations for seamless sales lead generation.",
+      description: "Interactive digital automotive catalog with dynamic vehicle showcases, customizable color selections, and direct WhatsApp integration for sales lead generation.",
       image: "/projects/ebrosur.png",
       tech: ["Next.js", "TypeScript", "Tailwind CSS", "WhatsApp API"],
       demoUrl: "https://ridhoindomobil.vercel.app/",
@@ -179,7 +199,7 @@ export default function Projects() {
     },
     {
       title: "Portfolio Website",
-      description: "Personal portfolio showcasing full-stack and system engineering capabilities with clean responsive design, Framer Motion animations, and modern architecture.",
+      description: "This site. Personal portfolio built on Next.js and TypeScript with a hand-tuned motion system, scroll-driven transitions, and a fully responsive layout.",
       image: "/projects/portfolio.png",
       tech: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
       demoUrl: "https://portfolio-website-ibrahim-haykal.vercel.app/",
@@ -188,7 +208,7 @@ export default function Projects() {
     },
     {
       title: "Cargo Invoice System",
-      description: "Admin system for Herona Express optimizing logistics transactions and invoice generation. Includes master data management for regional shipment tracking.",
+      description: "Admin system for Herona Express optimizing logistics transactions and invoice generation, with master data management for regional shipment tracking.",
       image: "/projects/cargo.png",
       tech: ["PHP", "Bootstrap", "MySQL"],
       category: "Web App",
@@ -197,6 +217,8 @@ export default function Projects() {
 
   const categories = ["All", "Web App", "Mobile App", "AI/ML"];
   const filteredProjects = filter === "All" ? projects : projects.filter((p) => p.category === filter);
+  const countFor = (cat: string) =>
+    cat === "All" ? projects.length : projects.filter((p) => p.category === cat).length;
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -208,24 +230,15 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-20 bg-transparent">
+    <section id="projects" className="py-24 bg-transparent">
       <div className="max-w-6xl mx-auto px-6">
 
-        {/* Header */}
-        <motion.div
-          className="mb-10"
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.3 }}
-        >
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3">
-            Projects.
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Engineering robust solutions for complex operational challenges.
-          </p>
-        </motion.div>
+        <SectionHeading
+          index="02"
+          eyebrow="Selected Work"
+          title="Things I shipped."
+          subtitle="Enterprise platforms, manufacturing tooling, and client products — most of them running in production right now."
+        />
 
         {/* Filter Buttons */}
         <motion.div
@@ -239,17 +252,24 @@ export default function Projects() {
             <motion.button
               key={cat}
               variants={filterItem}
-              whileHover={{ scale: 1.05, transition: { duration: 0.15, delay: 0 } }}
-              whileTap={{ scale: 0.95, transition: { duration: 0.1, delay: 0 } }}
+              whileHover={{ y: -2, transition: { duration: 0.15, delay: 0 } }}
+              whileTap={{ scale: 0.96, transition: { duration: 0.1, delay: 0 } }}
               onClick={() => setFilter(cat)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-300 flex items-center gap-2 border ${
+              className={`flex items-center gap-2 rounded-full border px-4 py-2 text-[13px] font-medium transition-colors duration-300 ${
                 filter === cat
-                  ? "bg-gray-900 dark:bg-white text-white dark:text-black border-gray-900 dark:border-white shadow-lg shadow-sky-500/10"
-                  : "bg-white/40 dark:bg-zinc-900/40 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border-gray-200/50 dark:border-white/10 hover:border-sky-500/30 backdrop-blur-sm"
+                  ? "border-gray-950 bg-gray-950 text-white dark:border-white dark:bg-white dark:text-black"
+                  : "border-black/[0.07] bg-white/50 text-gray-600 backdrop-blur-md hover:border-sky-500/30 hover:text-gray-950 dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-gray-400 dark:hover:text-white"
               }`}
             >
               {cat !== "All" && getCategoryIcon(cat)}
               {cat}
+              <span
+                className={`font-mono text-[10px] ${
+                  filter === cat ? "opacity-60" : "opacity-45"
+                }`}
+              >
+                {countFor(cat)}
+              </span>
             </motion.button>
           ))}
         </motion.div>
@@ -264,43 +284,54 @@ export default function Projects() {
             animate="visible"
             exit={{ opacity: 0, transition: { duration: 0.12 } }}
           >
-            {filteredProjects.map((project) => (
+            {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.title}
                 variants={cardVariant}
-                whileHover={{ y: -4, transition: { duration: 0.2, delay: 0 } }}
+                whileHover={{ y: -5, transition: { duration: 0.22, delay: 0 } }}
+                onMouseMove={onSpotlightMove}
                 onClick={() => setSelected(project)}
-                className="group relative bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md rounded-2xl overflow-hidden border border-gray-200/50 dark:border-white/5 hover:border-sky-500/30 transition-colors duration-300 flex flex-col cursor-pointer"
+                className="surface surface-hover spotlight group flex cursor-pointer flex-col overflow-hidden"
               >
                 {/* Image */}
-                <div className="relative h-40 bg-gray-100 dark:bg-black/20 overflow-hidden flex-shrink-0">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200/50 to-gray-300/50 dark:from-white/5 dark:to-white/10" />
-                  <div className="relative w-full h-full transform group-hover:scale-105 transition-transform duration-700 ease-out">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className={project.orientation === "portrait" ? "object-contain p-3" : "object-cover"}
-                    />
-                  </div>
+                <div className="relative h-40 flex-shrink-0 overflow-hidden bg-gray-100 dark:bg-black/30">
+                  {project.image ? (
+                    <div className="relative h-full w-full transform transition-transform duration-700 ease-out group-hover:scale-[1.06]">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className={project.orientation === "portrait" ? "object-contain p-3" : "object-cover"}
+                      />
+                    </div>
+                  ) : (
+                    /* Monogram fallback — screenshot belum ada */
+                    <div className="relative flex h-full w-full items-center justify-center bg-[radial-gradient(120%_120%_at_30%_0%,rgba(14,165,233,0.22),transparent_60%)] dark:bg-[radial-gradient(120%_120%_at_30%_0%,rgba(14,165,233,0.28),transparent_60%)]">
+                      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-[size:18px_18px]" />
+                      <span className="relative font-mono text-4xl font-semibold tracking-tight text-sky-600/70 dark:text-sky-300/60">
+                        {monogram(project.title)}
+                      </span>
+                    </div>
+                  )}
 
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-xs font-medium flex items-center gap-1.5 bg-black/50 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                      View Details <ChevronRight size={12} />
+                  <div className="absolute inset-0 flex items-end justify-end bg-gradient-to-t from-black/50 via-black/0 to-black/0 p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <span className="flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-900">
+                      Details <ArrowUpRight size={11} />
                     </span>
                   </div>
 
                   {project.featured && (
-                    <div className="absolute top-2 right-2 z-10">
-                      <span className="flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-sky-500/90 text-white rounded-full shadow backdrop-blur-md border border-white/20">
+                    <div className="absolute right-2 top-2 z-10">
+                      <span className="flex items-center gap-1 rounded-full border border-white/20 bg-sky-500/90 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-white shadow backdrop-blur-md">
                         <Star size={8} className="fill-white" />
                         Featured
                       </span>
                     </div>
                   )}
-                  <div className="absolute top-2 left-2 z-10">
-                    <span className="flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-white/90 dark:bg-black/80 backdrop-blur-md text-gray-900 dark:text-white rounded-full border border-black/5 dark:border-white/10 shadow-sm">
+                  <div className="absolute left-2 top-2 z-10">
+                    <span className="flex items-center gap-1 rounded-full border border-black/5 bg-white/90 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-gray-900 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-black/80 dark:text-white">
                       {getCategoryIcon(project.category)}
                       {project.category}
                     </span>
@@ -308,27 +339,36 @@ export default function Projects() {
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-col flex-1 p-4">
-                  <h3 className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-sky-500 transition-colors duration-300 mb-1.5 leading-snug">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed mb-3 line-clamp-2">
+                <div className="flex flex-1 flex-col p-4">
+                  <div className="mb-1.5 flex items-start gap-2">
+                    <span className="mt-[3px] font-mono text-[10px] tabular-nums text-gray-300 dark:text-zinc-700">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="text-sm font-semibold leading-snug tracking-tight text-gray-950 transition-colors duration-300 group-hover:text-sky-600 dark:text-white dark:group-hover:text-sky-400">
+                      {project.title}
+                    </h3>
+                  </div>
+
+                  <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
                     {project.description}
                   </p>
 
                   {/* Tech — max 3 */}
-                  <div className="flex flex-wrap gap-1 mt-auto">
-                    {project.tech.slice(0, 3).map((tech, i) => {
+                  <div className="mt-auto flex flex-wrap gap-1">
+                    {project.tech.slice(0, 3).map((tech) => {
                       const Icon = techIcons[tech];
                       return (
-                        <span key={i} className="flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-white/5 rounded-md border border-gray-200/50 dark:border-white/5">
-                          {Icon && <span className="opacity-70 text-xs">{Icon}</span>}
+                        <span
+                          key={tech}
+                          className="flex items-center gap-1 rounded-md border border-black/[0.06] px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:border-white/[0.07] dark:text-gray-400"
+                        >
+                          {Icon && <span className="text-xs opacity-70">{Icon}</span>}
                           {tech}
                         </span>
                       );
                     })}
                     {project.tech.length > 3 && (
-                      <span className="px-2 py-0.5 text-[10px] font-medium text-gray-400 dark:text-gray-500 bg-white/30 dark:bg-white/5 rounded-md border border-gray-200/50 dark:border-white/5">
+                      <span className="rounded-md border border-black/[0.06] px-2 py-0.5 font-mono text-[10px] font-medium text-gray-400 dark:border-white/[0.07] dark:text-gray-500">
                         +{project.tech.length - 3}
                       </span>
                     )}
@@ -341,8 +381,8 @@ export default function Projects() {
 
         {/* Footer */}
         <motion.div
-          className="text-center mt-10"
-          variants={fadeUp}
+          className="mt-12 text-center"
+          variants={ctaVariant}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
@@ -351,11 +391,15 @@ export default function Projects() {
             href="https://github.com/ibrahimhaykal"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ x: 3, transition: { duration: 0.18, delay: 0 } }}
-            className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-500 hover:text-black dark:hover:text-white transition-colors duration-300 text-sm"
+            whileHover={{ y: -2, transition: { duration: 0.18, delay: 0 } }}
+            className="group inline-flex items-center gap-2 rounded-full border border-black/[0.07] px-5 py-2.5 text-sm text-gray-600 transition-colors duration-300 hover:border-sky-500/30 hover:text-gray-950 dark:border-white/[0.07] dark:text-gray-400 dark:hover:text-white"
           >
-            <span>Explore my complete repository history on GitHub</span>
-            <Github size={14} />
+            <Github size={15} />
+            <span>Full repository history on GitHub</span>
+            <ArrowUpRight
+              size={14}
+              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
           </motion.a>
         </motion.div>
       </div>
@@ -384,36 +428,47 @@ export default function Projects() {
             >
               <div
                 onClick={(e) => e.stopPropagation()}
-                className="pointer-events-auto w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-gray-200/50 dark:border-white/10 shadow-2xl"
+                className="pointer-events-auto max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-black/[0.07] bg-white shadow-2xl dark:border-white/10 dark:bg-zinc-950"
               >
                 {/* Modal Image */}
-                <div className="relative h-56 bg-gray-100 dark:bg-black/30 overflow-hidden">
-                  <Image
-                    src={selected.image}
-                    alt={selected.title}
-                    fill
-                    className={selected.orientation === "portrait" ? "object-contain p-6" : "object-cover"}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                <div className="relative h-56 overflow-hidden bg-gray-100 dark:bg-black/40">
+                  {selected.image ? (
+                    <Image
+                      src={selected.image}
+                      alt={selected.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 42rem"
+                      className={selected.orientation === "portrait" ? "object-contain p-6" : "object-cover"}
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(120%_120%_at_30%_0%,rgba(14,165,233,0.22),transparent_60%)]">
+                      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-[size:22px_22px]" />
+                      <span className="relative font-mono text-6xl font-semibold tracking-tight text-sky-600/60 dark:text-sky-300/50">
+                        {monogram(selected.title)}
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
 
                   {/* Close */}
                   <motion.button
                     onClick={() => setSelected(null)}
+                    aria-label="Close project details"
                     whileHover={{ scale: 1.1, transition: { duration: 0.15, delay: 0 } }}
                     whileTap={{ scale: 0.9, transition: { duration: 0.1, delay: 0 } }}
-                    className="absolute top-3 right-3 z-10 p-1.5 bg-black/50 hover:bg-black/70 backdrop-blur-md text-white rounded-full border border-white/20 transition-colors"
+                    className="absolute right-3 top-3 z-10 rounded-full border border-white/20 bg-black/50 p-1.5 text-white backdrop-blur-md transition-colors hover:bg-black/70"
                   >
                     <X size={16} />
                   </motion.button>
 
                   {/* Badges */}
                   <div className="absolute bottom-3 left-4 flex items-center gap-2">
-                    <span className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-black/80 backdrop-blur-md text-gray-900 dark:text-white rounded-full border border-black/5 dark:border-white/10">
+                    <span className="flex items-center gap-1 rounded-full border border-black/5 bg-white/90 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-gray-900 backdrop-blur-md dark:border-white/10 dark:bg-black/80 dark:text-white">
                       {getCategoryIcon(selected.category)}
                       {selected.category}
                     </span>
                     {selected.featured && (
-                      <span className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-sky-500/90 text-white rounded-full border border-white/20">
+                      <span className="flex items-center gap-1 rounded-full border border-white/20 bg-sky-500/90 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white">
                         <Star size={9} className="fill-white" />
                         Featured
                       </span>
@@ -422,20 +477,23 @@ export default function Projects() {
                 </div>
 
                 {/* Modal Body */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                <div className="p-6 sm:p-7">
+                  <h3 className="mb-3 text-xl font-semibold tracking-tight text-gray-950 dark:text-white">
                     {selected.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-5">
+                  <p className="mb-6 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                     {selected.description}
                   </p>
 
                   {/* All tech */}
-                  <div className="flex flex-wrap gap-1.5 mb-6">
-                    {selected.tech.map((tech, i) => {
+                  <div className="mb-6 flex flex-wrap gap-1.5">
+                    {selected.tech.map((tech) => {
                       const Icon = techIcons[tech];
                       return (
-                        <span key={i} className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-white/5 rounded-md border border-gray-200 dark:border-white/10">
+                        <span
+                          key={tech}
+                          className="flex items-center gap-1.5 rounded-md border border-black/[0.07] bg-black/[0.02] px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-gray-400"
+                        >
                           {Icon && <span className="opacity-70">{Icon}</span>}
                           {tech}
                         </span>
@@ -444,7 +502,7 @@ export default function Projects() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-3 pt-4 border-t border-gray-100 dark:border-white/5">
+                  <div className="flex items-center gap-3 border-t border-black/[0.06] pt-5 dark:border-white/[0.07]">
                     {selected.demoUrl && (
                       <motion.a
                         href={selected.demoUrl}
@@ -452,7 +510,7 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.04, transition: { duration: 0.15, delay: 0 } }}
                         whileTap={{ scale: 0.96, transition: { duration: 0.1, delay: 0 } }}
-                        className="flex items-center gap-2 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-black rounded-xl text-sm font-medium shadow-lg"
+                        className="flex items-center gap-2 rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white shadow-lg dark:bg-white dark:text-black"
                       >
                         <ExternalLink size={14} />
                         Live Demo
@@ -465,7 +523,7 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.04, transition: { duration: 0.15, delay: 0 } }}
                         whileTap={{ scale: 0.96, transition: { duration: 0.1, delay: 0 } }}
-                        className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/10 text-gray-900 dark:text-white rounded-xl text-sm font-medium border border-gray-200 dark:border-white/10 transition-colors duration-300"
+                        className="flex items-center gap-2 rounded-full border border-black/[0.07] px-4 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 dark:border-white/10 dark:text-white"
                       >
                         <Github size={14} />
                         Source Code
@@ -473,7 +531,7 @@ export default function Projects() {
                     )}
                     <button
                       onClick={() => setSelected(null)}
-                      className="ml-auto text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                      className="ml-auto font-mono text-[11px] uppercase tracking-[0.14em] text-gray-400 transition-colors hover:text-gray-700 dark:hover:text-gray-200"
                     >
                       Close
                     </button>

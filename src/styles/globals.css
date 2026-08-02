@@ -3,25 +3,164 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #09090b;
+  }
+
+  html.dark {
+    --background: #000000;
+    --foreground: #fafafa;
+    @apply bg-black text-gray-100;
+  }
+
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
-  html.dark {
-    @apply bg-gray-900 text-gray-100;
+
+  body {
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-sky-500/25 text-sky-950;
+  }
+  .dark ::selection {
+    @apply bg-sky-400/25 text-sky-50;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(14 165 233 / 0.8);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Scrollbar — thin, neutral, works in both themes */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(120 120 130 / 0.32) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(120 120 130 / 0.3);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(120 120 130 / 0.5);
   }
 }
 
 @layer components {
-  .section-title {
-    @apply text-3xl font-bold text-gray-800 mb-8 flex items-center space-x-2;
+  /* ── Surfaces ─────────────────────────────────────────────────────────── */
+  .surface {
+    @apply relative rounded-2xl border border-black/[0.07] bg-white/60 backdrop-blur-xl
+           dark:border-white/[0.07] dark:bg-white/[0.025];
   }
-  
-  .card {
-    @apply bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105;
+
+  .surface-hover {
+    @apply transition-colors duration-300 hover:border-sky-500/30 dark:hover:border-sky-400/25;
   }
-  
-  .input-field {
-    @apply w-full p-3 rounded-lg border border-gray-300 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none;
+
+  /* Cursor-tracking glow. Pair with `onSpotlightMove` from components/ui/spotlight. */
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      340px circle at var(--mx, 50%) var(--my, -20%),
+      rgb(14 165 233 / 0.14),
+      transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
   }
-  
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  /* ── Typography helpers ───────────────────────────────────────────────── */
+  .eyebrow {
+    @apply font-mono text-[10px] font-medium uppercase tracking-[0.22em] sm:text-[11px];
+  }
+
+  .hairline {
+    @apply h-px bg-gradient-to-r from-black/[0.12] to-transparent dark:from-white/[0.15];
+  }
+
+  /* Static accent gradient — no looping shimmer */
+  .text-sheen {
+    background-image: linear-gradient(
+      104deg,
+      var(--sheen-base) 28%,
+      var(--sheen-hi) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    --sheen-base: #09090b;
+    --sheen-hi: #0ea5e9;
+  }
+  .dark .text-sheen {
+    --sheen-base: #fafafa;
+    --sheen-hi: #7dd3fc;
+  }
+
+  /* ── Motion utilities ─────────────────────────────────────────────────── */
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 6%,
+      black 94%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 6%,
+      black 94%,
+      transparent
+    );
+  }
+
+  /* Film grain — kills the flat "generated gradient" look */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .dark .grain::after {
+    opacity: 0.06;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgb(120 120 130 / 0.25);
+    border-radius: 9999px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
