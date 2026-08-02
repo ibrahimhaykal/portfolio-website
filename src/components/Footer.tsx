@@ -43,13 +43,6 @@ const bottomVariants = {
   },
 };
 
-const heartTransition = {
-  duration: 0.8,
-  repeat: Infinity,
-  repeatDelay: 1,
-  ease: "easeInOut" as const,
-};
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Footer() {
@@ -86,11 +79,11 @@ export default function Footer() {
         >
           {/* Brand */}
           <motion.div variants={footerColVariants} className="text-center lg:text-left flex-1">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1 tracking-tight">
-              Ibrahim Haykal
+            <h3 className="text-xl font-semibold text-gray-950 dark:text-white mb-1.5 tracking-tightest">
+              Ibrahim Haykal Alatas
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
-              System Engineer | Full Stack Developer
+            <p className="eyebrow text-gray-500 dark:text-gray-400">
+              Full Stack Developer · S.Tr.Kom
             </p>
           </motion.div>
 
@@ -126,7 +119,7 @@ export default function Footer() {
                 variants={socialItem}
                 whileHover={{ scale: 1.15, transition: { duration: 0.15, delay: 0 } }}
                 whileTap={{ scale: 0.9, transition: { duration: 0.1, delay: 0 } }}
-                className="p-2.5 bg-white/40 dark:bg-white/5 backdrop-blur-md rounded-xl text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-white/80 dark:hover:bg-white/10 transition-colors duration-300 border border-gray-200/50 dark:border-white/5 flex-shrink-0"
+                className="p-2.5 bg-white/50 dark:bg-white/[0.03] backdrop-blur-md rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-950 dark:hover:text-white hover:border-sky-500/30 transition-colors duration-300 border border-black/[0.06] dark:border-white/[0.07] flex-shrink-0"
               >
                 <social.icon size={18} />
               </motion.a>
@@ -151,12 +144,7 @@ export default function Footer() {
             whileHover={{ scale: 1.05, transition: { duration: 0.18, delay: 0 } }}
           >
             <span>Made with</span>
-            <motion.div
-              animate={{ scale: [1, 1.25, 1] }}
-              transition={heartTransition}
-            >
-              <Heart size={12} className="fill-red-500 text-red-500" />
-            </motion.div>
+            <Heart size={12} className="fill-red-500 text-red-500" />
             <span>in Jakarta</span>
           </motion.div>
         </motion.div>

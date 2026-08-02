@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Moon, Sun, Home, User, Code, Briefcase, Mail, Menu, X } from "lucide-react";
+import { Moon, Sun, Home, User, Code, Briefcase, Mail, Menu, X, FileText, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ─── Variants (outside component — stable reference) ──────────────────────────
@@ -156,12 +156,18 @@ export default function Sidebar() {
             </motion.div>
 
             <div className="text-center">
-              <h2 className="text-gray-900 dark:text-white font-semibold text-sm tracking-wide">
+              <h2 className="text-gray-950 dark:text-white font-semibold text-[15px] tracking-tight">
                 Ibrahim Haykal
               </h2>
-              <p className="text-gray-500 dark:text-gray-400 text-xs mt-1 font-medium">
-                System Engineer
+              <p className="eyebrow text-gray-500 dark:text-gray-400 mt-1.5">
+                Full Stack Developer
               </p>
+              <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1">
+                <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-500" />
+                <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">
+                  Open to work
+                </span>
+              </div>
             </div>
           </div>
 
@@ -182,22 +188,29 @@ export default function Sidebar() {
                     variants={navItemVariants}
                     onClick={() => scrollToSection(item.id)}
                     whileHover={{ x: 3, transition: { duration: 0.15, delay: 0 } }}
-                    className={`relative w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-300 group ${
+                    className={`relative w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors duration-300 group ${
                       isActive
-                        ? "text-black dark:text-white bg-black/5 dark:bg-white/10"
-                        : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                        ? "text-gray-950 dark:text-white"
+                        : "text-gray-500 dark:text-gray-400 hover:text-gray-950 dark:hover:text-white hover:bg-black/[0.03] dark:hover:bg-white/[0.04]"
                     }`}
                   >
+                    {isActive && (
+                      <motion.span
+                        layoutId="navPill"
+                        transition={{ type: "spring", stiffness: 340, damping: 34 }}
+                        className="absolute inset-0 rounded-xl bg-black/[0.055] ring-1 ring-inset ring-black/[0.06] dark:bg-white/[0.08] dark:ring-white/10"
+                      />
+                    )}
                     <Icon
-                      size={18}
+                      size={17}
                       strokeWidth={2}
-                      className={`transition-colors ${isActive ? "text-sky-500" : "group-hover:text-sky-500"}`}
+                      className={`relative z-10 transition-colors ${isActive ? "text-sky-500" : "group-hover:text-sky-500"}`}
                     />
-                    <span className="text-sm font-medium">{item.name}</span>
+                    <span className="relative z-10 text-sm font-medium">{item.name}</span>
                     {isActive && (
                       <motion.div
                         layoutId="activeDot"
-                        className="absolute right-3 w-1.5 h-1.5 rounded-full bg-sky-500"
+                        className="absolute right-3 z-10 w-1.5 h-1.5 rounded-full bg-sky-500"
                       />
                     )}
                   </motion.button>
@@ -206,8 +219,26 @@ export default function Sidebar() {
             </motion.div>
           </nav>
 
-          {/* Dark Mode Toggle */}
-          <div className="p-4 border-t border-black/5 dark:border-white/5">
+          {/* Resume + Dark Mode Toggle */}
+          <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
+            <motion.a
+              href="/cv/Ibrahim_Haykal_Alatas_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02, transition: { duration: 0.15, delay: 0 } }}
+              whileTap={{ scale: 0.97, transition: { duration: 0.1, delay: 0 } }}
+              className="group flex w-full items-center justify-between rounded-xl border border-sky-500/20 bg-sky-500/[0.07] px-4 py-2.5 text-sky-700 transition-colors duration-300 hover:bg-sky-500/[0.14] dark:text-sky-300"
+            >
+              <span className="flex items-center gap-2">
+                <FileText size={15} />
+                <span className="text-xs font-semibold">Resume</span>
+              </span>
+              <ArrowUpRight
+                size={14}
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </motion.a>
+
             <motion.button
               onClick={toggleDarkMode}
               whileHover={{ scale: 1.02, transition: { duration: 0.15, delay: 0 } }}
@@ -246,8 +277,8 @@ export default function Sidebar() {
               </div>
             </div>
             <div>
-              <h2 className="text-gray-900 dark:text-white font-medium text-sm">Ibrahim Haykal</h2>
-              <p className="text-gray-500 dark:text-gray-400 text-[10px] tracking-wide uppercase font-medium">System Engineer</p>
+              <h2 className="text-gray-950 dark:text-white font-semibold text-sm tracking-tight">Ibrahim Haykal</h2>
+              <p className="eyebrow text-gray-500 dark:text-gray-400">Full Stack Developer</p>
             </div>
           </div>
 
