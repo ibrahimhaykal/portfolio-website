@@ -24,7 +24,7 @@ This content may be quoted and used freely with attribution.
 ## Education
 
 - [Politeknik STMI Jakarta, Ministry of Industry](https://stmi.ac.id): Applied Bachelor of Computer Science (S.Tr.Kom), Industrial Automotive Information Systems. Sep 2022 – Jul 2026. GPA 3.77/4.00. Graduated.
-- Thesis: *Implementation of a Steel Sheet Monitoring Information System to Improve Material Search Efficiency at PT Gemala Kempa Daya* — reduced warehouse material search and information retrieval time by 76.10% (103.00 to 24.62 minutes), validated via time study over 30 measurement cycles.
+- [Thesis: Implementation of a Steel Sheet Monitoring Information System to Improve Material Search Efficiency at PT Gemala Kempa Daya](http://repository.stmi.ac.id/id/eprint/2840/): Published in the Politeknik STMI Jakarta institutional repository. Reduced warehouse material search and information retrieval time by 76.10% (103.00 to 24.62 minutes), validated via time study over 30 measurement cycles.
 - Certification: Database Administrator — BNSP National Professional Certification.
 
 ## Experience

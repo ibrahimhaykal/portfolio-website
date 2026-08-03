@@ -186,6 +186,28 @@ export default function RootLayout({
         ]
       },
       {
+        "@type": "Thesis",
+        "@id": `${SITE_URL}/#thesis`,
+        "name": "Implementation of a Steel Sheet Monitoring Information System to Improve Material Search Efficiency at PT Gemala Kempa Daya",
+        "url": "http://repository.stmi.ac.id/id/eprint/2840/",
+        "author": { "@id": `${SITE_URL}/#person` },
+        "inSupportOf": "Applied Bachelor of Computer Science (S.Tr.Kom), Industrial Automotive Information Systems",
+        "datePublished": "2026",
+        "inLanguage": "id",
+        "learningResourceType": "Undergraduate thesis",
+        "abstract": "Implementation of a steel sheet warehouse monitoring information system at PT Gemala Kempa Daya. Reduced warehouse material search and information retrieval time by 76.10%, from 103.00 minutes to 24.62 minutes, validated via time study across 30 measurement cycles.",
+        "about": [
+          "Warehouse Monitoring System",
+          "Steel Sheet Inventory Traceability",
+          "Manufacturing Information Systems",
+          "Time Study / Work Measurement"
+        ],
+        "publisher": {
+          "@type": "CollegeOrUniversity",
+          "name": "Politeknik STMI Jakarta, Ministry of Industry"
+        }
+      },
+      {
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
         "url": SITE_URL,
