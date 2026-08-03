@@ -212,7 +212,7 @@ export default function Hero({ ready = true }: HeroProps) {
           <div className="surface inline-flex items-center gap-2.5 rounded-full py-1.5 pl-2.5 pr-4">
             <span className="h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500" />
             <span className="eyebrow text-gray-600 dark:text-gray-300">
-              Full Stack Dev @ PT Data Teknologi Terintegrasi
+              Full Stack Dev @ Datapolis
             </span>
           </div>
         </motion.div>

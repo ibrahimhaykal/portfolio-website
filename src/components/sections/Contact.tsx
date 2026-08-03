@@ -288,12 +288,17 @@ export default function Contact() {
               <motion.button
                 type="submit"
                 disabled={status === "sending"}
+                aria-label={status === "sending" ? "Sending message" : "Send message"}
+                aria-busy={status === "sending"}
                 whileHover={{ scale: 1.015, transition: { duration: 0.18, delay: 0 } }}
                 whileTap={{ scale: 0.985, transition: { duration: 0.1, delay: 0 } }}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-950 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-gray-900/10 transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-black dark:shadow-white/10"
               >
                 {status === "sending" ? (
-                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white dark:border-black/20 dark:border-t-black" />
+                  <div
+                    aria-hidden="true"
+                    className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white dark:border-black/20 dark:border-t-black"
+                  />
                 ) : (
                   <>
                     <Send size={16} />

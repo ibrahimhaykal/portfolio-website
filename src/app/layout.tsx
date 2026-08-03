@@ -120,6 +120,7 @@ export default function RootLayout({
         "worksFor": {
           "@type": "Organization",
           "name": "PT Data Teknologi Terintegrasi",
+          "alternateName": "Datapolis",
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Jakarta",
