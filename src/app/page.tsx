@@ -10,6 +10,7 @@ import Projects from "../components/sections/Projects";
 import Experience from "../components/sections/Experience";
 import Contact from "../components/sections/Contact";
 import Footer from "../components/Footer";
+import WebMCP from "../components/WebMCP";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -64,6 +65,9 @@ export default function Home() {
             className="fixed top-0 left-0 right-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-sky-500 via-cyan-400 to-indigo-500"
             aria-hidden
           />
+
+          {/* Tool surface buat AI agent (WebMCP) — nggak render apa-apa */}
+          <WebMCP />
 
           {/* Sidebar (z-50 biar di atas background) */}
           <Sidebar />

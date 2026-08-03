@@ -134,11 +134,13 @@ export default function Sidebar() {
 
           {/* Profile */}
           <div className="p-6 border-b border-black/5 dark:border-white/5">
-            <motion.div
+            <motion.button
+              type="button"
               variants={profileVariants}
               initial="hidden"
               animate="visible"
-              className="relative w-16 h-16 mx-auto mb-4 cursor-pointer group"
+              aria-label="Go to top of page"
+              className="relative block w-16 h-16 mx-auto mb-4 cursor-pointer group"
               onClick={() => scrollToSection("home")}
             >
               <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white dark:border-zinc-800 shadow-sm">
@@ -153,7 +155,7 @@ export default function Sidebar() {
               <div className="absolute -bottom-1 -right-1 z-50 w-6 h-6 bg-white dark:bg-zinc-900 border-2 border-white dark:border-zinc-900 rounded-full flex items-center justify-center shadow-sm">
                 <span className="text-xs leading-none filter-none">👋🏼</span>
               </div>
-            </motion.div>
+            </motion.button>
 
             <div className="text-center">
               <h2 className="text-gray-950 dark:text-white font-semibold text-[15px] tracking-tight">
@@ -284,6 +286,9 @@ export default function Sidebar() {
 
           <motion.button
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
             whileHover={{ scale: 1.08, transition: { duration: 0.15, delay: 0 } }}
             whileTap={{ scale: 0.92, transition: { duration: 0.1, delay: 0 } }}
             className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-white transition-colors"
@@ -323,6 +328,8 @@ export default function Sidebar() {
               initial="hidden"
               animate="visible"
               exit="exit"
+              id="mobile-navigation"
+              aria-label="Mobile navigation"
               className="lg:hidden fixed right-0 top-[60px] bottom-0 w-64 bg-white dark:bg-zinc-950 border-l border-black/5 dark:border-white/10 z-50 shadow-2xl"
             >
               <nav className="p-4 h-full flex flex-col">

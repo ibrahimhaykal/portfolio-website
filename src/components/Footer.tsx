@@ -83,7 +83,7 @@ export default function Footer() {
               Ibrahim Haykal Alatas
             </h3>
             <p className="eyebrow text-gray-500 dark:text-gray-400">
-              Full Stack Developer · S.Tr.Kom
+              Full Stack Developer
             </p>
           </motion.div>
 

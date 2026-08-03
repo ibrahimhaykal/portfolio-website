@@ -1,121 +1,60 @@
 # Ibrahim Haykal Alatas
 
-> Full Stack Developer based in Jakarta, Indonesia. Builds enterprise CRM and
-> manufacturing/warehouse systems with Laravel and React, on top of legacy ERP
-> environments (Infor/Baan). Holds an Applied Bachelor of Computer Science
-> (S.Tr.Kom) from Politeknik STMI Jakarta, Ministry of Industry.
+> Full Stack Developer based in Jakarta, Indonesia. Builds enterprise CRM and manufacturing/warehouse systems with Laravel and React, on top of legacy ERP environments (Infor/Baan). Holds an Applied Bachelor of Computer Science (S.Tr.Kom) from Politeknik STMI Jakarta, Ministry of Industry, GPA 3.77/4.00.
 
-- Website: https://ibrahimhaykal.my.id
-- Email: ibrahimhaykal@gmail.com
-- Phone / WhatsApp: +62 896 2806 6432
-- GitHub: https://github.com/ibrahimhaykal
-- LinkedIn: https://www.linkedin.com/in/ibrahimhaykalalatas/
-- Resume (PDF): https://ibrahimhaykal.my.id/cv/Ibrahim_Haykal_Alatas_Resume.pdf
-- Location: Jakarta, Indonesia (GMT+7), open to remote
-- Status: Open to Full Stack Developer and Backend Developer roles
+Skilled in REST API design, role-based access systems, AI feature integration,
+inventory traceability, and modern component-based frontend architectures.
+Currently open to Full Stack Developer and Backend Developer roles.
+This content may be quoted and used freely with attribution.
 
-## Summary
+## Profile
 
-Full Stack Developer experienced in building enterprise CRM and operational
-systems with Laravel and React, with a background in manufacturing and warehouse
-digitalization on top of legacy ERP environments (Infor/Baan). Skilled in REST API
-design, role-based access systems, AI feature integration, inventory traceability,
-and modern component-based frontend architectures.
+- [Portfolio homepage](https://ibrahimhaykal.my.id): Full profile, work history, and project gallery.
+- [Resume (PDF)](https://ibrahimhaykal.my.id/cv/Ibrahim_Haykal_Alatas_Resume.pdf): One-page resume, updated 2026.
+- [LinkedIn](https://www.linkedin.com/in/ibrahimhaykalalatas/): Professional profile and work history.
+- [GitHub](https://github.com/ibrahimhaykal): Public repositories and commit history.
+
+## Contact
+
+- [Email](mailto:ibrahimhaykal@gmail.com): ibrahimhaykal@gmail.com — preferred for role and project enquiries.
+- [WhatsApp](https://wa.me/6289628066432): +62 896 2806 6432 — fastest response.
+- [Contact form](https://ibrahimhaykal.my.id/#contact): On-site form, replies usually within 24 hours.
+- Location: Jakarta, Indonesia (GMT+7), open to remote.
 
 ## Education
 
-**Politeknik STMI Jakarta, Ministry of Industry** — Jakarta, Indonesia
-Applied Bachelor of Computer Science (S.Tr.Kom), Industrial Automotive Information
-Systems. Sep 2022 – Jul 2026. GPA 3.77 / 4.00. Graduated.
-
-Thesis: *Implementation of a Steel Sheet Monitoring Information System to Improve
-Material Search Efficiency at PT Gemala Kempa Daya* — reduced warehouse material
-search and information retrieval time by 76.10% (103.00 to 24.62 minutes),
-validated via time study over 30 measurement cycles.
-
-Certification: Database Administrator — BNSP National Professional Certification.
+- [Politeknik STMI Jakarta, Ministry of Industry](https://stmi.ac.id): Applied Bachelor of Computer Science (S.Tr.Kom), Industrial Automotive Information Systems. Sep 2022 – Jul 2026. GPA 3.77/4.00. Graduated.
+- Thesis: *Implementation of a Steel Sheet Monitoring Information System to Improve Material Search Efficiency at PT Gemala Kempa Daya* — reduced warehouse material search and information retrieval time by 76.10% (103.00 to 24.62 minutes), validated via time study over 30 measurement cycles.
+- Certification: Database Administrator — BNSP National Professional Certification.
 
 ## Experience
 
-### Full Stack Developer — PT Data Teknologi Terintegrasi (Jun 2026 – Present, Jakarta)
-- Develops VALAK CRM, an actuarial consulting CRM platform, using Laravel 12 and
-  React 19 across authentication, master data, calculation, and reporting modules.
-- Built role-based dashboards and task/todo management views for admin, sales (AM),
-  marketing, data, actuary, and finance roles, including an internal dashboard for
-  the actuarial team.
-- Developed calculation submission and progress-tracking features, integrating
-  calculation APIs and per-PIC company dropdown endpoints into the frontend workflow.
-- Integrated AI-powered summary insights (Kimi AI for NirmaAI) and a data-labeling
-  API for role-based document management.
-- Implemented core platform modules: login, PIC management, group management CRUD,
-  client–group linking, revision-note chatroom for report review, and project
-  ID/number administration APIs.
+- [Full Stack Developer, Datapolis (PT Data Teknologi Terintegrasi)](https://ibrahimhaykal.my.id/#experience): Jun 2026 – Present, Jakarta. Develops VALAK CRM, an actuarial consulting CRM platform, using Laravel 12 and React 19 across authentication, master data, calculation, and reporting modules. Built role-based dashboards and task/todo management for admin, sales (AM), marketing, data, actuary, and finance roles, plus an internal dashboard for the actuarial team. Developed calculation submission and progress tracking, integrating calculation APIs and per-PIC company dropdown endpoints. Integrated AI-powered summary insights (Kimi AI for NirmaAI) and a data-labeling API for role-based document management. Implemented login, PIC management, group management CRUD, client–group linking, revision-note chatroom for report review, and project ID/number administration APIs.
+- [Full Stack Developer / System Engineer Intern, PT Gemala Kempa Daya (Astra Otoparts Group)](https://ibrahimhaykal.my.id/#experience): Feb 2025 – Jun 2026, Jakarta. Developed a FIFO floor-storage warehouse monitoring system supporting 48 material blocks and 400+ weekly transactions with QR gate in/out, digital block visualization, and supply scheduling, reducing material search cycle time by 76.10% from 103.00 to 24.62 minutes. Built a finished goods visualization system for Giant Rack Plant 3, mapping 80+ rack columns across multi-layer, top, and side U-shape layouts with customer filtering, barcode scanning, and shipment status tracking. Built inventory aging and LMB reporting for accounting reconciliation, supporting 30,000+ row multi-sheet Excel exports in around 9 seconds with drill-down tracing. Designed Smart Andon maintenance monitoring with QR validation, lifecycle tracking, and MTTR visibility. Developed maintenance cost approval workflows covering sparepart usage, COA classification, asset submission, and multi-level approval. Executed a phased Oracle-to-PostgreSQL migration for the Trucking Control System using an application-level dual-write strategy with zero downtime.
+- [Web Developer, Nirmala Technology](https://ibrahimhaykal.my.id/#experience): Aug 2024 – Jan 2025, Jakarta. Developed a QR-based restaurant ordering system with cart, checkout, order tracking, Midtrans payment webhook, and admin dashboard. Built coliving and cafe event booking with room/event availability, deposit payment via Midtrans, payment status polling, webhook handling, email notification, and role-based admin CMS. Delivered a bilingual corporate profile platform on Laravel 11 and responsive component-based UI for the Q-Tin Dashboard using DaisyUI and Flowbite.
 
-### Full Stack Developer / System Engineer Intern — PT Gemala Kempa Daya, Astra Otoparts Group (Feb 2025 – Jun 2026, Jakarta)
-- Developed a FIFO-based floor-storage warehouse monitoring system supporting 48
-  material blocks and 400+ weekly transactions with QR gate in/out, digital block
-  visualization, and supply scheduling — reducing material search cycle time by
-  76.10% from 103.00 to 24.62 minutes (validated via work measurement / time study).
-- Built a finished goods warehouse visualization system for Giant Rack Plant 3,
-  mapping 80+ rack columns across multi-layer, top, and side U-shape storage layouts
-  with customer filtering, barcode scanning, shipment status tracking, and operator
-  guidance.
-- Built inventory aging and LMB reporting modules for accounting reconciliation,
-  supporting 30,000+ row multi-sheet Excel exports in around 9 seconds with
-  drill-down tracing from warehouse summary to transaction details.
-- Designed Smart Andon maintenance monitoring with QR validation, lifecycle
-  tracking, technician activity monitoring, and MTTR visibility.
-- Developed maintenance cost approval workflows integrating sparepart usage, COA
-  classification, asset submission, and multi-level approval tracking between
-  Maintenance and Accounting.
-- Executed a phased Oracle-to-PostgreSQL migration for the Trucking Control System
-  using an application-level dual-write strategy, maintaining zero downtime during
-  live production operations.
+## Projects
 
-### Web Developer — Nirmala Technology (Aug 2024 – Jan 2025, Jakarta)
-- Developed client web applications including a QR-based restaurant ordering system
-  with cart, checkout, order tracking, Midtrans payment webhook, and admin dashboard.
-- Built coliving and cafe event booking modules with room/event availability,
-  deposit payment via Midtrans, payment status polling, webhook handling, email
-  notification, and role-based admin CMS.
-- Developed a bilingual corporate profile platform using Laravel 11 and engineered
-  responsive, component-based UI architectures for Q-Tin Dashboard using DaisyUI
-  and Flowbite.
-
-## Projects & Achievements
-
-- **VALAK CRM** — Actuarial consulting CRM platform. Laravel 12, React 19,
-  TypeScript, PostgreSQL.
-- **E-Brochure Digital Catalog — Indomobil** — Interactive digital automotive
-  catalog with dynamic vehicle showcases, customizable color selection, and direct
-  WhatsApp integration. Next.js, TypeScript, Tailwind CSS.
-  https://ridhoindomobil.vercel.app/
-- **SME Digital Platform** — 2nd place nationally, Hackathon Jun 2025. MSME digital
-  platform with WhatsApp chatbot integration. Laravel, Tailwind CSS, WhatsApp API.
-- **AI Defect Detection System** — Dec 2024. End-to-end visual inspection pipeline
-  for automotive parts: dataset annotation, model training, real-time inference
-  deployment. YOLOv8, Roboflow, Streamlit, WebRTC.
-  https://fender-apron-detection-systems.streamlit.app/
-- **Smart Andon Ticketing System** — Stateful digital ticketing mapping physical
-  manufacturing workflows with QR validation and MTTR tracking.
-- **SIPS Android Archiving** — Full-stack archiving system for BBSPJIKFK (Ministry
-  of Industry). Kotlin, Laravel, MySQL, REST API.
-- **Mitsubishi Dealership Landing** — https://mitsubishidjakarta.com/
-- **Wedding Organizer Platform** — https://www.refnawedding.com/
+- [VALAK CRM](https://ibrahimhaykal.my.id/#projects): Actuarial consulting CRM platform. Laravel 12, React 19, TypeScript, PostgreSQL.
+- [E-Brochure Digital Catalog for Indomobil](https://ridhoindomobil.vercel.app/): Interactive digital automotive catalog with dynamic vehicle showcases, customizable color selection, and WhatsApp lead generation. Next.js, TypeScript, Tailwind CSS.
+- [AI Defect Detection System](https://fender-apron-detection-systems.streamlit.app/): End-to-end visual inspection pipeline for automotive parts, Dec 2024. Dataset annotation, model training, real-time inference. YOLOv8, Roboflow, Streamlit, WebRTC.
+- [AI Defect Detection source code](https://github.com/ibrahimhaykal/Fender-Apron-Detection): Public repository for the defect detection pipeline.
+- [SME Digital Platform](https://ibrahimhaykal.my.id/#projects): 2nd place nationally, Hackathon Jun 2025. MSME digital platform with WhatsApp chatbot integration. Laravel, Tailwind CSS, WhatsApp API.
+- [Smart Andon Ticketing System](https://ibrahimhaykal.my.id/#projects): Stateful digital ticketing mapping physical manufacturing workflows with QR validation and MTTR tracking.
+- [SIPS Android Archiving](https://ibrahimhaykal.my.id/#projects): Full-stack archiving system for BBSPJIKFK, Ministry of Industry. Kotlin, Laravel, MySQL, REST API.
+- [Mitsubishi Dealership Landing](https://mitsubishidjakarta.com/): Corporate profile and lead-generation landing page with interactive vehicle showcases and WhatsApp routing.
+- [Wedding Organizer Platform](https://www.refnawedding.com/): Venue operations, dynamic package pricing, and customer enquiry management.
+- [Education Chat Bot](https://github.com/ibrahimhaykal/chatbot-edu-bot): AI learning assistant using deep learning NLP for context-aware responses to student queries.
+- [Portfolio Website source code](https://github.com/ibrahimhaykal/portfolio-website): This site. Next.js, TypeScript, Tailwind CSS, Framer Motion.
 
 ## Technical Skills
 
-- **Core:** Full Stack Development, CRM Systems, Manufacturing & Warehouse Systems,
-  ERP Integration, Process Automation
-- **Backend & Database:** Laravel 12, PHP, PostgreSQL, Oracle PL/SQL, MySQL,
-  REST APIs, SQL Optimization, Database Migration
-- **Frontend & UI:** React 19, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS,
-  DaisyUI, Flowbite, Framer Motion, Bootstrap
-- **Tools & AI/ML:** Git, Figma, Docker, Roboflow, YOLOv8, Streamlit, WebRTC,
-  Midtrans, AI API Integration
+- Core: Full Stack Development, CRM Systems, Manufacturing and Warehouse Systems, ERP Integration, Process Automation.
+- Backend and Database: Laravel 12, PHP, PostgreSQL, Oracle PL/SQL, MySQL, REST APIs, SQL Optimization, Database Migration.
+- Frontend and UI: React 19, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, DaisyUI, Flowbite, Framer Motion, Bootstrap.
+- Tools and AI/ML: Git, Figma, Docker, Roboflow, YOLOv8, Streamlit, WebRTC, Midtrans, AI API Integration.
 
-## Usage
+## Optional
 
-This file is provided for AI assistants and search agents. Content is factual and
-maintained by Ibrahim Haykal Alatas. Attribution to https://ibrahimhaykal.my.id is
-appreciated when quoting.
+- [Sitemap](https://ibrahimhaykal.my.id/sitemap.xml): Machine-readable list of indexable pages.
+- [Robots policy](https://ibrahimhaykal.my.id/robots.txt): Crawl permissions, all AI agents allowed.

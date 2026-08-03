@@ -10,6 +10,7 @@ import {
   SiPostgresql, SiOracle, SiMysql, SiNextdotjs,
   SiTypescript, SiTailwindcss, SiKotlin, SiBootstrap
 } from "react-icons/si";
+import type { IconType } from "react-icons";
 import SectionHeading from "../ui/SectionHeading";
 import { onSpotlightMove } from "../ui/spotlight";
 
@@ -56,31 +57,32 @@ const educationVariants = {
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function Experience() {
-  const techIcons: Record<string, JSX.Element> = {
-    Laravel: <FaLaravel />,
-    PHP: <FaPhp />,
-    "Node.js": <FaNodeJs />,
-    React: <FaReact />,
-    JavaScript: <FaJs />,
-    Python: <FaPython />,
-    Figma: <FaFigma />,
-    Git: <FaGitAlt />,
-    Docker: <FaDocker />,
-    Database: <FaDatabase />,
-    PostgreSQL: <SiPostgresql />,
-    Oracle: <SiOracle />,
-    MySQL: <SiMysql />,
-    "Next.js": <SiNextdotjs />,
-    TypeScript: <SiTypescript />,
-    "Bootstrap": <SiBootstrap />,
-    "Tailwind CSS": <SiTailwindcss />,
-    Kotlin: <SiKotlin />,
+  // Komponen, bukan element — biar tiap svg bisa dikasih aria-hidden sendiri
+  const techIcons: Record<string, IconType> = {
+    Laravel: FaLaravel,
+    PHP: FaPhp,
+    "Node.js": FaNodeJs,
+    React: FaReact,
+    JavaScript: FaJs,
+    Python: FaPython,
+    Figma: FaFigma,
+    Git: FaGitAlt,
+    Docker: FaDocker,
+    Database: FaDatabase,
+    PostgreSQL: SiPostgresql,
+    Oracle: SiOracle,
+    MySQL: SiMysql,
+    "Next.js": SiNextdotjs,
+    TypeScript: SiTypescript,
+    "Bootstrap": SiBootstrap,
+    "Tailwind CSS": SiTailwindcss,
+    Kotlin: SiKotlin,
   };
 
   const experiences = [
     {
       role: "Full Stack Developer",
-      company: "PT Data Teknologi Terintegrasi",
+      company: "Datapolis — PT Data Teknologi Terintegrasi",
       period: "Jun 2026 — Present",
       location: "Jakarta, Indonesia",
       current: true,
@@ -247,7 +249,9 @@ export default function Experience() {
                           key={tech}
                           className="flex items-center gap-1.5 rounded-full border border-black/[0.06] dark:border-white/[0.07] px-2.5 py-1 text-[11px] font-medium text-gray-600 dark:text-gray-400"
                         >
-                          {Icon && <span className="text-xs opacity-70">{Icon}</span>}
+                          {Icon && (
+                            <Icon className="text-xs opacity-70" aria-hidden="true" focusable="false" />
+                          )}
                           {tech}
                         </span>
                       );

@@ -146,7 +146,8 @@ export default function About() {
           <p className="text-[17px] sm:text-lg leading-[1.75] text-gray-700 dark:text-gray-300 font-light">
             I&apos;m a{" "}
             <strong className="font-semibold text-gray-950 dark:text-white">Full Stack Developer</strong>{" "}
-            at PT Data Teknologi Terintegrasi, building{" "}
+            at <strong className="font-semibold text-gray-950 dark:text-white">Datapolis</strong>{" "}
+            (PT Data Teknologi Terintegrasi), building{" "}
             <strong className="font-semibold text-gray-950 dark:text-white">VALAK CRM</strong>{" "}
             — an actuarial consulting platform on Laravel 12 and React 19. Before that I spent
             a year and a half inside{" "}
@@ -239,6 +240,8 @@ export default function About() {
                     className="group flex items-center gap-2 rounded-lg border border-black/[0.06] dark:border-white/[0.07] bg-white/50 dark:bg-white/[0.03] px-3 py-2 cursor-default transition-colors duration-300 hover:border-sky-500/30"
                   >
                     <item.icon
+                      aria-hidden="true"
+                      focusable="false"
                       className={`${item.color} text-base grayscale group-hover:grayscale-0 transition-all duration-300`}
                     />
                     <span className="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-950 dark:group-hover:text-white transition-colors">

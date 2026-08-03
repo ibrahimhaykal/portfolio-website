@@ -13,6 +13,7 @@ import {
   SiDaisyui, SiBootstrap
 } from "react-icons/si";
 import Image from "next/image";
+import type { IconType } from "react-icons";
 import SectionHeading from "../ui/SectionHeading";
 import { onSpotlightMove } from "../ui/spotlight";
 
@@ -101,14 +102,15 @@ function monogram(title: string) {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Projects() {
-  const techIcons: Record<string, JSX.Element> = {
-    Laravel: <FaLaravel />, PHP: <FaPhp />, "Node.js": <FaNodeJs />,
-    React: <FaReact />, JavaScript: <FaJs />, Python: <FaPython />,
-    Figma: <FaFigma />, Git: <FaGitAlt />, Docker: <FaDocker />,
-    Database: <FaDatabase />, PostgreSQL: <SiPostgresql />, Oracle: <SiOracle />,
-    MySQL: <SiMysql />, "Next.js": <SiNextdotjs />, TypeScript: <SiTypescript />,
-    "Tailwind CSS": <SiTailwindcss />, Kotlin: <SiKotlin />,
-    DaisyUI: <SiDaisyui />, Bootstrap: <SiBootstrap />,
+  // Komponen, bukan element — biar tiap svg bisa dikasih aria-hidden sendiri
+  const techIcons: Record<string, IconType> = {
+    Laravel: FaLaravel, PHP: FaPhp, "Node.js": FaNodeJs,
+    React: FaReact, JavaScript: FaJs, Python: FaPython,
+    Figma: FaFigma, Git: FaGitAlt, Docker: FaDocker,
+    Database: FaDatabase, PostgreSQL: SiPostgresql, Oracle: SiOracle,
+    MySQL: SiMysql, "Next.js": SiNextdotjs, TypeScript: SiTypescript,
+    "Tailwind CSS": SiTailwindcss, Kotlin: SiKotlin,
+    DaisyUI: SiDaisyui, Bootstrap: SiBootstrap,
   };
 
   const [filter, setFilter] = useState("All");
@@ -362,7 +364,9 @@ export default function Projects() {
                           key={tech}
                           className="flex items-center gap-1 rounded-md border border-black/[0.06] px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:border-white/[0.07] dark:text-gray-400"
                         >
-                          {Icon && <span className="text-xs opacity-70">{Icon}</span>}
+                          {Icon && (
+                            <Icon className="text-xs opacity-70" aria-hidden="true" focusable="false" />
+                          )}
                           {tech}
                         </span>
                       );
@@ -494,7 +498,7 @@ export default function Projects() {
                           key={tech}
                           className="flex items-center gap-1.5 rounded-md border border-black/[0.07] bg-black/[0.02] px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-gray-400"
                         >
-                          {Icon && <span className="opacity-70">{Icon}</span>}
+                          {Icon && <Icon className="opacity-70" aria-hidden="true" focusable="false" />}
                           {tech}
                         </span>
                       );
