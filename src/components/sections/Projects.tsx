@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink, Github, Globe, Smartphone, BrainCircuit, Star, Layout, X, ArrowUpRight } from "lucide-react";
+import { ExternalLink, Github, Globe, Smartphone, BrainCircuit, Star, Layout, X, ArrowUpRight, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaLaravel, FaPhp, FaNodeJs, FaReact, FaJs, FaPython,
@@ -28,6 +28,8 @@ type Project = {
   featured?: boolean;
   demoUrl?: string;
   githubUrl?: string;
+  /** Published paper or thesis backing the project. */
+  paperUrl?: string;
 };
 
 // ─── Variants (outside component — stable reference) ──────────────────────────
@@ -128,6 +130,7 @@ export default function Projects() {
       description: "FIFO floor-storage monitoring for Astra Otoparts Group covering 48 material blocks and 400+ weekly transactions, with QR gate in/out, digital block visualization, and supply scheduling — cutting material search cycle time by 76.10% (103.00 → 24.62 minutes), validated by time study.",
       image: "/projects/warehouse.png",
       tech: ["Laravel", "PostgreSQL", "Oracle", "JavaScript"],
+      paperUrl: "http://repository.stmi.ac.id/id/eprint/2840/",
       category: "Web App", featured: true,
     },
     {
@@ -531,6 +534,19 @@ export default function Projects() {
                       >
                         <Github size={14} />
                         Source Code
+                      </motion.a>
+                    )}
+                    {selected.paperUrl && (
+                      <motion.a
+                        href={selected.paperUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.04, transition: { duration: 0.15, delay: 0 } }}
+                        whileTap={{ scale: 0.96, transition: { duration: 0.1, delay: 0 } }}
+                        className="flex items-center gap-2 rounded-full border border-black/[0.07] px-4 py-2 text-sm font-semibold text-gray-900 transition-colors duration-300 dark:border-white/10 dark:text-white"
+                      >
+                        <FileText size={14} />
+                        Thesis
                       </motion.a>
                     )}
                     <button

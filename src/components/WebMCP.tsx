@@ -40,6 +40,13 @@ const PROFILE = {
   education:
     "Applied Bachelor of Computer Science (S.Tr.Kom), Industrial Automotive Information Systems — Politeknik STMI Jakarta, Ministry of Industry. Sep 2022 – Jul 2026, GPA 3.77/4.00.",
   certification: "Database Administrator — BNSP National Professional Certification",
+  thesis: {
+    title:
+      "Implementation of a Steel Sheet Monitoring Information System to Improve Material Search Efficiency at PT Gemala Kempa Daya",
+    result:
+      "Reduced warehouse material search and information retrieval time by 76.10% (103.00 to 24.62 minutes), validated via time study over 30 measurement cycles.",
+    url: "http://repository.stmi.ac.id/id/eprint/2840/",
+  },
   focus:
     "Enterprise CRM, manufacturing and warehouse systems, ERP integration, REST API design, role-based access control, database migration",
   stack: {

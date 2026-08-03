@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, MapPin, GraduationCap, BadgeCheck } from "lucide-react";
+import { Calendar, MapPin, GraduationCap, BadgeCheck, FileText, ArrowUpRight } from "lucide-react";
 import {
   FaLaravel, FaPhp, FaNodeJs, FaReact, FaJs, FaPython,
   FaFigma, FaGitAlt, FaDocker, FaDatabase
@@ -316,6 +316,21 @@ export default function Experience() {
               <span className="font-medium text-gray-900 dark:text-gray-200">76.10%</span>{" "}
               (103.00 → 24.62 minutes), validated via time study across 30 measurement cycles.
             </p>
+
+            <a
+              href="http://repository.stmi.ac.id/id/eprint/2840/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-sky-600 transition-colors hover:text-sky-500 dark:text-sky-400"
+            >
+              <FileText size={12} aria-hidden="true" />
+              Read the full thesis — STMI Repository
+              <ArrowUpRight
+                size={12}
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </a>
           </div>
 
           {/* Certification */}
