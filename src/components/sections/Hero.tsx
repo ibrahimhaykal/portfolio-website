@@ -71,7 +71,24 @@ export default function Hero({ ready = true }: HeroProps) {
         screen hilang — padahal saat itu dia sudah sempat kegambar. Hasilnya
         kedip: kelihatan dulu, baru hilang, baru dianimasikan.
       */
-      if (!reduced) gsap.set("[data-reveal]", { y: 18 });
+      if (!reduced) {
+        gsap.set("[data-reveal]", { y: 18 });
+
+        /*
+          Nilai persen harus dipegang GSAP, bukan diwarisi dari CSS.
+
+          CSS menyembunyikan tiap kata pakai `translateY(110%)`. Waktu GSAP baca
+          posisi awal, browser mengembalikan matriks transform dalam PIKSEL —
+          persen sudah diterjemahkan. Jadi GSAP lihat `yPercent: 0`, lalu
+          diminta menganimasikannya ke 0: nggak gerak sama sekali, dan katanya
+          tetap terdorong ke bawah di balik mask alias nggak pernah muncul.
+
+          Dengan set eksplisit di sini, GSAP tahu nilai awalnya 110% dan bisa
+          benar-benar menganimasikannya ke 0. `y: 0` dipasang biar sisa nilai
+          piksel hasil pembacaan tadi nggak ikut ketambah.
+        */
+        gsap.set("[data-word]", { y: 0, yPercent: 110 });
+      }
 
       if (!ready) return;
 
