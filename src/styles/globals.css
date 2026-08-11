@@ -17,6 +17,9 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    /* Gutter scrollbar dikunci. Loader ngunci scroll body sebentar; tanpa ini
+       scrollbar hilang lalu muncul lagi dan seluruh layout geser ~15px. */
+    scrollbar-gutter: stable;
   }
 
   body {

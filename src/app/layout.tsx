@@ -291,9 +291,16 @@ export default function RootLayout({
     ]
   };
 
+  // Dijalankan sebelum paint pertama, jadi tema udah benar sejak frame nol.
+  // Tanpa ini React baru pasang class `dark` setelah hydrate — hasilnya satu
+  // frame terang sebelum berubah gelap, alias kedip di tiap reload.
+  const themeScript = `(function(){try{var s=localStorage.getItem('darkMode');document.documentElement.classList.toggle('dark',s!=='false')}catch(e){document.documentElement.classList.add('dark')}})()`;
+
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+
         {/* JSON-LD di <head> — crawler yang nggak eksekusi JS tetap kebaca */}
         <script
           type="application/ld+json"

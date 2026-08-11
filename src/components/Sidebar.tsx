@@ -73,14 +73,11 @@ export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
+  // Class `dark` udah dipasang script blocking di layout sebelum paint pertama.
+  // Di sini cuma nyamain state tombol sama kondisi DOM — jangan pasang ulang,
+  // karena itu yang dulu bikin tema loncat satu frame tiap reload.
   useEffect(() => {
-    const isDark = localStorage.getItem("darkMode") !== "false";
-    setDarkMode(isDark);
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    setDarkMode(document.documentElement.classList.contains("dark"));
   }, []);
 
   const toggleDarkMode = () => {
