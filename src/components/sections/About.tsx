@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
 import CountUp from "react-countup";
 import {
   FaLaravel, FaPhp, FaNodeJs, FaReact, FaJs, FaPython,
@@ -9,56 +9,11 @@ import {
 import {
   SiPostgresql, SiOracle, SiMysql, SiNextdotjs,
   SiTypescript, SiTailwindcss, SiBootstrap, SiFramer,
-  SiStreamlit, SiDaisyui
+  SiStreamlit, SiDaisyui, SiPusher, SiLeaflet, SiLaravel
 } from "react-icons/si";
 import SectionHeading from "../ui/SectionHeading";
 import { onSpotlightMove } from "../ui/spotlight";
-
-// ── Variants — parent trigger stagger, child inherit ──
-
-const gridStagger = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.07,
-      delayChildren: 0.08,
-    },
-  },
-};
-
-const cardIn = {
-  hidden: { opacity: 0, y: 18, scale: 0.97 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const chipGrid = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.035 } },
-};
-
-const chipIn = {
-  hidden: { opacity: 0, y: 10, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const panelIn = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
-};
+import { useReveal } from "../../lib/reveal";
 
 // ── Data ──
 
@@ -92,13 +47,16 @@ const stack = [
     ],
   },
   {
-    group: "Frontend & UI",
+    group: "Frontend & Real-time",
     items: [
       { icon: FaReact, name: "React 19", color: "text-cyan-500" },
       { icon: SiNextdotjs, name: "Next.js", color: "text-gray-900 dark:text-white" },
       { icon: SiTypescript, name: "TypeScript", color: "text-blue-600" },
       { icon: FaJs, name: "JavaScript", color: "text-yellow-500" },
       { icon: SiTailwindcss, name: "Tailwind CSS", color: "text-teal-500" },
+      { icon: SiPusher, name: "Pusher", color: "text-violet-500" },
+      { icon: SiLaravel, name: "Laravel Echo", color: "text-red-500" },
+      { icon: SiLeaflet, name: "Leaflet", color: "text-green-600" },
       { icon: SiDaisyui, name: "DaisyUI", color: "text-fuchsia-500" },
       { icon: SiBootstrap, name: "Bootstrap", color: "text-purple-500" },
       { icon: SiFramer, name: "Framer Motion", color: "text-pink-500" },
@@ -117,8 +75,11 @@ const stack = [
 ];
 
 export default function About() {
+  const rootRef = useRef<HTMLElement>(null);
+  useReveal(rootRef);
+
   return (
-    <section id="about" className="py-24 bg-transparent">
+    <section ref={rootRef} id="about" className="py-24 bg-transparent">
       <div className="max-w-4xl mx-auto px-6">
 
         <SectionHeading
@@ -135,19 +96,15 @@ export default function About() {
         />
 
         {/* ── Story Panel ── */}
-        <motion.div
-          variants={panelIn}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+        <div
+          data-reveal
           onMouseMove={onSpotlightMove}
           className="surface spotlight overflow-hidden p-7 sm:p-9 mb-6"
         >
           <p className="text-[17px] sm:text-lg leading-[1.75] text-gray-700 dark:text-gray-300 font-light">
             I&apos;m a{" "}
             <strong className="font-semibold text-gray-950 dark:text-white">Full Stack Developer</strong>{" "}
-            at <strong className="font-semibold text-gray-950 dark:text-white">Datapolis</strong>{" "}
-            (PT Data Teknologi Terintegrasi), building{" "}
+            at PT Data Teknologi Terintegrasi, building{" "}
             <strong className="font-semibold text-gray-950 dark:text-white">VALAK CRM</strong>{" "}
             — an actuarial consulting platform on Laravel 12 and React 19. Before that I spent
             a year and a half inside{" "}
@@ -168,23 +125,16 @@ export default function About() {
             </div>
             <span className="eyebrow text-gray-400 dark:text-gray-600">Jakarta, Indonesia · WIB</span>
           </div>
-        </motion.div>
+        </div>
 
         {/* ── Stats ── */}
-        <motion.div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-14"
-          variants={gridStagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.25 }}
-        >
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-14">
           {stats.map((stat) => (
-            <motion.div
+            <div
               key={stat.label}
-              variants={cardIn}
-              whileHover={{ y: -4, transition: { duration: 0.22, delay: 0 } }}
+              data-reveal
               onMouseMove={onSpotlightMove}
-              className="surface surface-hover spotlight overflow-hidden p-5 cursor-default"
+              className="surface surface-hover spotlight lift overflow-hidden p-5 cursor-default"
             >
               <div className="text-[1.75rem] sm:text-[2rem] font-semibold tracking-tightest text-gray-950 dark:text-white tabular-nums">
                 <CountUp
@@ -203,41 +153,30 @@ export default function About() {
               <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-gray-400 dark:text-gray-600">
                 {stat.note}
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* ── Tech Stack — grouped like a real spec sheet, bukan tembok icon ── */}
-        <motion.div
-          className="space-y-3"
-          variants={gridStagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
+        <div className="space-y-3">
           {stack.map((group) => (
-            <motion.div
+            <div
               key={group.group}
-              variants={cardIn}
+              data-reveal
               onMouseMove={onSpotlightMove}
               className="surface spotlight overflow-hidden p-6"
             >
               <div className="flex items-center gap-3 mb-5">
                 <span className="h-3.5 w-[3px] rounded-full bg-sky-500" />
                 <span className="eyebrow text-gray-500 dark:text-gray-400">{group.group}</span>
-                <span className="hairline flex-1" aria-hidden />
+                <span data-draw className="hairline flex-1" aria-hidden />
               </div>
 
-              <motion.div
-                className="flex flex-wrap gap-2"
-                variants={chipGrid}
-              >
+              <div className="flex flex-wrap gap-2">
                 {group.items.map((item) => (
-                  <motion.div
+                  <div
                     key={item.name}
-                    variants={chipIn}
-                    whileHover={{ y: -3, transition: { duration: 0.16, delay: 0 } }}
-                    className="group flex items-center gap-2 rounded-lg border border-black/[0.06] dark:border-white/[0.07] bg-white/50 dark:bg-white/[0.03] px-3 py-2 cursor-default transition-colors duration-300 hover:border-sky-500/30"
+                    className="group lift-sm flex items-center gap-2 rounded-lg border border-black/[0.06] dark:border-white/[0.07] bg-white/50 dark:bg-white/[0.03] px-3 py-2 cursor-default hover:border-sky-500/30"
                   >
                     <item.icon
                       aria-hidden="true"
@@ -247,12 +186,12 @@ export default function About() {
                     <span className="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-950 dark:group-hover:text-white transition-colors">
                       {item.name}
                     </span>
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
       </div>
     </section>

@@ -23,39 +23,36 @@ export default {
       transitionTimingFunction: {
         swift: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
+      /*
+        Cuma dua keyframe, dua-duanya sekali jalan (bukan infinite) dan cuma
+        dipakai buat modal. Semua animasi berulang udah dibuang — itu yang dulu
+        kebaca sebagai kedip.
+      */
       keyframes: {
-        "aurora-a": {
-          "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1)" },
-          "50%": { transform: "translate3d(5%, -4%, 0) scale(1.12)" },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
         },
-        "aurora-b": {
-          "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1.06)" },
-          "50%": { transform: "translate3d(-5%, 5%, 0) scale(0.94)" },
+        "modal-in": {
+          from: { opacity: "0", transform: "translateY(16px) scale(0.985)" },
+          to: { opacity: "1", transform: "translateY(0) scale(1)" },
         },
-        marquee: {
-          from: { transform: "translate3d(0, 0, 0)" },
-          to: { transform: "translate3d(-50%, 0, 0)" },
+        "ls-rise": {
+          from: { opacity: "0", transform: "translateY(22px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
-        sheen: {
-          from: { backgroundPosition: "0% 50%" },
-          to: { backgroundPosition: "200% 50%" },
-        },
-        "pulse-ring": {
-          "0%": { transform: "scale(1)", opacity: "0.5" },
-          "100%": { transform: "scale(2.4)", opacity: "0" },
-        },
-        "float-y": {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-6px)" },
+        "ls-pop": {
+          from: { opacity: "0", transform: "scale(0.85)" },
+          to: { opacity: "1", transform: "scale(1)" },
         },
       },
       animation: {
-        "aurora-a": "aurora-a 20s ease-in-out infinite",
-        "aurora-b": "aurora-b 26s ease-in-out infinite",
-        marquee: "marquee 42s linear infinite",
-        sheen: "sheen 7s linear infinite",
-        "pulse-ring": "pulse-ring 2.6s ease-out infinite",
-        "float-y": "float-y 6s ease-in-out infinite",
+        "fade-in": "fade-in 0.2s ease-out both",
+        "modal-in": "modal-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both",
+        // `both` penting: elemen berhenti di keadaan akhir, jadi nggak mungkin
+        // nyangkut transparan kalau ada yang meleset.
+        "ls-rise": "ls-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "ls-pop": "ls-pop 0.85s cubic-bezier(0.22, 1, 0.36, 1) both",
       },
     },
   },

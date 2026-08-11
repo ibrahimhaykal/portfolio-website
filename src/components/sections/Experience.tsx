@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
 import { Calendar, MapPin, GraduationCap, BadgeCheck, FileText, ArrowUpRight } from "lucide-react";
 import {
   FaLaravel, FaPhp, FaNodeJs, FaReact, FaJs, FaPython,
@@ -10,91 +10,51 @@ import {
   SiPostgresql, SiOracle, SiMysql, SiNextdotjs,
   SiTypescript, SiTailwindcss, SiKotlin, SiBootstrap
 } from "react-icons/si";
-import type { IconType } from "react-icons";
 import SectionHeading from "../ui/SectionHeading";
 import { onSpotlightMove } from "../ui/spotlight";
-
-// ─── Variants defined OUTSIDE component (stable reference, no re-creation on render) ───
-
-// Parent controls ALL stagger timing — no manual delay on children
-const timelineVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.05,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 26, scale: 0.985 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const railVariants = {
-  hidden: { scaleY: 0 },
-  visible: {
-    scaleY: 1,
-    transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const educationVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-// ─── Component ───────────────────────────────────────────────────────────────
+import { useReveal } from "../../lib/reveal";
 
 export default function Experience() {
-  // Komponen, bukan element — biar tiap svg bisa dikasih aria-hidden sendiri
-  const techIcons: Record<string, IconType> = {
-    Laravel: FaLaravel,
-    PHP: FaPhp,
-    "Node.js": FaNodeJs,
-    React: FaReact,
-    JavaScript: FaJs,
-    Python: FaPython,
-    Figma: FaFigma,
-    Git: FaGitAlt,
-    Docker: FaDocker,
-    Database: FaDatabase,
-    PostgreSQL: SiPostgresql,
-    Oracle: SiOracle,
-    MySQL: SiMysql,
-    "Next.js": SiNextdotjs,
-    TypeScript: SiTypescript,
-    "Bootstrap": SiBootstrap,
-    "Tailwind CSS": SiTailwindcss,
-    Kotlin: SiKotlin,
+  const rootRef = useRef<HTMLElement>(null);
+  useReveal(rootRef);
+
+  const techIcons: Record<string, JSX.Element> = {
+    Laravel: <FaLaravel />,
+    PHP: <FaPhp />,
+    "Node.js": <FaNodeJs />,
+    React: <FaReact />,
+    JavaScript: <FaJs />,
+    Python: <FaPython />,
+    Figma: <FaFigma />,
+    Git: <FaGitAlt />,
+    Docker: <FaDocker />,
+    Database: <FaDatabase />,
+    PostgreSQL: <SiPostgresql />,
+    Oracle: <SiOracle />,
+    MySQL: <SiMysql />,
+    "Next.js": <SiNextdotjs />,
+    TypeScript: <SiTypescript />,
+    "Bootstrap": <SiBootstrap />,
+    "Tailwind CSS": <SiTailwindcss />,
+    Kotlin: <SiKotlin />,
   };
 
   const experiences = [
     {
       role: "Full Stack Developer",
-      company: "Datapolis — PT Data Teknologi Terintegrasi",
+      company: "PT Data Teknologi Terintegrasi",
       period: "Jun 2026 — Present",
       location: "Jakarta, Indonesia",
       current: true,
-      metrics: ["6 role-based dashboards", "Laravel 12 + React 19", "AI summary insights"],
+      metrics: ["19-stage project board", "32 REST endpoints", "Real-time via Pusher", "6 internal roles"],
       achievements: [
-        "Developing VALAK CRM, an actuarial consulting platform, across authentication, master data, calculation, and reporting modules.",
-        "Built role-based dashboards and task management views for admin, sales (AM), marketing, data, actuary, and finance — including an internal dashboard for the actuarial team.",
-        "Shipped calculation submission and progress tracking, wiring calculation APIs and per-PIC company dropdown endpoints into the frontend workflow.",
-        "Integrated AI-powered summary insights (Kimi AI for NirmaAI) plus a data-labeling API for role-based document management.",
-        "Implemented core platform modules: login, PIC and group management CRUD, client–group linking, revision-note chatroom for report review, and project ID/number administration APIs.",
+        "Developing VALAK CRM, an actuarial consulting platform on Laravel 12, React 19, TypeScript, and MySQL — spanning authentication, master data, calculation, and reporting for 6 internal roles.",
+        "Built a 19-stage project board with Pusher real-time sync and optimistic drag-and-drop with rollback, using in-flight move reconciliation to prevent stale-state overwrites under rapid updates.",
+        "Delivered 32 REST endpoints across 6 controllers on a repository–service–handler structure, and resolved cross-layer defects in role-based board access.",
+        "Engineered an Excel-driven configuration pipeline: client-side parsing, header-driven editable previews, and in-place cell rewriting that preserves multi-sheet structure — relayed to a legacy calculation engine via machine-to-machine auth.",
+        "Built role-based dashboards and todo workflows for all 6 roles with a shared typed chart library and Leaflet maps, plus AI summary insights scoped per project and aware of document versions.",
       ],
-      tech: ["Laravel", "React", "TypeScript", "PostgreSQL", "Tailwind CSS"],
+      tech: ["Laravel", "React", "TypeScript", "MySQL", "Pusher", "Tailwind CSS"],
     },
     {
       role: "Full Stack Developer / System Engineer Intern",
@@ -140,7 +100,7 @@ export default function Experience() {
   ];
 
   return (
-    <section id="experience" className="py-24 bg-transparent">
+    <section ref={rootRef} id="experience" className="py-24 bg-transparent">
       <div className="max-w-4xl mx-auto px-6">
 
         <SectionHeading
@@ -150,28 +110,17 @@ export default function Experience() {
           subtitle="Production systems in manufacturing, consulting, and client delivery — measured by what changed on the floor, not by feature count."
         />
 
-        {/* Timeline — rail + nodes, parent owns stagger */}
+        {/* Timeline — rail tumbuh dari atas, kartu menyusul */}
         <div className="relative">
-          {/* Rail */}
-          <motion.div
-            variants={railVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.05 }}
-            style={{ originY: 0 }}
+          <span
+            data-draw-y
             className="absolute left-[11px] top-3 bottom-3 w-px bg-gradient-to-b from-sky-500/60 via-black/10 to-transparent dark:via-white/[0.12]"
             aria-hidden
           />
 
-          <motion.div
-            className="space-y-5"
-            variants={timelineVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.05 }}
-          >
+          <div className="space-y-5">
             {experiences.map((exp) => (
-              <motion.div key={exp.company} variants={cardVariants} className="relative pl-9 sm:pl-11">
+              <div key={exp.company} data-reveal className="relative pl-9 sm:pl-11">
                 {/* Node */}
                 <span className="absolute left-[3px] top-7 flex h-4 w-4 items-center justify-center" aria-hidden>
                   <span
@@ -181,10 +130,9 @@ export default function Experience() {
                   />
                 </span>
 
-                <motion.div
-                  whileHover={{ y: -3, transition: { duration: 0.22, delay: 0 } }}
+                <div
                   onMouseMove={onSpotlightMove}
-                  className="surface surface-hover spotlight overflow-hidden p-6 sm:p-7 cursor-default"
+                  className="surface surface-hover spotlight lift overflow-hidden p-6 sm:p-7 cursor-default"
                 >
                   {/* Head */}
                   <div className="mb-5">
@@ -249,34 +197,28 @@ export default function Experience() {
                           key={tech}
                           className="flex items-center gap-1.5 rounded-full border border-black/[0.06] dark:border-white/[0.07] px-2.5 py-1 text-[11px] font-medium text-gray-600 dark:text-gray-400"
                         >
-                          {Icon && (
-                            <Icon className="text-xs opacity-70" aria-hidden="true" focusable="false" />
-                          )}
+                          {Icon && <span className="text-xs opacity-70" aria-hidden="true">{Icon}</span>}
                           {tech}
                         </span>
                       );
                     })}
                   </div>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
-        {/* Education — standalone card, reverses on scroll */}
-        <motion.div
-          variants={educationVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.25 }}
-          whileHover={{ y: -3, transition: { duration: 0.22, delay: 0 } }}
+        {/* Education */}
+        <div
+          data-reveal
           onMouseMove={onSpotlightMove}
-          className="surface spotlight overflow-hidden mt-12 p-6 sm:p-8 cursor-default hover:border-violet-500/30 transition-colors duration-300"
+          className="surface spotlight lift overflow-hidden mt-12 p-6 sm:p-8 cursor-default hover:border-violet-500/30"
         >
           <div className="mb-6 flex items-center gap-3">
             <span className="h-3.5 w-[3px] rounded-full bg-violet-500" />
             <span className="eyebrow text-gray-500 dark:text-gray-400">Education</span>
-            <span className="hairline flex-1" aria-hidden />
+            <span data-draw className="hairline flex-1" aria-hidden />
             <span className="rounded-full bg-violet-500/10 px-2.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-400 ring-1 ring-inset ring-violet-500/25">
               Graduated
             </span>
@@ -341,7 +283,7 @@ export default function Experience() {
               — BNSP National Professional Certification
             </span>
           </div>
-        </motion.div>
+        </div>
 
       </div>
     </section>

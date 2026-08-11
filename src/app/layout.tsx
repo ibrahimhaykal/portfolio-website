@@ -244,7 +244,7 @@ export default function RootLayout({
               "name": "VALAK CRM — Actuarial Consulting Platform",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Web",
-              "description": "Enterprise CRM for an actuarial consulting firm built with Laravel 12 and React 19, covering role-based dashboards, calculation submission and progress tracking, a revision-note chatroom for report review, and AI-powered summary insights.",
+              "description": "Enterprise CRM for an actuarial consulting firm built with Laravel 12, React 19, TypeScript, and MySQL. Includes a 19-stage project board with Pusher real-time sync and optimistic drag-and-drop, 32 REST endpoints across 6 controllers, an Excel-driven configuration pipeline, and role-based dashboards for 6 internal roles.",
               "author": { "@id": `${SITE_URL}/#person` }
             }
           },
@@ -300,6 +300,12 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+
+        {/* Reveal mulai dari opacity 0. Tanpa JS, GSAP nggak pernah jalan —
+            jadi balikin lagi biar kontennya tetap kelihatan. */}
+        <noscript>
+          <style>{`[data-reveal],[data-card],[data-wipe],.word-mask>span,[data-draw],[data-draw-y]{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
+        </noscript>
 
         {/* JSON-LD di <head> — crawler yang nggak eksekusi JS tetap kebaca */}
         <script

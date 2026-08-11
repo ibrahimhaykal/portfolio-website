@@ -15,15 +15,50 @@
   }
 
   html {
-    scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
-    /* Gutter scrollbar dikunci. Loader ngunci scroll body sebentar; tanpa ini
-       scrollbar hilang lalu muncul lagi dan seluruh layout geser ~15px. */
+    scroll-behavior: smooth;
     scrollbar-gutter: stable;
   }
 
   body {
     text-rendering: optimizeLegibility;
+  }
+
+  /*
+    Keadaan AWAL saja. Gerakannya dikerjakan GSAP (lihat lib/reveal.ts) —
+    jangan tambahkan `transition` di sini, karena GSAP nulis inline style tiap
+    frame dan transisi CSS di properti yang sama bakal saling tarik.
+
+    Ditaruh di CSS, bukan JS, supaya elemennya udah transparan sejak paint
+    pertama. Kalau diset dari JS, kontennya sempat kegambar lalu mendadak hilang.
+  */
+  [data-reveal],
+  [data-card] {
+    opacity: 0;
+  }
+
+  /* Wipe: tersingkap dari bawah ke atas, elemennya sendiri diam di tempat. */
+  [data-wipe] {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+
+  /* Garis digambar dari kiri. scaleX, bukan width — width maksa layout
+     dihitung ulang tiap frame. */
+  [data-draw] {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  /* Rail vertikal timeline — tumbuh dari atas. */
+  [data-draw-y] {
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+
+  .word-mask > span {
+    display: inline-block;
+    transform: translateY(110%);
   }
 
   ::selection {
@@ -62,9 +97,41 @@
 
 @layer components {
   /* ── Surfaces ─────────────────────────────────────────────────────────── */
+  /* Sengaja TANPA backdrop-blur. Backdrop-filter harus nyontek ulang isi di
+     belakangnya tiap kali backdrop atau elemen ini berubah — dengan puluhan
+     kartu di atas latar blur, itu sumber kedip halus dan boros GPU. Latarnya
+     sendiri sekarang statis, jadi mem-blur-nya pun nyaris nggak kelihatan. */
   .surface {
-    @apply relative rounded-2xl border border-black/[0.07] bg-white/60 backdrop-blur-xl
-           dark:border-white/[0.07] dark:bg-white/[0.025];
+    @apply relative rounded-2xl border border-black/[0.07] bg-white/70
+           dark:border-white/[0.07] dark:bg-white/[0.035];
+  }
+
+  /* Hover lift lewat properti `translate`, bukan `transform`. Keduanya properti
+     terpisah, jadi nggak pernah rebutan sama `transform` yang dipakai reveal —
+     dan tetap murni kerjaan compositor. */
+  .lift {
+    translate: 0 0;
+    transition:
+      translate 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  .lift:hover {
+    translate: 0 -4px;
+  }
+  .lift-sm:hover {
+    translate: 0 -2px;
+  }
+
+  /* Word mask — pembungkus tiap kata di judul hero. Padding/margin bawah
+     dipasang supaya ekor huruf (y, g, p) nggak kepotong `overflow: hidden`.
+     Transisi kata-nya sendiri ada di @layer base. */
+  .word-mask {
+    display: inline-block;
+    overflow: hidden;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+    vertical-align: bottom;
   }
 
   .surface-hover {
@@ -100,23 +167,6 @@
   }
 
   /* Static accent gradient — no looping shimmer */
-  .text-sheen {
-    background-image: linear-gradient(
-      104deg,
-      var(--sheen-base) 28%,
-      var(--sheen-hi) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    --sheen-base: #09090b;
-    --sheen-hi: #0ea5e9;
-  }
-  .dark .text-sheen {
-    --sheen-base: #fafafa;
-    --sheen-hi: #7dd3fc;
-  }
-
   /* ── Motion utilities ─────────────────────────────────────────────────── */
   .marquee-mask {
     -webkit-mask-image: linear-gradient(
@@ -135,19 +185,6 @@
     );
   }
 
-  /* Film grain — kills the flat "generated gradient" look */
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-  .dark .grain::after {
-    opacity: 0.06;
-  }
-
   .custom-scrollbar::-webkit-scrollbar {
     width: 5px;
   }
@@ -157,13 +194,40 @@
   }
 }
 
+/*
+  Reduce motion ditangani dengan halus, BUKAN dimatikan total.
+
+  Versi sebelumnya maksa `animation-duration: 0.01ms !important` ke SEMUA elemen
+  dan `opacity: 1 !important` ke semua elemen reveal. Efeknya: di mesin yang
+  setelan "reduce motion"-nya nyala, seluruh animasi situs ini mati — termasuk
+  spinner loading, yang jadinya kelihatan macet.
+
+  Sekarang: gerakan (geser/scale) dihilangkan, tapi fade tetap jalan, dan
+  indikator loading tetap berputar karena dia menyampaikan status, bukan hiasan.
+  Elemen reveal TIDAK dipaksa `opacity: 1` di sini — JS yang mengurusnya, jadi
+  fade-nya tetap kelihatan.
+*/
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  [data-draw],
+  [data-draw-y] {
+    transform: none !important;
+  }
+
+  /*
+    Kata di judul hero: geserannya dimatikan, TAPI harus tetap disembunyikan
+    dari cat pertama — pakai clip-path, yang nggak menggerakkan apa pun.
+
+    Kalau cuma `transform: none`, kata-katanya kelihatan penuh sejak awal di
+    balik loading screen, lalu JS menyembunyikannya buat dianimasikan. Hasilnya
+    nama berkedip: kelihatan, hilang, muncul lagi.
+  */
+  .word-mask > span {
+    transform: none !important;
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+
+  html {
+    scroll-behavior: auto;
   }
 }

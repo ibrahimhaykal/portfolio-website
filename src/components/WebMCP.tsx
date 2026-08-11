@@ -50,18 +50,21 @@ const PROFILE = {
   focus:
     "Enterprise CRM, manufacturing and warehouse systems, ERP integration, REST API design, role-based access control, database migration",
   stack: {
-    backend: ["Laravel 12", "PHP", "PostgreSQL", "Oracle PL/SQL", "MySQL", "REST APIs"],
+    backend: ["Laravel 12", "PHP", "MySQL", "PostgreSQL", "Oracle PL/SQL", "REST APIs"],
     frontend: ["React 19", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    realtime: ["Laravel Echo", "Pusher", "Leaflet"],
     tools: ["Git", "Figma", "Docker", "YOLOv8", "Roboflow", "Streamlit", "Midtrans"],
   },
   highlights: [
     "Reduced warehouse material search time by 76.10% (103.00 → 24.62 minutes) at PT Gemala Kempa Daya, validated by time study over 30 cycles.",
+    "Built a 19-stage project board in VALAK CRM with Pusher real-time sync and optimistic drag-and-drop with rollback, using in-flight move reconciliation to prevent stale-state overwrites.",
+    "Delivered 32 REST endpoints across 6 controllers on a repository-service-handler structure.",
     "Executed a phased Oracle-to-PostgreSQL migration with an application-level dual-write strategy and zero production downtime.",
     "Built 30,000+ row multi-sheet Excel reporting exports that complete in around 9 seconds.",
     "2nd place nationally, Hackathon 2025, for an MSME digital platform with WhatsApp chatbot integration.",
   ],
   fullProfile: `${SITE_URL}/llms.txt`,
-  resume: `${SITE_URL}/cv/Ibrahim_Haykal_Alatas_Resume.pdf`,
+  resume: `${SITE_URL}/cv/Resume_Ibrahim_Haykal_Alatas.pdf`,
 };
 
 const CONTACT = {

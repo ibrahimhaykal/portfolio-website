@@ -1,63 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
 import { Send, Mail, MapPin, Github, Linkedin, MessageCircle, AlertCircle, Check } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import SectionHeading from "../ui/SectionHeading";
 import { onSpotlightMove } from "../ui/spotlight";
-
-// ─── Variants (outside component — stable reference) ──────────────────────────
-
-// Info cards column — stagger children
-const infoColumnVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
-  },
-};
-
-const infoCardVariants = {
-  hidden: { opacity: 0, x: -20, scale: 0.98 },
-  visible: {
-    opacity: 1, x: 0, scale: 1,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-// Social icons inside Socials card — stagger
-const socialsContainer = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-  },
-};
-
-const socialItem = {
-  hidden: { opacity: 0, scale: 0.7 },
-  visible: {
-    opacity: 1, scale: 1,
-    transition: { duration: 0.28, ease: [0.25, 0.1, 0.25, 1] },
-  },
-};
-
-// Form panel
-const formVariants = {
-  hidden: { opacity: 0, x: 20, scale: 0.98 },
-  visible: {
-    opacity: 1, x: 0, scale: 1,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-// Status banner
-const bannerVariants = {
-  hidden: { opacity: 0, y: -10 },
-  visible: {
-    opacity: 1, y: 0,
-    transition: { duration: 0.3, ease: [0.25, 0.1, 0.25, 1] },
-  },
-};
+import { useReveal } from "../../lib/reveal";
 
 const fieldClass =
   "w-full rounded-xl border border-black/[0.08] bg-white/60 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 transition-colors duration-300 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/15 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-white dark:placeholder-gray-600 dark:focus:border-sky-400";
@@ -65,9 +13,10 @@ const fieldClass =
 const labelClass =
   "mb-2 block font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500";
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
 export default function Contact() {
+  const rootRef = useRef<HTMLElement>(null);
+  useReveal(rootRef);
+
   const [formData, setFormData] = useState({
     user_name: "",
     user_email: "",
@@ -125,7 +74,7 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-24 bg-transparent">
+    <section ref={rootRef} id="contact" className="py-24 bg-transparent">
       <div className="max-w-4xl mx-auto px-6">
 
         <SectionHeading
@@ -137,21 +86,14 @@ export default function Contact() {
 
         <div className="grid gap-5 lg:grid-cols-5">
 
-          {/* Info Cards — staggered slide-in from left */}
-          <motion.div
-            variants={infoColumnVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            className="space-y-3 lg:col-span-2"
-          >
+          {/* Info Cards */}
+          <div className="space-y-3 lg:col-span-2">
             {channels.map((channel) => (
-              <motion.div
+              <div
                 key={channel.label}
-                variants={infoCardVariants}
-                whileHover={{ x: 4, transition: { duration: 0.2, delay: 0 } }}
+                data-reveal
                 onMouseMove={onSpotlightMove}
-                className="surface surface-hover spotlight overflow-hidden p-5"
+                className="surface surface-hover spotlight lift-sm overflow-hidden p-5"
               >
                 <channel.icon className={`${channel.tone} mb-3`} size={18} />
                 <div className="eyebrow mb-1.5 text-gray-400 dark:text-gray-600">{channel.label}</div>
@@ -163,15 +105,14 @@ export default function Contact() {
                 >
                   {channel.value}
                 </a>
-              </motion.div>
+              </div>
             ))}
 
             {/* Location */}
-            <motion.div
-              variants={infoCardVariants}
-              whileHover={{ x: 4, transition: { duration: 0.2, delay: 0 } }}
+            <div
+              data-reveal
               onMouseMove={onSpotlightMove}
-              className="surface surface-hover spotlight overflow-hidden p-5"
+              className="surface surface-hover spotlight lift-sm overflow-hidden p-5"
             >
               <MapPin className="mb-3 text-violet-500 dark:text-violet-400" size={18} />
               <div className="eyebrow mb-1.5 text-gray-400 dark:text-gray-600">Location</div>
@@ -179,66 +120,52 @@ export default function Contact() {
               <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-gray-400 dark:text-gray-600">
                 GMT+7 · open to remote
               </div>
-            </motion.div>
+            </div>
 
-            {/* Socials — icons stagger inside card */}
-            <motion.div variants={infoCardVariants} className="surface p-5">
+            {/* Socials */}
+            <div data-reveal className="surface p-5">
               <div className="eyebrow mb-3 text-gray-400 dark:text-gray-600">Connect</div>
-              <motion.div
-                className="flex gap-2"
-                variants={socialsContainer}
-                // inherits initial/whileInView from parent infoColumnVariants
-              >
+              <div className="flex gap-2">
                 {socials.map((social) => (
-                  <motion.a
+                  <a
                     key={social.label}
                     href={social.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    variants={socialItem}
-                    whileHover={{ y: -3, transition: { duration: 0.15, delay: 0 } }}
-                    whileTap={{ scale: 0.92, transition: { duration: 0.1, delay: 0 } }}
-                    className="rounded-lg border border-black/[0.06] p-2.5 text-gray-600 transition-colors duration-300 hover:border-sky-500/30 hover:text-gray-950 dark:border-white/[0.07] dark:text-gray-400 dark:hover:text-white"
+                    className="rounded-lg border border-black/[0.06] p-2.5 text-gray-600 transition-[color,border-color,transform] duration-200 hover:-translate-y-1 hover:border-sky-500/30 hover:text-gray-950 dark:border-white/[0.07] dark:text-gray-400 dark:hover:text-white"
                   >
                     <social.icon size={17} />
-                  </motion.a>
+                  </a>
                 ))}
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              </div>
+            </div>
+          </div>
 
-          {/* Form — slide in from right */}
-          <motion.form
-            variants={formVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
+          {/* Form */}
+          <form
+            data-reveal
             onSubmit={handleSubmit}
             className="surface overflow-hidden p-6 sm:p-8 lg:col-span-3"
           >
             {status === "success" && (
-              <motion.div
-                variants={bannerVariants}
-                initial="hidden"
-                animate="visible"
+              <div
+                role="status"
                 className="mb-6 flex items-center gap-2.5 rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-sm font-medium text-emerald-600 dark:text-emerald-400"
               >
                 <Check size={16} />
                 Message sent. I&apos;ll get back to you soon.
-              </motion.div>
+              </div>
             )}
 
             {status === "error" && (
-              <motion.div
-                variants={bannerVariants}
-                initial="hidden"
-                animate="visible"
+              <div
+                role="alert"
                 className="mb-6 flex items-center gap-2.5 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm font-medium text-red-600 dark:text-red-400"
               >
                 <AlertCircle size={16} />
                 Something went wrong. Try email or WhatsApp instead.
-              </motion.div>
+              </div>
             )}
 
             <div className="space-y-5">
@@ -285,14 +212,12 @@ export default function Contact() {
                 />
               </div>
 
-              <motion.button
+              <button
                 type="submit"
                 disabled={status === "sending"}
                 aria-label={status === "sending" ? "Sending message" : "Send message"}
                 aria-busy={status === "sending"}
-                whileHover={{ scale: 1.015, transition: { duration: 0.18, delay: 0 } }}
-                whileTap={{ scale: 0.985, transition: { duration: 0.1, delay: 0 } }}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-950 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-gray-900/10 transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-black dark:shadow-white/10"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-950 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-gray-900/10 transition-[transform,opacity] duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-black dark:shadow-white/10"
               >
                 {status === "sending" ? (
                   <div
@@ -305,13 +230,13 @@ export default function Contact() {
                     <span>Send Message</span>
                   </>
                 )}
-              </motion.button>
+              </button>
 
               <p className="text-center font-mono text-[10px] uppercase tracking-[0.14em] text-gray-400 dark:text-gray-600">
                 Usually replies within 24 hours
               </p>
             </div>
-          </motion.form>
+          </form>
         </div>
       </div>
     </section>
