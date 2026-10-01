@@ -15,9 +15,9 @@ const socials = [
   { icon: Mail, link: "mailto:ibrahimhaykal@gmail.com", label: "Send Email" },
 ];
 
-const facts: Array<{ label: Pair; value: Pair }> = [
-  { label: ["Now", "Sekarang"], value: ["Full Stack Dev, PT Data Teknologi Terintegrasi", "Full Stack Dev, PT Data Teknologi Terintegrasi"] },
-  { label: ["Before", "Sebelumnya"], value: ["System Engineer Intern, Astra Otoparts Group", "Magang System Engineer, Astra Otoparts Group"] },
+const facts: Array<{ label: Pair; value: Pair; logo?: string }> = [
+  { label: ["Now", "Sekarang"], value: ["Full Stack Developer, PT Data Teknologi Terintegrasi", "Full Stack Developer, PT Data Teknologi Terintegrasi"], logo: "datapolis" },
+  { label: ["Before", "Sebelumnya"], value: ["Full Stack Developer Intern, Astra Otoparts Group", "Magang Full Stack Developer, Astra Otoparts Group"], logo: "gkd" },
   { label: ["Stack", "Stack"], value: ["Laravel, React, TypeScript, PostgreSQL", "Laravel, React, TypeScript, PostgreSQL"] },
 ];
 
@@ -108,7 +108,16 @@ export default function Hero() {
         <dl className="grid gap-3 sm:grid-cols-3">
           {facts.map((f) => (
             <div key={f.label[0]} data-hero className="card p-4">
-              <dt className="label mb-2">{t(...f.label)}</dt>
+              <dt className="mb-3 flex items-center justify-between gap-3">
+                <span className="label">{t(...f.label)}</span>
+                {f.logo && (
+                  <span
+                    aria-hidden
+                    className="logo-mark h-7 w-16 [-webkit-mask-position:right_center] [mask-position:right_center]"
+                    style={{ "--logo": `url(/exp-logo/${f.logo}.png)` } as React.CSSProperties}
+                  />
+                )}
+              </dt>
               <dd className="text-sm font-medium">{t(...f.value)}</dd>
             </div>
           ))}

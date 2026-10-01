@@ -61,7 +61,7 @@ const experiences: Job[] = [
     tech: ["Laravel", "React", "TypeScript", "MySQL", "Pusher", "Tailwind CSS"],
   },
   {
-    role: ["Full Stack Developer / System Engineer Intern", "Full Stack Developer / Magang System Engineer"],
+    role: ["Full Stack Developer Intern", "Magang Full Stack Developer"],
     company: same("PT Gemala Kempa Daya, Astra Otoparts Group"),
     period: same("Feb 2025 - Jun 2026"),
     location: "Jakarta, Indonesia",
