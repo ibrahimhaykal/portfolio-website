@@ -8,6 +8,7 @@ import Experience from "../components/sections/Experience";
 import Contact from "../components/sections/Contact";
 import Footer from "../components/Footer";
 import ScrollToTop from "../components/ScrollToTop";
+import AskMe from "../components/AskMe";
 import WebMCP from "../components/WebMCP";
 import { LangProvider } from "../lib/i18n";
 
@@ -21,6 +22,7 @@ export default function Home() {
       <WebMCP />
       <Sidebar />
       <ScrollToTop />
+      <AskMe />
 
       <SmoothScroll>
       <div data-fade className="relative z-10 lg:ml-80 lg:pr-6">

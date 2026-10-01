@@ -99,7 +99,7 @@ export default function ScrollToTop() {
   return (
     <div
       ref={rootRef}
-      className="fixed right-5 bottom-8 z-[55] hidden sm:flex flex-col items-center gap-3"
+      className="fixed right-5 bottom-24 z-[55] hidden sm:flex flex-col items-center gap-3"
     >
       {/* Tali */}
       <span className="relative block h-24 w-px overflow-hidden bg-fg/15">
