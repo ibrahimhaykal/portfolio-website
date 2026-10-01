@@ -9,7 +9,7 @@ import { gsap, useGSAP } from "../lib/gsap";
  *
  * Talinya keisi dari atas ke bawah mengikuti posisi baca, jadi dia sekaligus
  * indikator "udah sejauh mana". Muncul setelah pengguna scroll lewat 60% layar
- * pertama — sebelum itu belum ada yang perlu dibalikin.
+ * pertama, sebelum itu belum ada yang perlu dibalikin.
  */
 export default function ScrollToTop() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -67,14 +67,14 @@ export default function ScrollToTop() {
     /*
       `scroll-behavior: smooth` di CSS harus dimatikan selama tween jalan.
       Kalau nggak, tiap window.scrollTo() per frame bakal dianimasikan lagi
-      sama browser — dua penggerak rebutan, hasilnya tersendat.
+      sama browser, dua penggerak rebutan, hasilnya tersendat.
     */
     const html = document.documentElement;
     const previous = html.style.scrollBehavior;
     html.style.scrollBehavior = "auto";
 
     /*
-      Reduce motion tetap dapat scroll halus — cuma lebih singkat.
+      Reduce motion tetap dapat scroll halus, cuma lebih singkat.
 
       Yang dibatasi aturan reduce motion itu animasi hiasan; ini gerakan yang
       diminta pengguna sendiri lewat klik, dan lompat mendadak ke atas justru
@@ -102,10 +102,10 @@ export default function ScrollToTop() {
       className="fixed right-5 bottom-8 z-[55] hidden sm:flex flex-col items-center gap-3"
     >
       {/* Tali */}
-      <span className="relative block h-24 w-px overflow-hidden bg-black/10 dark:bg-white/15">
+      <span className="relative block h-24 w-px overflow-hidden bg-fg/15">
         <span
           ref={fillRef}
-          className="absolute inset-x-0 top-0 h-full bg-gradient-to-b from-sky-500 to-indigo-500"
+          className="absolute inset-x-0 top-0 h-full bg-fg"
         />
       </span>
 
@@ -113,12 +113,9 @@ export default function ScrollToTop() {
         type="button"
         onClick={backToTop}
         aria-label="Back to top"
-        className="group flex h-10 w-10 items-center justify-center rounded-full border border-black/[0.07] bg-white/90 text-gray-600 shadow-sm transition-[color,border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-sky-500/40 hover:text-sky-600 dark:border-white/10 dark:bg-zinc-900/90 dark:text-gray-400 dark:hover:text-sky-400"
+        className="btn-icon"
       >
-        <ArrowUp
-          size={16}
-          className="transition-transform duration-300 group-hover:-translate-y-0.5"
-        />
+        <ArrowUp size={16} />
       </button>
     </div>
   );

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Bangers, Comic_Neue, JetBrains_Mono, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "../lib/site";
 import "../styles/globals.css";
 
@@ -16,6 +16,11 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   display: "swap",
 });
+
+// Font tema lain nggak di-preload: cuma diunduh kalau temanya dipakai.
+const grotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-grotesk", display: "swap", preload: false });
+const bangers = Bangers({ subsets: ["latin"], weight: "400", variable: "--font-bangers", display: "swap", preload: false });
+const comic = Comic_Neue({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-comic", display: "swap", preload: false });
 
 const ogImage = `${SITE_URL}/profile/profile-img.png`;
 
@@ -71,7 +76,7 @@ export const metadata: Metadata = {
         url: ogImage,
         width: 1200,
         height: 630,
-        alt: "Ibrahim Haykal Alatas — Full Stack Developer",
+        alt: "Ibrahim Haykal Alatas, Full Stack Developer",
       },
     ],
   },
@@ -105,7 +110,6 @@ export default function RootLayout({
         "url": SITE_URL,
         "image": `${SITE_URL}/profile/profile-img.png`,
         "email": "mailto:ibrahimhaykal@gmail.com",
-        "telephone": "+62-896-2806-6432",
         "jobTitle": "Full Stack Developer",
         "description": SITE_DESCRIPTION,
         "address": {
@@ -139,7 +143,7 @@ export default function RootLayout({
         "hasCredential": [
           {
             "@type": "EducationalOccupationalCredential",
-            "name": "Applied Bachelor of Computer Science (S.Tr.Kom) — Industrial Automotive Information Systems",
+            "name": "Applied Bachelor of Computer Science (S.Tr.Kom), Industrial Automotive Information Systems",
             "credentialCategory": "degree",
             "educationalLevel": "Bachelor",
             "recognizedBy": {
@@ -153,7 +157,7 @@ export default function RootLayout({
             "credentialCategory": "certification",
             "recognizedBy": {
               "@type": "Organization",
-              "name": "BNSP — Badan Nasional Sertifikasi Profesi"
+              "name": "BNSP, Badan Nasional Sertifikasi Profesi"
             }
           }
         ],
@@ -166,7 +170,7 @@ export default function RootLayout({
           },
           "skills": "Laravel, PHP, React, Next.js, TypeScript, PostgreSQL, Oracle PL/SQL, REST API design, role-based access control, ERP integration, database migration"
         },
-        "award": "2nd Place — National Hackathon 2025, SME Digital Platform",
+        "award": "2nd Place, National Hackathon 2025, SME Digital Platform",
         "knowsLanguage": ["id", "en"],
         "knowsAbout": [
           "Full Stack Web Development",
@@ -241,7 +245,7 @@ export default function RootLayout({
             "position": 1,
             "item": {
               "@type": "SoftwareApplication",
-              "name": "VALAK CRM — Actuarial Consulting Platform",
+              "name": "VALAK CRM, Actuarial Consulting Platform",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Web",
               "description": "Enterprise CRM for an actuarial consulting firm built with Laravel 12, React 19, TypeScript, and MySQL. Includes a 19-stage project board with Pusher real-time sync and optimistic drag-and-drop, 32 REST endpoints across 6 controllers, an Excel-driven configuration pipeline, and role-based dashboards for 6 internal roles.",
@@ -278,7 +282,7 @@ export default function RootLayout({
             "position": 4,
             "item": {
               "@type": "SoftwareApplication",
-              "name": "E-Brochure Digital Catalog — Indomobil",
+              "name": "E-Brochure Digital Catalog, Indomobil",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Web",
               "description": "Interactive digital automotive catalog built with Next.js and TypeScript, featuring dynamic vehicle showcases, customizable color selection, and WhatsApp lead generation.",
@@ -292,38 +296,31 @@ export default function RootLayout({
   };
 
   // Dijalankan sebelum paint pertama, jadi tema udah benar sejak frame nol.
-  // Tanpa ini React baru pasang class `dark` setelah hydrate — hasilnya satu
-  // frame terang sebelum berubah gelap, alias kedip di tiap reload.
-  const themeScript = `(function(){try{var s=localStorage.getItem('darkMode');document.documentElement.classList.toggle('dark',s!=='false')}catch(e){document.documentElement.classList.add('dark')}})()`;
+  // Tanpa ini tema baru kepasang setelah hydrate, alias kedip di tiap reload.
+  const themeScript = `(function(){var d=document.documentElement;try{d.classList.toggle('dark',localStorage.getItem('darkMode')!=='false');d.dataset.theme=localStorage.getItem('theme')||'mono'}catch(e){d.classList.add('dark');d.dataset.theme='mono'}})()`;
 
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${jakarta.variable} ${jetbrainsMono.variable} ${grotesk.variable} ${bangers.variable} ${comic.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
 
-        {/* Reveal mulai dari opacity 0. Tanpa JS, GSAP nggak pernah jalan —
+        {/* Reveal mulai dari opacity 0. Tanpa JS, GSAP nggak pernah jalan -
             jadi balikin lagi biar kontennya tetap kelihatan. */}
         <noscript>
-          <style>{`[data-reveal],[data-card],[data-wipe],.word-mask>span,[data-draw],[data-draw-y]{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
+          <style>{`[data-reveal],[data-card],[data-hero],[data-word],[data-wipe],[data-draw],[data-draw-y]{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
         </noscript>
 
-        {/* JSON-LD di <head> — crawler yang nggak eksekusi JS tetap kebaca */}
+        {/* JSON-LD di <head>, crawler yang nggak eksekusi JS tetap kebaca */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body
-        className={`
-          ${jakarta.variable}
-          ${jetbrainsMono.variable}
-          font-sans
-          antialiased
-          bg-white
-          dark:bg-black
-          dark:bg-[radial-gradient(ellipse_75%_65%_at_50%_-25%,rgba(6,182,212,0.28),rgba(255,255,255,0))]
-        `}
-      >
+      <body className="antialiased">
         {children}
       </body>
     </html>

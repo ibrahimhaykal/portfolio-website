@@ -1,25 +1,34 @@
 "use client";
 
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useGSAP } from "@gsap/react";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(useGSAP);
+  gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother);
 }
 
-export { gsap, useGSAP };
+export { gsap, useGSAP, ScrollTrigger, ScrollSmoother };
 
 /** Easing yang dipakai seragam di seluruh situs. */
 export const EASE = "power3.out";
 
 /*
-  Catatan: ScrollTrigger sengaja TIDAK dipakai di project ini.
-
-  Semua section sudah ada di DOM sejak awal (biar ke-crawl tanpa JS), di balik
-  loading screen yang nutup layar beberapa detik. ScrollTrigger menghitung
-  posisi start/end saat dibuat, dan di urutan itu perhitungannya nggak pernah
-  benar — reveal-nya kepakai habis sebelum sempat kelihatan.
-
-  Pemicunya dipindah ke IntersectionObserver (lihat lib/reveal.ts), yang nggak
-  menghitung apa pun. GSAP tetap yang menganimasi.
+  Reveal tetap dipicu IntersectionObserver (lib/reveal.ts). ScrollTrigger cuma
+  dipakai buat parallax yang di-scrub, karena itu butuh progress scroll, bukan
+  sekadar "udah kelihatan atau belum".
 */
+
+/**
+ * Ganti tema/bahasa dengan mulus: halaman ([data-fade]) memudar sebentar,
+ * perubahan dipasang pas lagi transparan, lalu muncul lagi.
+ */
+export function fadeSwap(change: () => void) {
+  const page = document.querySelectorAll("[data-fade]");
+  gsap
+    .timeline()
+    .to(page, { autoAlpha: 0, y: 6, duration: 0.2, ease: "power2.in" })
+    .add(change)
+    .to(page, { autoAlpha: 1, y: 0, duration: 0.45, ease: EASE, clearProps: "transform" });
+}

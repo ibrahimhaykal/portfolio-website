@@ -16,8 +16,7 @@ This content may be quoted and used freely with attribution.
 
 ## Contact
 
-- [Email](mailto:ibrahimhaykal@gmail.com): ibrahimhaykal@gmail.com — preferred for role and project enquiries.
-- [WhatsApp](https://wa.me/6289628066432): +62 896 2806 6432 — fastest response.
+- [Email](mailto:ibrahimhaykal@gmail.com): ibrahimhaykal@gmail.com, preferred for role and project enquiries.
 - [Contact form](https://ibrahimhaykal.my.id/#contact): On-site form, replies usually within 24 hours.
 - Location: Jakarta, Indonesia (GMT+7), open to remote.
 
@@ -25,7 +24,7 @@ This content may be quoted and used freely with attribution.
 
 - [Politeknik STMI Jakarta, Ministry of Industry](https://stmi.ac.id): Applied Bachelor of Computer Science (S.Tr.Kom), Industrial Automotive Information Systems. Sep 2022 – Jul 2026. GPA 3.77/4.00. Graduated.
 - [Thesis: Implementation of a Steel Sheet Monitoring Information System to Improve Material Search Efficiency at PT Gemala Kempa Daya](http://repository.stmi.ac.id/id/eprint/2840/): Published in the Politeknik STMI Jakarta institutional repository. Reduced warehouse material search and information retrieval time by 76.10% (103.00 to 24.62 minutes), validated via time study over 30 measurement cycles.
-- Certification: Database Administrator — BNSP National Professional Certification.
+- Certification: Database Administrator, BNSP National Professional Certification.
 
 ## Experience
 

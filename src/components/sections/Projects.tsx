@@ -1,462 +1,347 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ExternalLink, Github, Globe, Smartphone, BrainCircuit, Star, Layout, X, ArrowUpRight, FileText } from "lucide-react";
-import {
-  FaLaravel, FaPhp, FaNodeJs, FaReact, FaJs, FaPython,
-  FaFigma, FaGitAlt, FaDocker, FaDatabase
-} from "react-icons/fa";
-import {
-  SiPostgresql, SiOracle, SiMysql, SiNextdotjs,
-  SiTypescript, SiTailwindcss, SiKotlin,
-  SiDaisyui, SiBootstrap
-} from "react-icons/si";
+import { createPortal } from "react-dom";
 import Image from "next/image";
+import { ExternalLink, Github, X, ArrowUpRight, FileText, Plus, Minus } from "lucide-react";
 import SectionHeading from "../ui/SectionHeading";
-import { onSpotlightMove } from "../ui/spotlight";
+import TechChip from "../ui/TechChip";
+import { gsap, useGSAP } from "../../lib/gsap";
 import { useReveal } from "../../lib/reveal";
-import { useParallax } from "../../lib/parallax";
+import { useLang, type Pair } from "../../lib/i18n";
+
+type Category = "Web App" | "Mobile App" | "AI/ML";
 
 type Project = {
   title: string;
-  description: string;
-  /** Optional — cards fall back to a generated monogram panel when no shot exists yet. */
-  image?: string;
+  description: Pair;
+  image: string;
   tech: string[];
-  category: string;
-  orientation?: "landscape" | "portrait";
-  featured?: boolean;
+  category: Category;
+  portrait?: boolean;
   demoUrl?: string;
   githubUrl?: string;
   /** Published paper or thesis backing the project. */
   paperUrl?: string;
 };
 
-// Monogram fallback saat screenshot belum ada
-function monogram(title: string) {
-  return title
-    .replace(/[^A-Za-z0-9 ]/g, " ")
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((word) => word[0].toUpperCase())
-    .join("");
+const CATEGORY_LABEL: Record<string, Pair> = {
+  All: ["All", "Semua"],
+  "Web App": ["Web App", "Aplikasi Web"],
+  "Mobile App": ["Mobile App", "Aplikasi Mobile"],
+  "AI/ML": ["AI/ML", "AI/ML"],
+};
+
+const projects: Project[] = [
+  {
+    title: "VALAK CRM, Actuarial Consulting",
+    description: [
+      "Enterprise CRM for an actuarial consulting firm on Laravel 12, React 19, TypeScript, and MySQL. A 19-stage project board synced live over Pusher with optimistic drag-and-drop and rollback, 32 REST endpoints across 6 controllers, an Excel-driven configuration pipeline that rewrites cells in place while preserving multi-sheet structure, and role-based dashboards for 6 internal roles.",
+      "CRM enterprise untuk firma konsultan aktuaria dengan Laravel 12, React 19, TypeScript, dan MySQL. Papan proyek 19 tahap yang tersinkron live lewat Pusher dengan drag-and-drop optimistis dan rollback, 32 endpoint REST di 6 controller, pipeline konfigurasi berbasis Excel yang menulis ulang sel di tempat tanpa merusak struktur multi-sheet, serta dashboard berbasis peran untuk 6 peran internal.",
+    ],
+    image: "/projects/crm.png",
+    tech: ["Laravel", "React", "TypeScript", "MySQL", "Pusher", "Tailwind CSS"],
+    category: "Web App",
+  },
+  {
+    title: "Real-Time Warehouse Inventory",
+    description: [
+      "FIFO floor-storage monitoring for Astra Otoparts Group covering 48 material blocks and 400+ weekly transactions, with QR gate in/out, digital block visualization, and supply scheduling. Cut material search cycle time by 76.10% (103.00 → 24.62 minutes), validated by time study.",
+      "Monitoring penyimpanan lantai FIFO untuk Astra Otoparts Group yang mencakup 48 blok material dan 400+ transaksi per minggu, dengan QR gate in/out, visualisasi blok digital, dan penjadwalan suplai. Memangkas waktu pencarian material 76,10% (103,00 → 24,62 menit), divalidasi lewat time study.",
+    ],
+    image: "/projects/warehouse.png",
+    tech: ["Laravel", "PostgreSQL", "Oracle", "JavaScript"],
+    paperUrl: "http://repository.stmi.ac.id/id/eprint/2840/",
+    category: "Web App",
+  },
+  {
+    title: "Smart Andon Ticketing System",
+    description: [
+      "Stateful digital ticketing that maps physical manufacturing workflows. QR validation, lifecycle tracking, technician activity monitoring, and Mean Time To Repair (MTTR) visibility for production issue handling.",
+      "Tiket digital berbasis status yang memetakan alur kerja manufaktur fisik. Validasi QR, pelacakan siklus hidup, monitoring aktivitas teknisi, dan visibilitas Mean Time To Repair (MTTR) untuk penanganan masalah produksi.",
+    ],
+    image: "/projects/andon.png",
+    tech: ["Laravel", "PostgreSQL", "Oracle", "JavaScript"],
+    category: "Web App",
+  },
+  {
+    title: "Mitsubishi Dealership Landing",
+    description: [
+      "Freelance corporate profile and lead-generation landing page for a Mitsubishi dealership. Interactive vehicle showcases using Swiper.js and direct WhatsApp routing to accelerate sales conversions.",
+      "Landing page profil perusahaan dan lead generation (freelance) untuk dealer Mitsubishi. Showcase kendaraan interaktif dengan Swiper.js dan routing langsung ke WhatsApp untuk mempercepat konversi penjualan.",
+    ],
+    image: "/projects/mitsubishi.png",
+    tech: ["Bootstrap", "JavaScript", "WhatsApp API"],
+    demoUrl: "https://mitsubishidjakarta.com/",
+    category: "Web App",
+  },
+  {
+    title: "SME Digital Platform",
+    description: [
+      "National 2nd place hackathon platform for MSMEs (Jun 2025). Integrated a WhatsApp chatbot to streamline user engagement, digital marketing, and automated customer workflows.",
+      "Platform juara 2 hackathon nasional untuk UMKM (Jun 2025). Mengintegrasikan chatbot WhatsApp untuk merapikan engagement pengguna, pemasaran digital, dan alur pelanggan otomatis.",
+    ],
+    image: "/projects/sme.png",
+    tech: ["Laravel", "Tailwind CSS", "WhatsApp API"],
+    category: "Web App",
+  },
+  {
+    title: "SIPS Android Archiving",
+    description: [
+      "Full-stack archiving system built from a comparative study at BBSPJIKFK (Ministry of Industry). Architected with comprehensive UML and powered by a RESTful API.",
+      "Sistem arsip full-stack hasil studi komparasi di BBSPJIKFK (Kementerian Perindustrian). Dirancang dengan UML lengkap dan didukung RESTful API.",
+    ],
+    image: "/projects/sips.png",
+    tech: ["Kotlin", "Laravel", "MySQL", "REST API"],
+    category: "Mobile App", portrait: true,
+  },
+  {
+    title: "AI Defect Detection (Fender Apron)",
+    description: [
+      "End-to-end visual inspection pipeline for automotive parts (Dec 2024). Custom dataset annotation via Roboflow, YOLOv8 training, and a live real-time inference app on Streamlit and WebRTC for automated quality control.",
+      "Pipeline inspeksi visual end-to-end untuk komponen otomotif (Des 2024). Anotasi dataset custom lewat Roboflow, training YOLOv8, dan aplikasi inferensi real-time di Streamlit dan WebRTC untuk quality control otomatis.",
+    ],
+    image: "/projects/fender-apron.png",
+    tech: ["Python", "YOLOv8", "Roboflow", "Streamlit", "WebRTC"],
+    demoUrl: "https://fender-apron-detection-systems.streamlit.app/",
+    githubUrl: "https://github.com/ibrahimhaykal/Fender-Apron-Detection",
+    category: "AI/ML",
+  },
+  {
+    title: "Wedding Organizer Platform",
+    description: [
+      "Web platform managing venue operations, dynamic package pricing, and customer inquiries. Streamlines vendor and client communication and booking logistics.",
+      "Platform web untuk operasional venue, harga paket dinamis, dan pertanyaan pelanggan. Merapikan komunikasi vendor dan klien serta logistik booking.",
+    ],
+    image: "/projects/wedding.png",
+    tech: ["Laravel", "MySQL", "Bootstrap", "WhatsApp API"],
+    demoUrl: "https://www.refnawedding.com/",
+    category: "Web App",
+  },
+  {
+    title: "Q-Tin Dashboard UI",
+    description: [
+      "Responsive UI components for a smart dashboard using DaisyUI and Flowbite, built as part of a bilingual corporate profile platform with cross-device consistency.",
+      "Komponen UI responsif untuk dashboard pintar dengan DaisyUI dan Flowbite, bagian dari platform profil perusahaan dua bahasa dengan tampilan konsisten di semua perangkat.",
+    ],
+    image: "/projects/qtin.png",
+    tech: ["Laravel", "Tailwind CSS", "DaisyUI", "Flowbite", "Figma"],
+    category: "Web App",
+  },
+  {
+    title: "Education Chat Bot",
+    description: [
+      "AI-powered learning assistant using deep learning NLP for intelligent, context-aware responses to student queries.",
+      "Asisten belajar berbasis AI dengan NLP deep learning untuk jawaban yang cerdas dan sesuai konteks atas pertanyaan siswa.",
+    ],
+    image: "/projects/edubot.png",
+    tech: ["Python", "TensorFlow", "NLTK", "Streamlit"],
+    githubUrl: "https://github.com/ibrahimhaykal/chatbot-edu-bot",
+    category: "AI/ML",
+  },
+  {
+    title: "E-Brochure, Indomobil",
+    description: [
+      "Interactive digital automotive catalog with dynamic vehicle showcases, customizable color selections, and direct WhatsApp integration for sales lead generation.",
+      "Katalog otomotif digital interaktif dengan showcase kendaraan dinamis, pilihan warna yang bisa diatur, dan integrasi WhatsApp langsung untuk lead penjualan.",
+    ],
+    image: "/projects/ebrosur.png",
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "WhatsApp API"],
+    demoUrl: "https://ridhoindomobil.vercel.app/",
+    category: "Web App", portrait: true,
+  },
+  {
+    title: "Portfolio Website",
+    description: [
+      "This site. Personal portfolio on Next.js and TypeScript with four switchable themes (mono, glass, neobrutalism, comic) and two languages, driven by plain CSS variables and GSAP.",
+      "Situs ini. Portofolio pribadi dengan Next.js dan TypeScript, empat tema yang bisa diganti (mono, glass, neobrutalism, komik) dan dua bahasa, digerakkan CSS variable biasa dan GSAP.",
+    ],
+    image: "/projects/portfolio.png",
+    tech: ["Next.js", "TypeScript", "Tailwind CSS"],
+    demoUrl: "https://ibrahimhaykal.my.id",
+    githubUrl: "https://github.com/ibrahimhaykal/portfolio-website",
+    category: "Web App",
+  },
+  {
+    title: "Cargo Invoice System",
+    description: [
+      "Admin system for Herona Express optimizing logistics transactions and invoice generation, with master data management for regional shipment tracking.",
+      "Sistem admin untuk Herona Express yang mengoptimalkan transaksi logistik dan pembuatan invoice, dengan manajemen master data untuk pelacakan pengiriman per wilayah.",
+    ],
+    image: "/projects/cargo.png",
+    tech: ["PHP", "Bootstrap", "MySQL"],
+    category: "Web App",
+  },
+];
+
+// Kartu yang tampil di awal, dan tambahan tiap klik "Load more".
+const PAGE = 6;
+const STEP = 3;
+
+function Shot({ project, sizes }: { project: Project; sizes: string }) {
+  return (
+    <Image
+      src={project.image}
+      alt={project.title}
+      fill
+      sizes={sizes}
+      className={project.portrait ? "object-contain p-3" : "object-cover object-top"}
+    />
+  );
 }
 
 export default function Projects() {
   const rootRef = useRef<HTMLElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const { t } = useLang();
   const [filter, setFilter] = useState("All");
+  const [limit, setLimit] = useState(PAGE);
   const [selected, setSelected] = useState<Project | null>(null);
 
-  // `filter` jadi dependency: ganti filter berarti kartunya elemen baru, jadi
-  // reveal-nya harus dipasang ulang. revertOnUpdate di dalam hook yang bersihin
-  // trigger lama.
+  // Ganti filter = kartu baru, jadi reveal dipasang ulang.
   useReveal(rootRef, [filter]);
-  useParallax(rootRef);
 
-  const techIcons: Record<string, JSX.Element> = {
-    Laravel: <FaLaravel />, PHP: <FaPhp />, "Node.js": <FaNodeJs />,
-    React: <FaReact />, JavaScript: <FaJs />, Python: <FaPython />,
-    Figma: <FaFigma />, Git: <FaGitAlt />, Docker: <FaDocker />,
-    Database: <FaDatabase />, PostgreSQL: <SiPostgresql />, Oracle: <SiOracle />,
-    MySQL: <SiMysql />, "Next.js": <SiNextdotjs />, TypeScript: <SiTypescript />,
-    "Tailwind CSS": <SiTailwindcss />, Kotlin: <SiKotlin />,
-    DaisyUI: <SiDaisyui />, Bootstrap: <SiBootstrap />,
-  };
+  // Modal: latar memudar, panel naik, isinya menyusul satu per satu.
+  useGSAP(
+    () => {
+      if (!selected) return;
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
+        .from("[data-overlay]", { autoAlpha: 0, duration: 0.3 })
+        .from("[data-panel]", { autoAlpha: 0, y: 40, scale: 0.97, duration: 0.55 }, "<")
+        .from("[data-panel-item]", { autoAlpha: 0, y: 14, duration: 0.4, stagger: 0.05 }, "-=0.3");
+    },
+    { scope: modalRef, dependencies: [selected] }
+  );
 
-  const projects: Project[] = [
-    {
-      title: "VALAK CRM — Actuarial Consulting",
-      description: "Enterprise CRM for an actuarial consulting firm on Laravel 12, React 19, TypeScript, and MySQL. A 19-stage project board synced live over Pusher with optimistic drag-and-drop and rollback, 32 REST endpoints across 6 controllers, an Excel-driven configuration pipeline that rewrites cells in place while preserving multi-sheet structure, and role-based dashboards for 6 internal roles.",
-      tech: ["Laravel", "React", "TypeScript", "MySQL", "Pusher", "Tailwind CSS"],
-      category: "Web App", featured: true,
-    },
-    {
-      title: "Real-Time Warehouse Inventory",
-      description: "FIFO floor-storage monitoring for Astra Otoparts Group covering 48 material blocks and 400+ weekly transactions, with QR gate in/out, digital block visualization, and supply scheduling — cutting material search cycle time by 76.10% (103.00 → 24.62 minutes), validated by time study.",
-      image: "/projects/warehouse.png",
-      tech: ["Laravel", "PostgreSQL", "Oracle", "JavaScript"],
-      paperUrl: "http://repository.stmi.ac.id/id/eprint/2840/",
-      category: "Web App", featured: true,
-    },
-    {
-      title: "Smart Andon Ticketing System",
-      description: "Stateful digital ticketing that maps physical manufacturing workflows. QR validation, lifecycle tracking, technician activity monitoring, and Mean Time To Repair (MTTR) visibility for production issue handling.",
-      image: "/projects/andon.png",
-      tech: ["Laravel", "PostgreSQL", "Oracle", "JavaScript"],
-      category: "Web App", featured: true,
-    },
-    {
-      title: "Mitsubishi Dealership Landing",
-      description: "Freelance corporate profile and lead-generation landing page for a Mitsubishi dealership. Interactive vehicle showcases using Swiper.js and direct WhatsApp routing to accelerate sales conversions.",
-      image: "/projects/mitsubishi.png",
-      tech: ["Bootstrap", "JavaScript", "WhatsApp API"],
-      demoUrl: "https://mitsubishidjakarta.com/",
-      category: "Web App", featured: true,
-    },
-    {
-      title: "SME Digital Platform",
-      description: "National 2nd place hackathon platform for MSMEs (Jun 2025). Integrated a WhatsApp chatbot to streamline user engagement, digital marketing, and automated customer workflows.",
-      image: "/projects/sme.png",
-      tech: ["Laravel", "Tailwind CSS", "WhatsApp API"],
-      category: "Web App", featured: true,
-    },
-    {
-      title: "SIPS Android Archiving",
-      description: "Full-stack archiving system built from a comparative study at BBSPJIKFK (Ministry of Industry). Architected with comprehensive UML and powered by a RESTful API.",
-      image: "/projects/sips.png",
-      tech: ["Kotlin", "Laravel", "MySQL", "REST API"],
-      category: "Mobile App", featured: true, orientation: "portrait",
-    },
-    {
-      title: "AI Defect Detection (Fender Apron)",
-      description: "End-to-end visual inspection pipeline for automotive parts (Dec 2024). Custom dataset annotation via Roboflow, YOLOv8 training, and a live real-time inference app on Streamlit and WebRTC for automated quality control.",
-      image: "/projects/fender-apron.png",
-      tech: ["Python", "YOLOv8", "Roboflow", "Streamlit", "WebRTC"],
-      demoUrl: "https://fender-apron-detection-systems.streamlit.app/",
-      githubUrl: "https://github.com/ibrahimhaykal/Fender-Apron-Detection",
-      category: "AI/ML", featured: true,
-    },
-    {
-      title: "Wedding Organizer Platform",
-      description: "Web platform managing venue operations, dynamic package pricing, and customer inquiries. Streamlines vendor–client communication and booking logistics.",
-      image: "/projects/wedding.png",
-      tech: ["Laravel", "MySQL", "Bootstrap", "WhatsApp API"],
-      demoUrl: "https://www.refnawedding.com/",
-      category: "Web App",
-    },
-    {
-      title: "Q-Tin Dashboard UI",
-      description: "Responsive UI components for a smart dashboard using DaisyUI and Flowbite, built as part of a bilingual corporate profile platform with cross-device consistency.",
-      image: "/projects/qtin.png",
-      tech: ["Laravel", "Tailwind CSS", "DaisyUI", "Flowbite", "Figma"],
-      category: "Web App", featured: true,
-    },
-    {
-      title: "Education Chat Bot",
-      description: "AI-powered learning assistant using deep learning NLP for intelligent, context-aware responses to student queries.",
-      image: "/projects/edubot.png",
-      tech: ["Python", "TensorFlow", "NLTK", "Streamlit"],
-      githubUrl: "https://github.com/ibrahimhaykal/chatbot-edu-bot",
-      category: "AI/ML",
-    },
-    {
-      title: "E-Brochure — Indomobil",
-      description: "Interactive digital automotive catalog with dynamic vehicle showcases, customizable color selections, and direct WhatsApp integration for sales lead generation.",
-      image: "/projects/ebrosur.png",
-      tech: ["Next.js", "TypeScript", "Tailwind CSS", "WhatsApp API"],
-      demoUrl: "https://ridhoindomobil.vercel.app/",
-      category: "Web App", orientation: "portrait",
-    },
-    {
-      title: "Portfolio Website",
-      description: "This site. Personal portfolio built on Next.js and TypeScript with a hand-tuned GSAP scroll system, scroll-driven transitions, and a fully responsive layout.",
-      image: "/projects/portfolio.png",
-      tech: ["Next.js", "TypeScript", "Tailwind CSS"],
-      demoUrl: "https://ibrahimhaykal.my.id",
-      githubUrl: "https://github.com/ibrahimhaykal/portfolio-website",
-      category: "Web App",
-    },
-    {
-      title: "Cargo Invoice System",
-      description: "Admin system for Herona Express optimizing logistics transactions and invoice generation, with master data management for regional shipment tracking.",
-      image: "/projects/cargo.png",
-      tech: ["PHP", "Bootstrap", "MySQL"],
-      category: "Web App",
-    },
-  ];
-
-  const categories = ["All", "Web App", "Mobile App", "AI/ML"];
-  const filteredProjects = filter === "All" ? projects : projects.filter((p) => p.category === filter);
-  const countFor = (cat: string) =>
-    cat === "All" ? projects.length : projects.filter((p) => p.category === cat).length;
-
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "Mobile App": return <Smartphone size={12} />;
-      case "Web App":    return <Globe size={12} />;
-      case "AI/ML":      return <BrainCircuit size={12} />;
-      default:           return <Layout size={12} />;
-    }
-  };
+  const filtered = filter === "All" ? projects : projects.filter((p) => p.category === filter);
+  const shown = filtered.slice(0, limit);
+  const remaining = filtered.length - shown.length;
+  const links = selected && [
+    { href: selected.demoUrl, icon: ExternalLink, text: t("Live Demo", "Demo") },
+    { href: selected.githubUrl, icon: Github, text: t("Source Code", "Kode Sumber") },
+    { href: selected.paperUrl, icon: FileText, text: t("Thesis", "Skripsi") },
+  ].filter((l) => l.href);
 
   return (
-    <section ref={rootRef} id="projects" className="py-24 bg-transparent">
-      <div className="max-w-6xl mx-auto px-6">
-
+    <section ref={rootRef} id="projects" className="py-14 sm:py-16">
+      <div className="mx-auto max-w-6xl px-6">
         <SectionHeading
           index="02"
-          eyebrow="Selected Work"
-          title="Things I shipped."
-          subtitle="Enterprise platforms, manufacturing tooling, and client products — most of them running in production right now."
+          eyebrow={t("Selected Work", "Karya Pilihan")}
+          title={t("Things I shipped.", "Yang sudah saya rilis.")}
+          subtitle={t(
+            "Enterprise platforms, manufacturing tooling, and client products. Most of them run in production right now.",
+            "Platform enterprise, tools manufaktur, dan produk klien. Sebagian besar masih berjalan di produksi sampai sekarang."
+          )}
         />
 
-        {/* Filter Buttons */}
-        <div data-reveal className="flex flex-wrap gap-2 mb-8">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`flex items-center gap-2 rounded-full border px-4 py-2 text-[13px] font-medium transition-[color,background-color,border-color,transform] duration-200 hover:-translate-y-0.5 ${
-                filter === cat
-                  ? "border-gray-950 bg-gray-950 text-white dark:border-white dark:bg-white dark:text-black"
-                  : "border-black/[0.07] bg-white/50 text-gray-600 hover:border-sky-500/30 hover:text-gray-950 dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-gray-400 dark:hover:text-white"
-              }`}
-            >
-              {cat !== "All" && getCategoryIcon(cat)}
-              {cat}
-              <span className={`font-mono text-[10px] ${filter === cat ? "opacity-60" : "opacity-45"}`}>
-                {countFor(cat)}
+        <div data-reveal className="mb-8 flex flex-wrap gap-2">
+          {Object.keys(CATEGORY_LABEL).map((cat) => (
+            <button key={cat} onClick={() => { setFilter(cat); setLimit(PAGE); }} className={`btn !py-2 ${filter === cat ? "btn-primary" : ""}`}>
+              {t(...CATEGORY_LABEL[cat])}
+              <span className="font-mono text-[10px] opacity-60">
+                {cat === "All" ? projects.length : projects.filter((p) => p.category === cat).length}
               </span>
             </button>
           ))}
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredProjects.map((project, index) => (
-            <div
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {shown.map((project) => (
+            <button
               key={project.title}
               data-card
-              onMouseMove={onSpotlightMove}
               onClick={() => setSelected(project)}
-              className="surface surface-hover spotlight lift group flex cursor-pointer flex-col overflow-hidden"
+              className="card card-hover group flex flex-col overflow-hidden text-left"
             >
-              {/* Image */}
-              <div className="relative h-40 flex-shrink-0 overflow-hidden bg-gray-100 dark:bg-black/30">
-                {project.image ? (
-                  /* Sengaja lebih tinggi dari kontainernya dan digeser ke atas:
-                     waktu parallax menggeser gambarnya, tepi atas/bawah nggak
-                     nyisain celah kosong. */
-                  <div data-parallax="18" className="absolute inset-x-0 -top-6 h-[calc(100%+3rem)]">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className={`transition-transform duration-700 ease-out group-hover:scale-[1.06] ${
-                        project.orientation === "portrait" ? "object-contain p-3" : "object-cover"
-                      }`}
-                    />
+              <div className="divider relative h-44 w-full shrink-0 overflow-hidden border-b bg-fg/5">
+                {/* Lebih tinggi dari bingkainya, jadi waktu parallax menggeser
+                    gambar nggak ada celah kosong di atas/bawah. */}
+                <div data-speed="12" className="absolute inset-x-0 -top-6 h-[calc(100%+3rem)]">
+                  <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.04]">
+                    <Shot project={project} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
                   </div>
-                ) : (
-                  /* Monogram fallback — screenshot belum ada */
-                  <div className="relative flex h-full w-full items-center justify-center bg-[radial-gradient(120%_120%_at_30%_0%,rgba(14,165,233,0.22),transparent_60%)] dark:bg-[radial-gradient(120%_120%_at_30%_0%,rgba(14,165,233,0.28),transparent_60%)]">
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-[size:18px_18px]" />
-                    <span className="relative font-mono text-4xl font-semibold tracking-tight text-sky-600/70 dark:text-sky-300/60">
-                      {monogram(project.title)}
-                    </span>
-                  </div>
-                )}
-
-                {/* Hover overlay */}
-                <div className="absolute inset-0 flex items-end justify-end bg-gradient-to-t from-black/50 via-black/0 to-black/0 p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-900">
-                    Details <ArrowUpRight size={11} />
-                  </span>
-                </div>
-
-                {project.featured && (
-                  <div className="absolute right-2 top-2 z-10">
-                    <span className="flex items-center gap-1 rounded-full border border-white/20 bg-sky-500/90 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-white shadow">
-                      <Star size={8} className="fill-white" />
-                      Featured
-                    </span>
-                  </div>
-                )}
-                <div className="absolute left-2 top-2 z-10">
-                  <span className="flex items-center gap-1 rounded-full border border-black/5 bg-white/90 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-gray-900 shadow-sm dark:border-white/10 dark:bg-black/80 dark:text-white">
-                    {getCategoryIcon(project.category)}
-                    {project.category}
-                  </span>
                 </div>
               </div>
-
-              {/* Content */}
-              <div className="flex flex-1 flex-col p-4">
-                <div className="mb-1.5 flex items-start gap-2">
-                  <span className="mt-[3px] font-mono text-[10px] tabular-nums text-gray-300 dark:text-zinc-700">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="text-sm font-semibold leading-snug tracking-tight text-gray-950 transition-colors duration-300 group-hover:text-sky-600 dark:text-white dark:group-hover:text-sky-400">
-                    {project.title}
-                  </h3>
-                </div>
-
-                <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
-                  {project.description}
-                </p>
-
-                {/* Tech — max 3 */}
-                <div className="mt-auto flex flex-wrap gap-1">
-                  {project.tech.slice(0, 3).map((tech) => {
-                    const Icon = techIcons[tech];
-                    return (
-                      <span
-                        key={tech}
-                        className="flex items-center gap-1 rounded-md border border-black/[0.06] px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:border-white/[0.07] dark:text-gray-400"
-                      >
-                        {Icon && <span className="text-xs opacity-70" aria-hidden="true">{Icon}</span>}
-                        {tech}
-                      </span>
-                    );
-                  })}
-                  {project.tech.length > 3 && (
-                    <span className="rounded-md border border-black/[0.06] px-2 py-0.5 font-mono text-[10px] font-medium text-gray-400 dark:border-white/[0.07] dark:text-gray-500">
-                      +{project.tech.length - 3}
-                    </span>
-                  )}
-                </div>
+              <div className="flex flex-1 flex-col p-5">
+                <p className="label mb-2">{t(...CATEGORY_LABEL[project.category])}</p>
+                <h3 className="heading mb-2 text-lg leading-snug">{project.title}</h3>
+                <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-muted">{t(...project.description)}</p>
+                <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold">
+                  {t("Details", "Detail")}
+                  <ArrowUpRight size={14} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </span>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 
-        {/* Footer */}
-        <div data-reveal className="mt-12 text-center">
-          <a
-            href="https://github.com/ibrahimhaykal"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full border border-black/[0.07] px-5 py-2.5 text-sm text-gray-600 transition-[color,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-sky-500/30 hover:text-gray-950 dark:border-white/[0.07] dark:text-gray-400 dark:hover:text-white"
-          >
-            <Github size={15} />
-            <span>Full repository history on GitHub</span>
-            <ArrowUpRight
-              size={14}
-              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            />
+        {/* Load more: kartu baru otomatis kena reveal + parallax lewat
+            MutationObserver di useReveal, jadi di sini cuma nambah limit. */}
+        {filtered.length > PAGE && (
+          <div className="mt-8 flex flex-col items-center gap-2">
+            {remaining > 0 ? (
+              <button onClick={() => setLimit(limit + STEP)} className="btn btn-primary">
+                <Plus size={15} /> {t("Load more", "Muat lagi")}
+                <span className="font-mono text-xs opacity-70">+{Math.min(STEP, remaining)}</span>
+              </button>
+            ) : (
+              <button onClick={() => { setLimit(PAGE); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }} className="btn">
+                <Minus size={15} /> {t("Show less", "Tampilkan lebih sedikit")}
+              </button>
+            )}
+            <p className="font-mono text-xs text-muted">
+              {t(`${shown.length} of ${filtered.length} projects`, `${shown.length} dari ${filtered.length} proyek`)}
+            </p>
+          </div>
+        )}
+
+        <div data-reveal className="mt-10 text-center">
+          <a href="https://github.com/ibrahimhaykal" target="_blank" rel="noopener noreferrer" className="btn">
+            <Github size={15} /> {t("Full repository history on GitHub", "Riwayat repositori lengkap di GitHub")}
           </a>
         </div>
       </div>
 
-      {/* ── Detail Modal — animasi masuk lewat CSS keyframe sekali jalan.
-           Nggak ada animasi keluar: modalnya langsung unmount. Nunda unmount
-           butuh state tambahan, dan itu sumber modal nyangkut. ── */}
-      {selected && (
-        <>
+      {/* Portal ke body: kolom konten punya stacking context sendiri (z-10),
+          jadi modal di dalamnya bakal ketutup sidebar. */}
+      {selected && createPortal(
+        <div ref={modalRef} className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+          <div data-overlay onClick={() => setSelected(null)} className="absolute inset-0 bg-black/60" />
           <div
-            onClick={() => setSelected(null)}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm animate-fade-in"
-          />
-
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="animate-modal-in pointer-events-auto max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-black/[0.07] bg-white shadow-2xl dark:border-white/10 dark:bg-zinc-950"
-            >
-                {/* Modal Image */}
-                <div className="relative h-56 overflow-hidden bg-gray-100 dark:bg-black/40">
-                  {selected.image ? (
-                    <Image
-                      src={selected.image}
-                      alt={selected.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 42rem"
-                      className={selected.orientation === "portrait" ? "object-contain p-6" : "object-cover"}
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(120%_120%_at_30%_0%,rgba(14,165,233,0.22),transparent_60%)]">
-                      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-[size:22px_22px]" />
-                      <span className="relative font-mono text-6xl font-semibold tracking-tight text-sky-600/60 dark:text-sky-300/50">
-                        {monogram(selected.title)}
-                      </span>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-
-                  <button
-                    onClick={() => setSelected(null)}
-                    aria-label="Close project details"
-                    className="absolute right-3 top-3 z-10 rounded-full border border-white/20 bg-black/50 p-1.5 text-white transition-[background-color,transform] duration-200 hover:scale-110 hover:bg-black/70"
-                  >
-                    <X size={16} />
-                  </button>
-
-                  <div className="absolute bottom-3 left-4 flex items-center gap-2">
-                    <span className="flex items-center gap-1 rounded-full border border-black/5 bg-white/90 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-gray-900 dark:border-white/10 dark:bg-black/80 dark:text-white">
-                      {getCategoryIcon(selected.category)}
-                      {selected.category}
-                    </span>
-                    {selected.featured && (
-                      <span className="flex items-center gap-1 rounded-full border border-white/20 bg-sky-500/90 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white">
-                        <Star size={9} className="fill-white" />
-                        Featured
-                      </span>
-                    )}
-                  </div>
+            data-panel
+            role="dialog"
+            aria-modal="true"
+            aria-label={selected.title}
+            className="card relative max-h-[88vh] w-full max-w-2xl overflow-y-auto !bg-[rgb(var(--bg))]"
+          >
+            <div className="divider relative h-64 border-b bg-fg/5">
+              <Shot project={selected} sizes="(max-width: 768px) 100vw, 42rem" />
+              <button onClick={() => setSelected(null)} aria-label="Close project details" className="btn-icon absolute right-3 top-3">
+                <X size={16} />
+              </button>
+            </div>
+            <div className="p-6 sm:p-7">
+              <p data-panel-item className="label mb-3">{t(...CATEGORY_LABEL[selected.category])}</p>
+              <h3 data-panel-item className="heading mb-3 text-2xl">{selected.title}</h3>
+              <p data-panel-item className="mb-6 text-sm leading-relaxed text-muted">{t(...selected.description)}</p>
+              <div data-panel-item className="mb-6 flex flex-wrap gap-1.5">
+                {selected.tech.map((tech) => <TechChip key={tech} name={tech} />)}
+              </div>
+              {links && links.length > 0 && (
+                <div data-panel-item className="divider flex flex-wrap gap-3 border-t pt-5">
+                  {links.map((l, i) => (
+                    <a key={l.text} href={l.href} target="_blank" rel="noopener noreferrer" className={`btn ${i === 0 ? "btn-primary" : ""}`}>
+                      <l.icon size={14} /> {l.text}
+                    </a>
+                  ))}
                 </div>
-
-                {/* Modal Body */}
-                <div className="p-6 sm:p-7">
-                  <h3 className="mb-3 text-xl font-semibold tracking-tight text-gray-950 dark:text-white">
-                    {selected.title}
-                  </h3>
-                  <p className="mb-6 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                    {selected.description}
-                  </p>
-
-                  <div className="mb-6 flex flex-wrap gap-1.5">
-                    {selected.tech.map((tech) => {
-                      const Icon = techIcons[tech];
-                      return (
-                        <span
-                          key={tech}
-                          className="flex items-center gap-1.5 rounded-md border border-black/[0.07] bg-black/[0.02] px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-gray-400"
-                        >
-                          {Icon && <span className="opacity-70" aria-hidden="true">{Icon}</span>}
-                          {tech}
-                        </span>
-                      );
-                    })}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex flex-wrap items-center gap-3 border-t border-black/[0.06] pt-5 dark:border-white/[0.07]">
-                    {selected.demoUrl && (
-                      <a
-                        href={selected.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-transform duration-200 hover:-translate-y-0.5 dark:bg-white dark:text-black"
-                      >
-                        <ExternalLink size={14} />
-                        Live Demo
-                      </a>
-                    )}
-                    {selected.githubUrl && (
-                      <a
-                        href={selected.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 rounded-full border border-black/[0.07] px-4 py-2 text-sm font-semibold text-gray-900 transition-transform duration-200 hover:-translate-y-0.5 dark:border-white/10 dark:text-white"
-                      >
-                        <Github size={14} />
-                        Source Code
-                      </a>
-                    )}
-                    {selected.paperUrl && (
-                      <a
-                        href={selected.paperUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 rounded-full border border-black/[0.07] px-4 py-2 text-sm font-semibold text-gray-900 transition-transform duration-200 hover:-translate-y-0.5 dark:border-white/10 dark:text-white"
-                      >
-                        <FileText size={14} />
-                        Thesis
-                      </a>
-                    )}
-                    <button
-                      onClick={() => setSelected(null)}
-                      className="ml-auto font-mono text-[11px] uppercase tracking-[0.14em] text-gray-400 transition-colors hover:text-gray-700 dark:hover:text-gray-200"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
+              )}
             </div>
           </div>
-        </>
+        </div>,
+        document.body
       )}
     </section>
   );

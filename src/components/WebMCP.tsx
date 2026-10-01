@@ -11,7 +11,7 @@ import { SITE_URL } from "../lib/site";
  *
  * The API is an experimental proposal and still in flux, so registration is
  * feature-detected, supports both known entry points, and is wrapped in
- * try/catch — in any shipping browser `navigator.modelContext` is undefined and
+ * try/catch, in any shipping browser `navigator.modelContext` is undefined and
  * this component does nothing at all.
  */
 
@@ -38,8 +38,8 @@ const PROFILE = {
   location: "Jakarta, Indonesia (GMT+7), open to remote",
   availability: "Open to Full Stack Developer and Backend Developer roles",
   education:
-    "Applied Bachelor of Computer Science (S.Tr.Kom), Industrial Automotive Information Systems — Politeknik STMI Jakarta, Ministry of Industry. Sep 2022 – Jul 2026, GPA 3.77/4.00.",
-  certification: "Database Administrator — BNSP National Professional Certification",
+    "Applied Bachelor of Computer Science (S.Tr.Kom), Industrial Automotive Information Systems, Politeknik STMI Jakarta, Ministry of Industry. Sep 2022 – Jul 2026, GPA 3.77/4.00.",
+  certification: "Database Administrator, BNSP National Professional Certification",
   thesis: {
     title:
       "Implementation of a Steel Sheet Monitoring Information System to Improve Material Search Efficiency at PT Gemala Kempa Daya",
@@ -69,8 +69,6 @@ const PROFILE = {
 
 const CONTACT = {
   email: "ibrahimhaykal@gmail.com",
-  whatsapp: "https://wa.me/6289628066432",
-  phone: "+62 896 2806 6432",
   linkedin: "https://www.linkedin.com/in/ibrahimhaykalalatas/",
   github: "https://github.com/ibrahimhaykal",
   form: `${SITE_URL}/#contact`,
@@ -115,7 +113,7 @@ const TOOLS: ToolDefinition[] = [
   {
     name: "get_contact_channels",
     description:
-      "Get every way to reach Ibrahim Haykal Alatas — email, WhatsApp, LinkedIn, GitHub, and the on-site contact form.",
+      "Get every way to reach Ibrahim Haykal Alatas, email, LinkedIn, GitHub, and the on-site contact form.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
     execute: () => toResult(JSON.stringify(CONTACT, null, 2)),
   },
@@ -149,7 +147,7 @@ const TOOLS: ToolDefinition[] = [
   {
     name: "fill_contact_form",
     description:
-      "Fill the contact form with a sender name, email, and message, then scroll to it. This does NOT send anything — it only prepares the form. Tell the person to review the draft and press Send themselves.",
+      "Fill the contact form with a sender name, email, and message, then scroll to it. This does NOT send anything, it only prepares the form. Tell the person to review the draft and press Send themselves.",
     inputSchema: {
       type: "object",
       properties: {
@@ -186,7 +184,7 @@ const TOOLS: ToolDefinition[] = [
       document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
 
       return toResult(
-        "Contact form filled and scrolled into view. The message has NOT been sent — ask the person to review it and press the Send Message button."
+        "Contact form filled and scrolled into view. The message has NOT been sent, ask the person to review it and press the Send Message button."
       );
     },
   },

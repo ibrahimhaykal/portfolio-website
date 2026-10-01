@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, type RefObject } from "react";
-import { gsap, EASE } from "./gsap";
+import { gsap, EASE, ScrollTrigger, ScrollSmoother } from "./gsap";
 
 /*
   Reveal on scroll: IntersectionObserver yang MEMICU, GSAP yang MENGANIMASI.
@@ -11,7 +11,7 @@ import { gsap, EASE } from "./gsap";
   apakah font sudah dimuat, dan apakah ada yang manggil refresh() setelah layout
   berubah. Di halaman ini semua section sudah ada di DOM sejak awal di balik
   loading screen, dan urutan itu ternyata bikin perhitungannya nggak pernah
-  benar — animasinya kepakai habis sebelum sempat kelihatan.
+  benar, animasinya kepakai habis sebelum sempat kelihatan.
 
   IntersectionObserver nggak menghitung apa pun. Browser yang bilang "elemen ini
   masuk layar", titik.
@@ -29,12 +29,12 @@ type RevealSpec = {
 /*
   Wipe: konten tersingkap dari bawah ke atas tanpa bergeser sedikit pun.
 
-  Setelah selesai, clip-path-nya ditimpa jadi `none` — dua alasan:
+  Setelah selesai, clip-path-nya ditimpa jadi `none`, dua alasan:
 
   1. `inset(0 0 0 0)` memotong tepat di border-box, jadi bayangan kartu ikut
      kepotong kalau dibiarkan nempel.
   2. JANGAN pakai clearProps buat ini. clearProps menghapus inline style, dan
-     elemennya langsung jatuh balik ke aturan CSS — yang isinya
+     elemennya langsung jatuh balik ke aturan CSS, yang isinya
      `clip-path: inset(0 0 100% 0)`. Hasilnya: animasi masuk, selesai, lalu
      kontennya lenyap lagi.
 */
@@ -62,7 +62,7 @@ const SPECS: RevealSpec[] = [
     stagger: 0.12,
   },
   {
-    // Kartu naik sambil membesar sedikit — kesannya maju ke depan, bukan cuma
+    // Kartu naik sambil membesar sedikit, kesannya maju ke depan, bukan cuma
     // geser ke atas.
     selector: "[data-card]",
     from: { opacity: 0, y: 30, scale: 0.97 },
@@ -102,7 +102,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
         if (!items.length) continue;
 
         // Tanpa IntersectionObserver nggak ada cara aman buat tahu kapan elemen
-        // kelihatan — tampilkan apa adanya.
+        // kelihatan, tampilkan apa adanya.
         if (typeof IntersectionObserver === "undefined") {
           gsap.set(items, spec.to);
           continue;
@@ -110,7 +110,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
 
         /*
           Reduce motion TIDAK berarti "nggak ada animasi", dan juga nggak harus
-          berarti "semuanya fade" — fade polos di semua elemen justru kelihatan
+          berarti "semuanya fade", fade polos di semua elemen justru kelihatan
           murahan.
 
           Yang dilarang cuma GERAKAN. Wipe memenuhi syarat itu: elemennya diam
@@ -124,7 +124,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
               .map((entry) => entry.target as HTMLElement);
             if (!entered.length) return;
 
-            // Berhenti mengamati dulu — reveal cuma sekali, nggak mundur lagi
+            // Berhenti mengamati dulu, reveal cuma sekali, nggak mundur lagi
             // waktu di-scroll balik.
             entered.forEach((el) => observer.unobserve(el));
 
@@ -145,7 +145,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
           /*
             threshold 0: satu piksel bersinggungan udah cukup.
 
-            Dulu 0.12 — dan waktu di-scroll cepat, elemen bisa lewat dari bawah
+            Dulu 0.12, dan waktu di-scroll cepat, elemen bisa lewat dari bawah
             root ke atas root di antara dua sampel observer tanpa pernah
             tercatat 12% kelihatan. Elemennya lalu nyangkut transparan.
           */
@@ -156,7 +156,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
           Didaftarkan lewat fungsi, bukan sekali jalan.
 
           Kalau React mengganti `key` sebuah elemen (misalnya karena judulnya
-          diedit), node lamanya dibuang dan diganti node baru — sementara
+          diedit), node lamanya dibuang dan diganti node baru, sementara
           observer masih mengawasi node lama yang udah nggak ada. Node barunya
           nggak pernah terdaftar, jadi diam di opacity 0 selamanya.
 
@@ -176,12 +176,45 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
         registrars.push(register);
         observers.push(observer);
       }
+
+      /*
+        Parallax: <div data-speed="24"> bergeser dari -24px ke +24px selama
+        induknya melintasi layar. Yang dipicu induknya, bukan elemennya sendiri,
+        supaya posisi start/end nggak ikut berubah gara-gara elemen yang
+        digeser. Jangan pasang di elemen yang juga punya data-reveal/data-card.
+      */
+      if (!reduced) registrars.push(registerParallax);
     }, root);
+
+    function registerParallax() {
+      for (const el of root!.querySelectorAll<HTMLElement>("[data-speed]")) {
+        if (registered.has(el)) continue;
+        registered.add(el);
+        const range = Number(el.dataset.speed) || 20;
+        // context.add: tween yang dibuat belakangan (dari MutationObserver)
+        // tetap ikut dibersihkan waktu context di-revert.
+        context.add(() => {
+          gsap.fromTo(
+            el,
+            { y: -range },
+            {
+              y: range,
+              ease: "none",
+              scrollTrigger: { trigger: el.parentElement ?? el, start: "top bottom", end: "bottom top", scrub: 0.6 },
+            }
+          );
+        });
+      }
+    }
+    if (!reduced) registerParallax();
 
     // Node baru yang masuk belakangan ikut didaftarkan. Ini yang bikin elemen
     // nggak pernah lagi nyangkut transparan gara-gara React mengganti node.
+    // Halaman jadi lebih panjang (misal "Load more"), jadi posisi start/end
+    // ScrollTrigger di bawahnya perlu dihitung ulang.
     const mutations = new MutationObserver(() => {
       registrars.forEach((register) => register());
+      ScrollTrigger.refresh();
     });
     mutations.observe(root, { childList: true, subtree: true });
 
@@ -194,7 +227,13 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
   }, deps);
 }
 
-/** Lompat ke section. Smooth-nya dari `scroll-behavior: smooth` di CSS. */
+/** Lompat ke section. Lewat ScrollSmoother kalau aktif, biar geraknya sama halusnya. */
 export function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const el = document.getElementById(id);
+  if (!el) return;
+  // Di mobile ada header fixed di atas (lg:hidden), jadi sisakan ruang buatnya.
+  const offset = window.innerWidth < 1024 ? 72 : 0;
+  const smoother = ScrollSmoother.get();
+  if (smoother) smoother.scrollTo(el, true, `top ${offset}px`);
+  else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
 }

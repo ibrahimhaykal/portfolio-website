@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
 
   return {
     rules: [
-      // Every AI agent is listed explicitly — some of them ignore wildcard groups
+      // Every AI agent is listed explicitly: some of them ignore wildcard groups
       // and only honour a rule block that names them.
       ...aiAgents.map((userAgent) => ({
         userAgent,

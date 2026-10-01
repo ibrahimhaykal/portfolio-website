@@ -10,7 +10,7 @@ export const SITE_DESCRIPTION =
 
 /**
  * AI crawlers explicitly allowed in robots.txt.
- * Split by purpose so the policy is auditable — both groups are currently allowed.
+ * Split by purpose so the policy is auditable, both groups are currently allowed.
  */
 export const AI_CRAWLERS = {
   /** Fetch pages to answer live user queries (AI search / retrieval). */
