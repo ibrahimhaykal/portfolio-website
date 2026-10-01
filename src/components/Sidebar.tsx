@@ -11,7 +11,7 @@ import ThemeSwitcher from "./ThemeSwitcher";
 function LangToggle() {
   const { lang, setLang } = useLang();
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-2 gap-3">
       {(["en", "id"] as const).map((l) => (
         <button
           key={l}
@@ -69,7 +69,7 @@ export default function Sidebar() {
   );
 
   const settings = (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <ThemeSwitcher />
       <LangToggle />
     </div>
@@ -89,7 +89,8 @@ export default function Sidebar() {
 
         <nav className="my-6 flex-1 space-y-0.5">{nav}</nav>
 
-        <a href="/cv/Resume_Ibrahim_Haykal_Alatas.pdf" target="_blank" rel="noopener noreferrer" className="btn mb-2 w-full">
+        <div className="divider mb-4 border-t" />
+        <a href="/cv/Resume_Ibrahim_Haykal_Alatas.pdf" target="_blank" rel="noopener noreferrer" className="btn mb-3 w-full">
           <FileText size={15} /> {t("Resume", "CV")}
         </a>
         {settings}

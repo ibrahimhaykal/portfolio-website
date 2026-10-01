@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Briefcase, Handshake, Layers, Send, Trophy, X, type LucideIcon } from "lucide-react";
+import { Briefcase, Handshake, Layers, MessageCircle, Send, Trophy, X, type LucideIcon } from "lucide-react";
 import { gsap, useGSAP } from "../lib/gsap";
 import { useLang, type Pair } from "../lib/i18n";
 
@@ -271,13 +271,9 @@ export default function AskMe() {
         onClick={toggle}
         aria-expanded={open}
         aria-label={t("Ask about my work", "Tanya soal karya saya")}
-        className="btn btn-primary fixed bottom-6 right-5 z-[60] !rounded-full !py-1.5 !pl-1.5 !pr-1.5 sm:!pr-4"
+        className="btn btn-primary fixed bottom-6 right-5 z-[60] !rounded-full !p-3 sm:!px-5"
       >
-        {open ? (
-          <span className="flex h-8 w-8 items-center justify-center"><X size={16} /></span>
-        ) : (
-          <Avatar size={32} waving />
-        )}
+        {open ? <X size={18} /> : <MessageCircle size={18} />}
         <span className="hidden sm:inline">{t("Ask about my work", "Tanya soal karya saya")}</span>
       </button>
     </>
