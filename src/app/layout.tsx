@@ -248,7 +248,7 @@ export default function RootLayout({
               "name": "VALAK CRM, Actuarial Consulting Platform",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Web",
-              "description": "Enterprise CRM for an actuarial consulting firm built with Laravel 12, React 19, TypeScript, and MySQL. Includes a 19-stage project board with Pusher real-time sync and optimistic drag-and-drop, 32 REST endpoints across 6 controllers, an Excel-driven configuration pipeline, and role-based dashboards for 6 internal roles.",
+              "description": "Internal CRM for an actuarial consulting firm that carries a PSAK 219 employee-benefit valuation from quotation to billing. Includes a digital actuarial report module with multi-book projects and final report release, an 18-stage project board for 7 roles with realtime updates, and a backend relay to the actuarial valuation app. React 19, TypeScript, Laravel 12, MySQL.",
               "author": { "@id": `${SITE_URL}/#person` }
             }
           },

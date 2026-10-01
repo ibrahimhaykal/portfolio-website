@@ -31,34 +31,42 @@ const experiences: Job[] = [
     logo: "datapolis",
     current: true,
     metrics: [
-      ["19-stage project board", "Papan proyek 19 tahap"],
-      ["32 REST endpoints", "32 endpoint REST"],
-      ["Real-time via Pusher", "Real-time lewat Pusher"],
-      ["6 internal roles", "6 peran internal"],
+      ["18 stages · 7 roles", "18 stage · 7 peran"],
+      ["625 FE + 116 BE commits", "625 commit FE + 116 BE"],
+      ["17 → 1 requests", "17 → 1 request"],
+      ["930 → 205 ms", "930 → 205 ms"],
     ],
     achievements: [
       [
-        "Developing VALAK CRM, an actuarial consulting platform on Laravel 12, React 19, TypeScript, and MySQL, spanning authentication, master data, calculation, and reporting for 6 internal roles.",
-        "Mengembangkan VALAK CRM, platform konsultasi aktuaria dengan Laravel 12, React 19, TypeScript, dan MySQL, mencakup autentikasi, master data, perhitungan, dan pelaporan untuk 6 peran internal.",
+        "Built a PSAK 219 actuarial report module in React and TypeScript, including multi-book projects and an automated final report release that replaced a manual process.",
+        "Membangun modul laporan aktuaria digital PSAK 219 di React dan TypeScript, termasuk dukungan project multi-buku dan penerbitan laporan final yang sebelumnya dikerjakan manual.",
       ],
       [
-        "Built a 19-stage project board with Pusher real-time sync and optimistic drag-and-drop with rollback, using in-flight move reconciliation to prevent stale-state overwrites under rapid updates.",
-        "Membangun papan proyek 19 tahap dengan sinkronisasi real-time Pusher dan drag-and-drop optimistis dengan rollback, memakai rekonsiliasi perpindahan in-flight agar state lama tidak menimpa update yang datang cepat.",
+        "Built an 18-stage project management board for 7 roles with realtime updates, now the firm's main workflow.",
+        "Membangun papan Project Management 18 stage untuk 7 peran dengan pembaruan realtime, dipakai sebagai alur kerja utama kantor.",
       ],
       [
-        "Delivered 32 REST endpoints across 6 controllers on a repository, service and handler structure, and resolved cross-layer defects in role-based board access.",
-        "Menghadirkan 32 endpoint REST di 6 controller dengan struktur repository, service, dan handler, serta memperbaiki defect lintas layer pada akses papan berbasis peran.",
+        "Integrated the CRM with the actuarial valuation app through a backend relay covering data upload, calculation runs, and status tracking.",
+        "Menyambungkan CRM dengan aplikasi valuasi lewat relay backend, mencakup unggah data, menjalankan perhitungan, dan memantau statusnya dari satu aplikasi.",
       ],
       [
-        "Engineered an Excel-driven configuration pipeline: client-side parsing, header-driven editable previews, and in-place cell rewriting that preserves multi-sheet structure, relayed to a legacy calculation engine via machine-to-machine auth.",
-        "Merancang pipeline konfigurasi berbasis Excel: parsing di sisi klien, preview yang bisa diedit berdasarkan header, dan penulisan ulang sel di tempat yang menjaga struktur multi-sheet, diteruskan ke engine perhitungan lama lewat autentikasi machine-to-machine.",
+        "Cut page requests: a 1,664-row company directory went from 17 chained requests to 1, and heavy sections now load on scroll.",
+        "Memangkas request halaman berat: direktori 1.664 data dari 17 request berantai menjadi 1, dan pemuatan bagian berat ditunda sampai terlihat.",
       ],
       [
-        "Built role-based dashboards and todo workflows for all 6 roles with a shared typed chart library and Leaflet maps, plus AI summary insights scoped per project and aware of document versions.",
-        "Membangun dashboard dan alur todo berbasis peran untuk ke-6 peran dengan library chart bertipe bersama dan peta Leaflet, plus ringkasan insight AI per proyek yang memahami versi dokumen.",
+        "Wrote Laravel endpoints for leads, regional and team access control, and email preview, with API documentation.",
+        "Menulis endpoint Laravel untuk lead, kontrol akses regional dan tim, serta pratinjau email, lengkap dengan dokumentasinya.",
+      ],
+      [
+        "Built the account and security module on both sides for an app holding client payroll and employee benefit liabilities: email and password changes hashed server side, session cleanup on rejected tokens, and per-account data isolation on shared devices.",
+        "Membangun modul akun dan keamanan di kedua sisi untuk aplikasi berisi data gaji dan kewajiban imbalan kerja klien: ganti email dan sandi dengan hash di server, pembersihan sesi saat token ditolak, dan pemisahan data antar akun di perangkat yang sama.",
+      ],
+      [
+        "Reduced server load through CORS preflight caching, column selection, and merging filter-option queries from 930 ms to 205 ms.",
+        "Menurunkan beban server lewat cache preflight CORS, pemilihan kolom query, dan penggabungan query opsi filter dari 930 ms menjadi 205 ms.",
       ],
     ],
-    tech: ["Laravel", "React", "TypeScript", "MySQL", "Pusher", "Tailwind CSS"],
+    tech: ["React", "TypeScript", "Laravel", "MySQL", "Tailwind CSS"],
   },
   {
     role: ["Full Stack Developer Intern", "Magang Full Stack Developer"],

@@ -23,6 +23,8 @@ type Project = {
   githubUrl?: string;
   /** Published paper or thesis backing the project. */
   paperUrl?: string;
+  /** Cerita singkat di modal: masalahnya, peranku, keputusan penting, hasilnya. */
+  caseStudy?: { problem: Pair; role: Pair; decisions: Pair[]; result: Pair };
 };
 
 const CATEGORY_LABEL: Record<string, Pair> = {
@@ -36,12 +38,48 @@ const projects: Project[] = [
   {
     title: "VALAK CRM, Actuarial Consulting",
     description: [
-      "Enterprise CRM for an actuarial consulting firm on Laravel 12, React 19, TypeScript, and MySQL. A 19-stage project board synced live over Pusher with optimistic drag-and-drop and rollback, 32 REST endpoints across 6 controllers, an Excel-driven configuration pipeline that rewrites cells in place while preserving multi-sheet structure, and role-based dashboards for 6 internal roles.",
-      "CRM enterprise untuk firma konsultan aktuaria dengan Laravel 12, React 19, TypeScript, dan MySQL. Papan proyek 19 tahap yang tersinkron live lewat Pusher dengan drag-and-drop optimistis dan rollback, 32 endpoint REST di 6 controller, pipeline konfigurasi berbasis Excel yang menulis ulang sel di tempat tanpa merusak struktur multi-sheet, serta dashboard berbasis peran untuk 6 peran internal.",
+      "Internal CRM for an actuarial consulting firm that carries a PSAK 219 valuation from quotation to billing. I built the digital actuarial report module with multi-book projects and final report release, the 18-stage project board for 7 roles with realtime updates, and the bridge to the valuation app. React 19, TypeScript, and Laravel 12.",
+      "CRM internal untuk kantor konsultan aktuaria yang membawa project valuasi PSAK 219 dari penawaran sampai penagihan. Saya membangun modul laporan aktuaria digital dengan dukungan multi-buku dan penerbitan laporan final, papan Project Management 18 stage untuk 7 peran dengan pembaruan realtime, serta jembatan ke aplikasi valuasi. React 19, TypeScript, dan Laravel 12.",
     ],
     image: "/projects/crm.png",
-    tech: ["Laravel", "React", "TypeScript", "MySQL", "Pusher", "Tailwind CSS"],
+    tech: ["React", "TypeScript", "Laravel", "MySQL", "Vite", "React Query", "Tailwind CSS"],
     category: "Web App",
+    caseStudy: {
+      problem: [
+        "One PSAK 219 employee-benefit valuation runs from quotation, employee data collection, and calculation in a separate valuation app, through draft report, sign-off, and printing, to billing. Seven roles touch it, and most of the flow was tracked by hand outside any system.",
+        "Satu project valuasi imbalan kerja PSAK 219 berjalan dari penawaran, pengumpulan data karyawan, dan perhitungan di aplikasi valuasi terpisah, lewat draft laporan, pengesahan, dan cetak buku, sampai penagihan. Tujuh peran terlibat, dan sebagian besar alurnya dilacak manual di luar sistem.",
+      ],
+      role: [
+        "Main frontend developer on the React app (625 commits), plus the Laravel endpoints those flows needed (116 commits), in a repo shared by several engineers. In daily use since the trial began in late September 2026.",
+        "Peran utama di frontend React (625 commit), ditambah endpoint Laravel yang dibutuhkan alur itu (116 commit), di repo yang digarap banyak engineer. Dipakai setiap hari sejak fase trial akhir September 2026.",
+      ],
+      decisions: [
+        [
+          "The prototype kept board stages in each browser's localStorage because the endpoint did not exist yet. Once the backend was ready I moved them to the database, so two people can no longer see different stages for the same project and press actions that no longer apply.",
+          "Prototipe menyimpan stage papan di localStorage tiap browser karena endpoint-nya belum ada. Begitu backend tersedia, saya pindahkan ke database, jadi dua orang tidak lagi melihat stage berbeda untuk project yang sama lalu menekan aksi yang sudah tidak berlaku.",
+        ],
+        [
+          "Moved access rules to the backend and had the frontend read flags from it, so nobody sees a button the server will reject. One account went from seeing 22 other people's tasks to 0.",
+          "Memindahkan aturan akses ke backend dan frontend cukup membaca flag darinya, jadi tidak ada lagi tombol yang akhirnya ditolak server. Satu akun yang tadinya melihat 22 tugas milik orang lain turun menjadi 0.",
+        ],
+        [
+          "Treated accounts and sessions as a requirement, since the app holds client payroll and employee benefit liabilities. I built the account and security module on both sides: email and password changes hashed on the server (the prototype kept passwords in the browser), forced logout and state cleanup when a token is rejected, and per-account data cleared on logout for shared devices.",
+          "Memperlakukan akun dan sesi sebagai syarat, karena aplikasinya menyimpan data gaji dan kewajiban imbalan kerja klien. Saya membangun modul akun dan keamanan di kedua sisi: ganti email dan sandi dengan hash di server (prototipe menyimpan sandi di browser), logout paksa dan pembersihan state saat token ditolak, serta data per akun dibersihkan saat logout untuk perangkat bersama.",
+        ],
+        [
+          "Bridged the CRM to the valuation app through a backend relay: employee data, company regulations, configuration, and Tables 1 to 5 are checked for anomalies, sent, calculated, and tracked without leaving the CRM.",
+          "Menjembatani CRM dengan aplikasi valuasi lewat relay backend: data karyawan, peraturan perusahaan, konfigurasi, dan Tabel 1 sampai 5 diperiksa anomalinya, dikirim, dihitung, dan dipantau tanpa keluar dari CRM.",
+        ],
+        [
+          "Fixed what the trial exposed: a 1,664-company directory went from 17 chained requests to 1, CORS preflight is cached for 24 hours (half of a page's 66 requests were empty preflights), and filter options dropped from 930 ms to 205 ms.",
+          "Membereskan temuan trial: direktori 1.664 perusahaan dari 17 request berantai menjadi 1, preflight CORS di-cache 24 jam (separuh dari 66 request satu halaman adalah preflight kosong), dan opsi filter turun dari 930 ms ke 205 ms.",
+        ],
+      ],
+      result: [
+        "The firm's main daily workflow: an 18-stage board for 7 roles, digital PSAK 219 reports with multi-book support, and a final report release that replaced a manual process.",
+        "Alur kerja utama kantor setiap hari: papan 18 stage untuk 7 peran, laporan PSAK 219 digital dengan dukungan multi-buku, dan penerbitan laporan final yang menggantikan proses manual.",
+      ],
+    },
   },
   {
     title: "Real-Time Warehouse Inventory",
@@ -53,6 +91,38 @@ const projects: Project[] = [
     tech: ["Laravel", "PostgreSQL", "Oracle", "JavaScript"],
     paperUrl: "http://repository.stmi.ac.id/id/eprint/2840/",
     category: "Web App",
+    caseStudy: {
+      problem: [
+        "Steel sheet material sat in 48 floor-storage blocks with 400+ transactions a week, tracked by hand on top of a read-only ERP. Finding one material took 103 minutes on average.",
+        "Material steel sheet tersimpan di 48 blok lantai dengan 400+ transaksi per minggu, dicatat manual di atas ERP yang read-only. Mencari satu material rata-rata butuh 103 menit.",
+      ],
+      role: [
+        "Full stack developer intern at PT Gemala Kempa Daya. The system is also the subject of my published thesis.",
+        "Magang full stack developer di PT Gemala Kempa Daya. Sistem ini juga jadi topik skripsi saya yang sudah terbit.",
+      ],
+      decisions: [
+        [
+          "QR scanning at the gate, so every movement in or out is recorded the moment it happens instead of being typed in later.",
+          "Scan QR di gate, jadi setiap material masuk atau keluar tercatat saat itu juga, bukan diketik belakangan.",
+        ],
+        [
+          "A digital map of the blocks that mirrors the physical floor, so operators look a block up instead of walking the floor.",
+          "Peta blok digital yang meniru lantai gudang aslinya, jadi operator cukup mencari di layar, bukan menyusuri gudang.",
+        ],
+        [
+          "FIFO and supply scheduling enforced by the new system, since the Infor/Baan ERP was read-only and could not be changed.",
+          "FIFO dan penjadwalan suplai dijalankan oleh sistem baru, karena ERP Infor/Baan read-only dan tidak bisa diubah.",
+        ],
+        [
+          "Impact measured with a time study across 30 measurement cycles, not estimated.",
+          "Dampaknya diukur lewat time study pada 30 siklus pengukuran, bukan perkiraan.",
+        ],
+      ],
+      result: [
+        "Material search time cut by 76.10%, from 103.00 to 24.62 minutes.",
+        "Waktu pencarian material turun 76,10%, dari 103,00 menjadi 24,62 menit.",
+      ],
+    },
   },
   {
     title: "Smart Andon Ticketing System",
@@ -265,7 +335,10 @@ export default function Projects() {
                 </div>
               </div>
               <div className="flex flex-1 flex-col p-5">
-                <p className="label mb-2">{t(...CATEGORY_LABEL[project.category])}</p>
+                <p className="mb-2 flex flex-wrap items-center gap-2">
+                  <span className="label">{t(...CATEGORY_LABEL[project.category])}</span>
+                  {project.caseStudy && <span className="chip btn-primary !py-0.5">{t("Case study", "Studi kasus")}</span>}
+                </p>
                 <h3 className="heading mb-2 text-lg leading-snug">{project.title}</h3>
                 <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-muted">{t(...project.description)}</p>
                 <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold">
@@ -326,6 +399,28 @@ export default function Projects() {
               <p data-panel-item className="label mb-3">{t(...CATEGORY_LABEL[selected.category])}</p>
               <h3 data-panel-item className="heading mb-3 text-2xl">{selected.title}</h3>
               <p data-panel-item className="mb-6 text-sm leading-relaxed text-muted">{t(...selected.description)}</p>
+              {selected.caseStudy && (
+                <div data-panel-item className="divider mb-6 space-y-5 border-t pt-5 text-sm leading-relaxed">
+                  <div>
+                    <p className="label mb-2">{t("The problem", "Masalahnya")}</p>
+                    <p className="text-muted">{t(...selected.caseStudy.problem)}</p>
+                  </div>
+                  <div>
+                    <p className="label mb-2">{t("My role", "Peran saya")}</p>
+                    <p className="text-muted">{t(...selected.caseStudy.role)}</p>
+                  </div>
+                  <div>
+                    <p className="label mb-2">{t("Key decisions", "Keputusan penting")}</p>
+                    <ol className="list-decimal space-y-1.5 pl-5 text-muted marker:font-mono marker:text-fg">
+                      {selected.caseStudy.decisions.map((d) => <li key={d[0]}>{t(...d)}</li>)}
+                    </ol>
+                  </div>
+                  <div className="card p-4">
+                    <p className="label mb-2">{t("Result", "Hasilnya")}</p>
+                    <p className="font-semibold">{t(...selected.caseStudy.result)}</p>
+                  </div>
+                </div>
+              )}
               <div data-panel-item className="mb-6 flex flex-wrap gap-1.5">
                 {selected.tech.map((tech) => <TechChip key={tech} name={tech} />)}
               </div>

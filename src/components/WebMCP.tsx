@@ -57,8 +57,8 @@ const PROFILE = {
   },
   highlights: [
     "Reduced warehouse material search time by 76.10% (103.00 → 24.62 minutes) at PT Gemala Kempa Daya, validated by time study over 30 cycles.",
-    "Built a 19-stage project board in VALAK CRM with Pusher real-time sync and optimistic drag-and-drop with rollback, using in-flight move reconciliation to prevent stale-state overwrites.",
-    "Delivered 32 REST endpoints across 6 controllers on a repository-service-handler structure.",
+    "Built a PSAK 219 actuarial report module and an 18-stage project board for 7 roles in VALAK CRM, now the firm's main daily workflow.",
+    "Cut a 1,664-row company directory from 17 chained requests to 1, and merged filter-option queries from 930 ms to 205 ms.",
     "Executed a phased Oracle-to-PostgreSQL migration with an application-level dual-write strategy and zero production downtime.",
     "Built 30,000+ row multi-sheet Excel reporting exports that complete in around 9 seconds.",
     "2nd place nationally, Hackathon 2025, for an MSME digital platform with WhatsApp chatbot integration.",

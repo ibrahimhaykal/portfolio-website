@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import type { IconType } from "react-icons";
+import { Trophy, BadgeCheck, BookOpen, ArrowUpRight } from "lucide-react";
 import {
   FaLaravel, FaPhp, FaNodeJs, FaReact, FaJs, FaPython,
   FaFigma, FaGitAlt, FaDocker, FaDatabase
@@ -24,6 +25,17 @@ const stats: Array<{ value: string; label: Pair; note: Pair }> = [
   { value: "13", label: ["Projects delivered", "Proyek selesai"], note: ["internal + client", "internal + klien"] },
   { value: "3.77", label: ["GPA / 4.00", "IPK / 4.00"], note: ["graduated 2026", "lulus 2026"] },
   { value: "76.1%", label: ["Search time cut", "Waktu cari turun"], note: ["103.0 → 24.6 min", "103,0 → 24,6 menit"] },
+];
+
+const achievements: Array<{ icon: typeof Trophy; title: Pair; note: Pair; href?: string }> = [
+  { icon: Trophy, title: ["2nd Place, National Hackathon", "Juara 2 Hackathon Nasional"], note: ["SME Digital Platform, 2025", "Platform Digital UMKM, 2025"] },
+  { icon: BadgeCheck, title: ["Certified Database Administrator", "Database Administrator Bersertifikat"], note: ["BNSP national certification", "Sertifikasi nasional BNSP"] },
+  {
+    icon: BookOpen,
+    title: ["Published thesis", "Skripsi terbit"],
+    note: ["76.10% faster material search", "Pencarian material 76,10% lebih cepat"],
+    href: "http://repository.stmi.ac.id/id/eprint/2840/",
+  },
 ];
 
 const stack: Array<{ group: string; items: Skill[] }> = [
@@ -155,6 +167,27 @@ export default function About() {
               <div className="mt-0.5 text-xs text-muted">{t(...stat.note)}</div>
             </div>
           ))}
+        </div>
+
+        <div className="mb-10 grid gap-3 sm:grid-cols-3">
+          {achievements.map((a) => {
+            const body = (
+              <>
+                <a.icon size={20} className="mb-3" />
+                <p className="heading text-base leading-snug">{t(...a.title)}</p>
+                <p className="mt-1 flex items-center gap-1 text-xs text-muted">
+                  {t(...a.note)} {a.href && <ArrowUpRight size={12} />}
+                </p>
+              </>
+            );
+            return a.href ? (
+              <a key={a.title[0]} data-reveal href={a.href} target="_blank" rel="noopener noreferrer" className="card card-hover block p-5">
+                {body}
+              </a>
+            ) : (
+              <div key={a.title[0]} data-reveal className="card p-5">{body}</div>
+            );
+          })}
         </div>
 
         <div data-reveal className="card space-y-5 overflow-hidden p-6">

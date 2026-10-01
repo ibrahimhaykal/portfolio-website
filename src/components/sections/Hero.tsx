@@ -9,6 +9,8 @@ import { useLang, type Pair } from "../../lib/i18n";
 
 const NAME = ["Ibrahim", "Haykal", "Alatas"];
 
+const GREETINGS = ["Hello", "Halo", "こんにちは", "Hola", "Bonjour", "안녕하세요", "Ciao"];
+
 const socials = [
   { icon: Github, link: "https://github.com/ibrahimhaykal", label: "Visit GitHub Profile" },
   { icon: Linkedin, link: "https://www.linkedin.com/in/ibrahimhaykalalatas/", label: "Visit LinkedIn Profile" },
@@ -23,7 +25,8 @@ const facts: Array<{ label: Pair; value: Pair; logo?: string }> = [
 
 export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
-  const { t } = useLang();
+  const greetRef = useRef<HTMLSpanElement>(null);
+  const { lang, t } = useLang();
 
   /*
     Keadaan awal (opacity 0) dipasang CSS biar nggak sempat kegambar sebelum
@@ -59,6 +62,47 @@ export default function Hero() {
     { scope: rootRef }
   );
 
+  /*
+    Sapaan yang berganti bahasa, ala "hello" Apple, tapi di dalam hero, bukan
+    layar loading yang bikin nunggu. Teksnya diganti langsung di DOM (bukan
+    state) biar nggak re-render tiap kata. Mulai dari "Halo" kalau situsnya
+    lagi bahasa Indonesia, jadi dipasang ulang tiap bahasa berubah.
+  */
+  useGSAP(
+    () => {
+      const el = greetRef.current;
+      if (!el) return;
+      const words = lang === "id" ? ["Halo", ...GREETINGS.filter((w) => w !== "Halo")] : GREETINGS;
+      el.textContent = words[0];
+
+      // Reset eksplisit, jangan andalkan revert: kalau bahasa diganti di
+      // tengah transisi, revert balikin kata ke posisi setengah jalan
+      // (transparan dan tergeser ~40px). clearProps juga ngosongin cache
+      // transform GSAP, jadi persen nggak kebaca sebagai piksel lagi.
+      gsap.killTweensOf(el);
+      gsap.set(el, { clearProps: "transform,opacity" });
+      gsap.set(el, { y: 0, yPercent: 0, opacity: 1 });
+
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const tl = gsap.timeline({ repeat: -1, delay: 1.2 });
+        words.forEach((_, i) => {
+          const next = words[(i + 1) % words.length];
+          tl.to(el, { yPercent: -110, opacity: 0, duration: 0.45, ease: "power2.in", delay: 1.6 })
+            .add(() => {
+              el.textContent = next;
+            })
+            .fromTo(
+              el,
+              { yPercent: 110, opacity: 0 },
+              { yPercent: 0, opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }
+            );
+        });
+      });
+    },
+    { dependencies: [lang], revertOnUpdate: true }
+  );
+
   return (
     <section ref={rootRef} id="home" className="flex min-h-[92vh] items-center pb-12 pt-28 lg:pt-16">
       <div data-hero-inner className="mx-auto w-full max-w-4xl px-6">
@@ -72,9 +116,16 @@ export default function Hero() {
           </div>
         </div>
 
-        <h1 className="heading mb-6 text-5xl leading-[1.02] sm:text-7xl">
+        <p data-hero className="heading mb-2 text-2xl text-muted sm:text-3xl">
+          <span className="sr-only">Hello</span>
+          <span aria-hidden className="-mx-[0.15em] inline-block overflow-hidden px-[0.15em] pb-[0.12em] align-bottom">
+            <span ref={greetRef} className="inline-block">Hello</span>
+          </span>
+        </p>
+
+        <h1 className="heading mb-6 text-5xl leading-[1.02] sm:text-7xl xl:text-[5.5rem]">
           {NAME.map((word) => (
-            <span key={word} className="mr-[0.25em] inline-block overflow-hidden pb-[0.08em] align-bottom last:mr-0">
+            <span key={word} className="-ml-[0.12em] mr-[0.13em] inline-block overflow-hidden px-[0.12em] pb-[0.08em] align-bottom last:mr-0">
               <span data-word className="inline-block">{word}</span>
             </span>
           ))}
