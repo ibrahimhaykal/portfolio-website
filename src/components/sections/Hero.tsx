@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { Github, Linkedin, Mail, ArrowRight, FileText } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowRight, FileText, Download } from "lucide-react";
 import { gsap, useGSAP } from "../../lib/gsap";
 import { scrollToSection } from "../../lib/reveal";
 import { useLang, type Pair } from "../../lib/i18n";
@@ -148,6 +148,9 @@ export default function Hero() {
           </button>
           <a href="/cv/Resume_Ibrahim_Haykal_Alatas.pdf" target="_blank" rel="noopener noreferrer" className="btn">
             <FileText size={16} /> {t("Resume", "CV")}
+          </a>
+          <a href="/cv/Portfolio_Ibrahim_Haykal_Alatas.pdf" download className="btn">
+            <Download size={16} /> {t("Portfolio PDF", "Portofolio PDF")}
           </a>
           {socials.map((s) => (
             <a key={s.label} href={s.link} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="btn-icon">

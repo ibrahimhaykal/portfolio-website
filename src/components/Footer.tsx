@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Github, Linkedin, Mail, ArrowUpRight, ArrowUp } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowUpRight, ArrowUp, Download } from "lucide-react";
 import { scrollToSection, useReveal } from "../lib/reveal";
 import { SECTIONS, useLang } from "../lib/i18n";
 
@@ -25,9 +25,14 @@ export default function Footer() {
         <h2 className="heading mb-6 text-3xl leading-tight sm:text-5xl">
           {t("Have a system that needs building?", "Punya sistem yang perlu dibangun?")}
         </h2>
-        <a href={`mailto:${EMAIL}`} className="btn btn-primary mb-10">
-          {EMAIL} <ArrowUpRight size={16} />
-        </a>
+        <div className="mb-10 flex flex-wrap gap-3">
+          <a href={`mailto:${EMAIL}`} className="btn btn-primary">
+            {EMAIL} <ArrowUpRight size={16} />
+          </a>
+          <a href="/cv/Portfolio_Ibrahim_Haykal_Alatas.pdf" download className="btn">
+            <Download size={16} /> {t("Portfolio PDF", "Portofolio PDF")}
+          </a>
+        </div>
 
         <div className="divider grid gap-8 border-t pt-8 sm:grid-cols-3">
           <div>
